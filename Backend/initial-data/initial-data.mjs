@@ -10,6 +10,10 @@ const initialData = {
             email: "admin@example.com",
             phone: "123-456-7890",
             password: "AdminPass123",
+            image: {
+                src: "https://picsum.photos/200/300",
+                alt: "profile picture",
+            },
             sandbox: [],
             isAdmin: true,
         },
@@ -23,6 +27,10 @@ const initialData = {
             email: "regular@example.com",
             phone: "987-654-3210",
             password: "RegularPass123",
+            image: {
+                src: "https://picsum.photos/200/300",
+                alt: "profile picture",
+            },
             sandbox: [],
             isAdmin: false,
         },

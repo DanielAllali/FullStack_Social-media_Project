@@ -38,6 +38,15 @@ const userSchema = new Schema(
             required: true,
         },
         sandbox: [{ type: String }],
+        image: {
+            src: {
+                type: String,
+                required: true,
+            },
+            alt: {
+                type: String,
+            },
+        },
         posts: [
             {
                 type: Schema.Types.ObjectId,

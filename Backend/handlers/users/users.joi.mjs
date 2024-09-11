@@ -8,7 +8,7 @@ const userLoginValidationSchema = Joi.object({
 });
 
 const userRegisterValidationSchema = Joi.object({
-    username: Joi.string().min(2).max(15).required(),
+    username: Joi.string().min(2).max(15).allow(""),
     name: Joi.object({
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
@@ -16,6 +16,27 @@ const userRegisterValidationSchema = Joi.object({
     email: Joi.string().email().required(),
     phone: Joi.string().allow(""),
     password: Joi.string().pattern(passwordRegex).required(),
+    image: Joi.object({
+        src: Joi.string().required().max(100),
+        alt: Joi.string().max(30),
+    }).required(),
 });
 
-export { userLoginValidationSchema, userRegisterValidationSchema };
+const userEditValidationSchema = Joi.object({
+    username: Joi.string().min(2).max(15).allow(""),
+    name: Joi.object({
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+    }),
+    bio: Joi.string().max(30).allow(""),
+    image: Joi.object({
+        src: Joi.string().required().max(100),
+        alt: Joi.string().max(30),
+    }).required(),
+});
+
+export {
+    userLoginValidationSchema,
+    userRegisterValidationSchema,
+    userEditValidationSchema,
+};

@@ -1,4 +1,29 @@
 import User from "./handlers/users/users.model.mjs";
+import jwt from "jsonwebtoken";
+
+const the_registered_user_guard = (req, res, next) => {
+    const { id } = req.params;
+    if (!req.headers.authorization) {
+        return res.status(403).send("Need to provide user jwt token.");
+    }
+    const decoded = jwt.verify(
+        req.headers.authorization,
+        process.env.JWT_SECRET
+    );
+    if (decoded.isAdmin) {
+        next();
+        return;
+    }
+    if (id !== decoded._id) {
+        return res
+            .status(401)
+            .send(
+                "Unauthronized: only the registered user or admin can change this."
+            );
+    } else {
+        next();
+    }
+};
 
 const generateUsername = async () => {
     const users = await User.find();
@@ -54,4 +79,4 @@ const generateUsername = async () => {
     return username;
 };
 
-export { generateUsername };
+export { generateUsername, the_registered_user_guard };
