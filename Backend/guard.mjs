@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import User from "./handlers/users/users.model.mjs";
 import jwt from "jsonwebtoken";
 
@@ -29,6 +30,29 @@ const the_registered_user_guard = (req, res, next) => {
             return res.status(401).send("Unauthorized: JWT has expired.");
         } else {
             throw err;
+        }
+    }
+};
+const admin_guard = (req, res, next) => {
+    if (!req.headers.authorization) {
+        return res.status(403).send("Need to provide user jwt token.");
+    }
+    try {
+        const decoded = jwt.verify(
+            req.headers.authorization,
+            process.env.JWT_SECRET
+        );
+        if (decoded.isAdmin) {
+            next();
+            return;
+        } else {
+            return res.status(401).send("Unauthronized: only admin.");
+        }
+    } catch (err) {
+        if (err.name === "TokenExpiredError") {
+            return res.status(401).send("Unauthorized: JWT has expired.");
+        } else {
+            return res.status(500).send(err.message);
         }
     }
 };
@@ -86,5 +110,17 @@ const generateUsername = async () => {
 
     return username;
 };
+const getUser = async (req, res) => {
+    const { id } = req.params;
+    if (mongoose.Types.ObjectId.isValid(id)) {
+        const user = await User.findById(id);
+        if (!user) {
+            return null;
+        }
+        return user;
+    } else {
+        return null;
+    }
+};
 
-export { generateUsername, the_registered_user_guard };
+export { generateUsername, the_registered_user_guard, admin_guard, getUser };

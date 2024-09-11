@@ -7,7 +7,12 @@ import {
     userRegisterValidationSchema,
 } from "./users.joi.mjs";
 import bcrypt from "bcrypt";
-import { generateUsername, the_registered_user_guard } from "../../guard.mjs";
+import {
+    admin_guard,
+    generateUsername,
+    getUser,
+    the_registered_user_guard,
+} from "../../guard.mjs";
 import jwt from "jsonwebtoken";
 
 app.get("/users", async (req, res) => {
@@ -16,16 +21,11 @@ app.get("/users", async (req, res) => {
 });
 
 app.get("/users/:id", async (req, res) => {
-    const { id } = req.params;
-    if (mongoose.Types.ObjectId.isValid(id)) {
-        const user = await User.findById(id);
-        if (!user) {
-            return res.status(403).send("User not found.");
-        }
-        res.send(user);
-    } else {
-        res.status(403).send("Invalid user id.");
+    const user = await getUser(req, res);
+    if (!user) {
+        return res.status(403).send("User not found.");
     }
+    res.send(user);
 });
 
 app.post("/users", async (req, res) => {
@@ -34,13 +34,20 @@ app.post("/users", async (req, res) => {
     if ((await User.find({ email })).length > 0) {
         return res.status(409).send("User with that email already exsists.");
     }
+    if (image.alt == "") {
+        image.alt = `${username} profile picture`;
+    }
+    if (image.src == "") {
+        image.src = `/Backend/media/userProfile/user${
+            ["Black", "Blue", "Green", "Orange"][Math.floor(Math.random() * 4)]
+        }.png`;
+    }
     const { error } = userRegisterValidationSchema.validate(req.body, {
         allowUnknown: true,
     });
     if (error) {
         return res.status(403).send(error.details[0].message);
     }
-
     try {
         const newUser = new User({
             username,
@@ -117,6 +124,35 @@ app.put("/users/:id", the_registered_user_guard, async (req, res) => {
     user.bio = bio;
     user.name = name;
     user.image = image;
+    try {
+        await user.save();
+        res.send(user);
+    } catch (err) {
+        res.status(500).send(err.message ? err.message : "Server error.");
+    }
+});
+
+app.delete("/users/:id", the_registered_user_guard, async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    if (!user) {
+        return res.status(403).send("User not found.");
+    }
+
+    user.deleted = true;
+    try {
+        await user.save();
+        res.send(user);
+    } catch (err) {
+        res.status(500).send(err.message ? err.message : "Server error.");
+    }
+});
+app.patch("/users/admin/:id", admin_guard, async (req, res) => {
+    const user = await getUser(req, res);
+    if (!user) {
+        return res.status(403).send("User not found.");
+    }
+    user.isAdmin = !user.isAdmin;
     try {
         await user.save();
         res.send(user);
