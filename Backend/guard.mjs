@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import User from "./handlers/users/users.model.mjs";
 import jwt from "jsonwebtoken";
+import Post from "./handlers/posts/posts.model.mjs";
 
 const the_registered_user_guard = (req, res, next) => {
     const { id } = req.params;
@@ -55,6 +56,12 @@ const admin_guard = (req, res, next) => {
             return res.status(500).send(err.message);
         }
     }
+};
+const registered_user_guard = (req, res, next) => {
+    if (!req.headers.authorization) {
+        return res.status(403).send("Need to provide user jwt token.");
+    }
+    next();
 };
 
 const generateUsername = async () => {
@@ -122,5 +129,30 @@ const getUser = async (req, res) => {
         return null;
     }
 };
+const getUser_jwt = async (req, res) => {
+    if (!req.headers.authorization) {
+        return res.status(403).send("Need to provide user jwt token.");
+    }
+    try {
+        const decoded = jwt.verify(
+            req.headers.authorization,
+            process.env.JWT_SECRET
+        );
+        return await User.findById(decoded._id);
+    } catch (err) {
+        if (err.name === "TokenExpiredError") {
+            return res.status(401).send("Unauthorized: JWT has expired.");
+        } else {
+            return res.status(500).send(err.message);
+        }
+    }
+};
 
-export { generateUsername, the_registered_user_guard, admin_guard, getUser };
+export {
+    generateUsername,
+    the_registered_user_guard,
+    admin_guard,
+    getUser,
+    registered_user_guard,
+    getUser_jwt,
+};
