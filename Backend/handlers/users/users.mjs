@@ -97,7 +97,7 @@ app.post("/users/login", async (req, res) => {
 app.put("/users/:id", the_registered_user_guard, async (req, res) => {
     const { id } = req.params;
     const { username, bio, name, image } = req.body;
-    if (User.findOne({ username })) {
+    if (await User.findOne({ username })) {
         return res.status(409).send("This username is taken.");
     }
 
@@ -120,7 +120,7 @@ app.put("/users/:id", the_registered_user_guard, async (req, res) => {
     try {
         await user.save();
         res.send(user);
-    } catch {
-        res.status(500).send("Server error.");
+    } catch (err) {
+        res.status(500).send(err.message ? err.message : "Server error.");
     }
 });

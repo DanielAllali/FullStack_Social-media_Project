@@ -23,7 +23,7 @@ const userRegisterValidationSchema = Joi.object({
 });
 
 const userEditValidationSchema = Joi.object({
-    username: Joi.string().min(2).max(15).allow(""),
+    username: Joi.string().min(2).max(15).required(),
     name: Joi.object({
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),

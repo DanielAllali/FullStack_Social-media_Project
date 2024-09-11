@@ -6,22 +6,30 @@ const the_registered_user_guard = (req, res, next) => {
     if (!req.headers.authorization) {
         return res.status(403).send("Need to provide user jwt token.");
     }
-    const decoded = jwt.verify(
-        req.headers.authorization,
-        process.env.JWT_SECRET
-    );
-    if (decoded.isAdmin) {
-        next();
-        return;
-    }
-    if (id !== decoded._id) {
-        return res
-            .status(401)
-            .send(
-                "Unauthronized: only the registered user or admin can change this."
-            );
-    } else {
-        next();
+    try {
+        const decoded = jwt.verify(
+            req.headers.authorization,
+            process.env.JWT_SECRET
+        );
+        if (decoded.isAdmin) {
+            next();
+            return;
+        }
+        if (id !== decoded._id) {
+            return res
+                .status(401)
+                .send(
+                    "Unauthronized: only the registered user or admin can change this."
+                );
+        } else {
+            next();
+        }
+    } catch (err) {
+        if (err.name === "TokenExpiredError") {
+            return res.status(401).send("Unauthorized: JWT has expired.");
+        } else {
+            throw err;
+        }
     }
 };
 
