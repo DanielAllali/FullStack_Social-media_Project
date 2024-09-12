@@ -47,6 +47,7 @@ app.get("/", (req, res) => {
 (async () => {
     await import("./handlers/users/users.mjs");
     await import("./handlers/posts/posts.mjs");
+    await import("./handlers/messages/messages.mjs");
     await import("./initial-data/initial-data.service.mjs");
 
     app.get("*", (req, res) => {

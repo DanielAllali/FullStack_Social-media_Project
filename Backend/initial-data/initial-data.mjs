@@ -88,5 +88,22 @@ const initialData = {
             createdAt: new Date(),
         },
     ],
+    messages: [
+        {
+            deleted: false,
+            content: "Great post! I learned a lot from this.",
+            likes: [],
+        },
+        {
+            deleted: false,
+            content: "I totally agree with your perspective.",
+            likes: [],
+        },
+        {
+            deleted: true,
+            content: "This message has been deleted.",
+            likes: [],
+        },
+    ],
 };
 export default initialData;

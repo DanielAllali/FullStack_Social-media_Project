@@ -57,7 +57,7 @@ const postSchema = new mongoose.Schema(
             ref: "User",
         },
     },
-    { timestamps: { createdAt: true, updatedAt: false } }
+    { timestamps: { createdAt: true, updatedAt: true } }
 );
 
 const Post = mongoose.model("Post", postSchema);
