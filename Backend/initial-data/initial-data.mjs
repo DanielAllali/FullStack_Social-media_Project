@@ -35,5 +35,58 @@ const initialData = {
             isAdmin: false,
         },
     ],
+    posts: [
+        {
+            title: "The Journey Begins",
+            subtitle: "Setting off on a new adventure",
+            content:
+                "This is the first post in a series documenting my journey.",
+            image: {
+                url: "https://example.com/image1.jpg",
+                alt: "Journey start",
+            },
+            video: {
+                src: "https://example.com/video1.mp4",
+                alt: "Introductory video",
+            },
+            likes: [],
+            messages: [],
+            createdAt: new Date(),
+        },
+        {
+            title: "Overcoming Challenges",
+            subtitle: "Pushing through obstacles",
+            content:
+                "Today, I faced a major hurdle, but I learned valuable lessons.",
+            image: {
+                url: "https://example.com/image2.jpg",
+                alt: "Facing challenges",
+            },
+            video: {
+                src: "https://example.com/video2.mp4",
+                alt: "Challenge video",
+            },
+            likes: [],
+            messages: [],
+            createdAt: new Date(),
+        },
+        {
+            title: "A Glimpse of Success",
+            subtitle: "Achieving milestones",
+            content:
+                "After much effort, I'm beginning to see the fruits of my labor.",
+            image: {
+                url: "https://example.com/image3.jpg",
+                alt: "Success",
+            },
+            video: {
+                src: "https://example.com/video3.mp4",
+                alt: "Milestone video",
+            },
+            likes: [],
+            messages: [],
+            createdAt: new Date(),
+        },
+    ],
 };
 export default initialData;

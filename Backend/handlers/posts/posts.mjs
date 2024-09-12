@@ -93,7 +93,7 @@ app.patch("/posts/:id", registered_user_guard, async (req, res) => {
     if (user.deleted) {
         return res
             .status(401)
-            .send("Unauthronized deleted user can't like a post.");
+            .send("Unauthronized: deleted user can't like a post.");
     }
     const userId = user.id.toString();
     const userIndex = post.likes.indexOf(userId);
@@ -103,6 +103,19 @@ app.patch("/posts/:id", registered_user_guard, async (req, res) => {
         post.likes.splice(userIndex, 1);
     }
 
+    try {
+        await post.save();
+        res.send(post);
+    } catch (err) {
+        res.status(500).send(err.message ? err.message : "Server error.");
+    }
+});
+app.delete("/posts/:id", postCreator_admin_guard, async (req, res) => {
+    const post = await getPost(req, res);
+    if (!post) {
+        return res.status(403).send("Post not found.");
+    }
+    post.deleted = true;
     try {
         await post.save();
         res.send(post);
