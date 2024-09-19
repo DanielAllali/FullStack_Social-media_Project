@@ -131,7 +131,7 @@ const getUser = async (req, res) => {
 };
 const getUser_jwt = async (req, res) => {
     if (!req.headers.authorization) {
-        return res.status(403).send("Need to provide user jwt token.");
+        return null;
     }
     try {
         const decoded = jwt.verify(
@@ -141,9 +141,9 @@ const getUser_jwt = async (req, res) => {
         return await User.findById(decoded._id);
     } catch (err) {
         if (err.name === "TokenExpiredError") {
-            return res.status(401).send("Unauthorized: JWT has expired.");
+            return null;
         } else {
-            return res.status(500).send(err.message);
+            return null;
         }
     }
 };
