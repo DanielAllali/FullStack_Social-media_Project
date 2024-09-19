@@ -37,7 +37,13 @@ const userSchema = new Schema(
             type: String,
             required: true,
         },
-        sandbox: [{ type: String }],
+        sandbox: [
+            {
+                content: String,
+                image: String,
+                createdAt: Date,
+            },
+        ],
         image: {
             src: {
                 type: String,

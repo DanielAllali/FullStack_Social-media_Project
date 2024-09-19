@@ -160,3 +160,38 @@ app.patch("/users/admin/:id", admin_guard, async (req, res) => {
         res.status(500).send(err.message ? err.message : "Server error.");
     }
 });
+app.post("/users/sandbox/:id", async (req, res) => {
+    try {
+        const user = await getUser(req, res);
+        if (!user) {
+            return res.status(403).send("User not found.");
+        }
+        const { content, image } = req.body;
+
+        if (!content || !image) {
+            return res
+                .status(403)
+                .send('Object must contain "content" and "image".');
+        }
+        if (content.length < 1 || content.length >= 40) {
+            return res
+                .status(403)
+                .send("Content must be between 1-40 characters.");
+        }
+        const urlRegex =
+            /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/[^\s]*)?$/;
+
+        if (!urlRegex.test(image)) {
+            return res.status(403).send("Invalid image URL.");
+        }
+        const newSandbox = [
+            ...user.sandbox,
+            { content, image, createdAt: new Date() },
+        ];
+        user.sandbox = newSandbox;
+        await user.save();
+        res.send(user);
+    } catch (err) {
+        res.status(500).send(err.message ? err.message : "Server error.");
+    }
+});

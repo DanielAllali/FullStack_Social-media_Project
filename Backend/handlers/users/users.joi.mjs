@@ -1,6 +1,8 @@
 import Joi from "joi";
 
 const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*_-]{8,20}$/;
+const urlRegex =
+    /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/[^\s]*)?$/;
 
 const userLoginValidationSchema = Joi.object({
     email: Joi.string().email().required(),
@@ -17,7 +19,7 @@ const userRegisterValidationSchema = Joi.object({
     phone: Joi.string().allow(""),
     password: Joi.string().pattern(passwordRegex).required(),
     image: Joi.object({
-        src: Joi.string().required().max(100),
+        src: Joi.string().required().pattern(urlRegex),
         alt: Joi.string().max(30),
     }).required(),
 });
@@ -30,7 +32,7 @@ const userEditValidationSchema = Joi.object({
     }),
     bio: Joi.string().max(30).allow(""),
     image: Joi.object({
-        src: Joi.string().required().max(100),
+        src: Joi.string().required().pattern(urlRegex),
         alt: Joi.string().max(30),
     }).required(),
 });
