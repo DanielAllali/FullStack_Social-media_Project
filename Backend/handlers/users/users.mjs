@@ -11,9 +11,11 @@ import {
     admin_guard,
     generateUsername,
     getUser,
+    getUser_jwt,
     the_registered_user_guard,
 } from "../../guard.mjs";
 import jwt from "jsonwebtoken";
+import { getPost } from "../posts/postsGuard.mjs";
 
 app.get("/users", async (req, res) => {
     const users = await User.find();
@@ -189,6 +191,57 @@ app.post("/users/sandbox/:id", async (req, res) => {
             { content, image, createdAt: new Date() },
         ];
         user.sandbox = newSandbox;
+        await user.save();
+        res.send(user);
+    } catch (err) {
+        res.status(500).send(err.message ? err.message : "Server error.");
+    }
+});
+app.patch("/users/follow/:id", async (req, res) => {
+    try {
+        const follower = await getUser_jwt(req, res);
+        if (!follower) {
+            return res.status(403).send("User jwt token not found.");
+        }
+        const user = await getUser(req, res);
+        if (!user) {
+            return res.status(403).send("User not found.");
+        }
+        if (user._id.toString() === follower._id.toString()) {
+            return res
+                .status(401)
+                .send("Unauthronized: user can't follow itself.");
+        }
+        const userId = follower._id.toString();
+        const userIndex = user.followers.indexOf(userId);
+        if (userIndex === -1) {
+            user.followers.push(userId);
+        } else {
+            user.followers.splice(userIndex, 1);
+        }
+        await user.save();
+        res.send(user);
+    } catch (err) {
+        res.status(500).send(err.message ? err.message : "Server error.");
+    }
+});
+app.patch("/users/save-post/:id", async (req, res) => {
+    try {
+        const user = await getUser_jwt(req, res);
+        if (!user) {
+            return res.status(403).send("User jwt token not found.");
+        }
+        const post = await getPost(req, res);
+        if (!post) {
+            return res.status(403).send("Post jwt token not found.");
+        }
+        const postId = post._id.toString();
+        const postIndex = user.saved_posts.indexOf(postId);
+        if (postIndex === -1) {
+            user.saved_posts.push(postId);
+        } else {
+            user.saved_posts.splice(postIndex, 1);
+        }
         await user.save();
         res.send(user);
     } catch (err) {
