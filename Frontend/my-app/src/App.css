@@ -1,5 +1,14 @@
+@font-face {
+    font-family: "regular";
+    src: url("./media/fonts/Noto_Sans/NotoSans-VariableFont_wdth\,wght.ttf  ");
+}
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "regular", Arial, Helvetica, sans-serif;
+}
+@font-face {
+    font-family: "fancyFont";
+    src: url("./media/fonts/El_Messiri/ElMessiri-VariableFont_wght.ttf");
 }

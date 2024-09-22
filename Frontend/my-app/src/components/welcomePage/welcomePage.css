@@ -1,0 +1,103 @@
+#welcomeDiv {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#welcomeDiv > div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: center;
+    padding: 20px;
+}
+#welcomeDiv > div > div {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+#welcomeDiv > div > div h1 {
+    font-family: "fancyFont";
+    font-size: 4rem;
+}
+#welcomeDiv > div > div + div {
+    width: 40%;
+    height: 70vh;
+    border-radius: 10px;
+    background-image: url("../../media/images/welcomeImage.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#welcomeDiv > div > div form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+#welcomeDiv > div > div form label {
+    width: 100px;
+    color: #000;
+    font-size: 1rem;
+    transform: translate(10px, 10px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}
+#welcomeDiv > div > div form input {
+    width: 100%;
+    height: 50px;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    color: #000;
+    font-size: 0.8rem;
+}
+#welcomeDiv > div > div form input:focus {
+    outline: none;
+}
+#welcomeDiv > div > div form input[type="button"] {
+    color: white;
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: var(--background-color, #519bfc);
+    font-size: 1.5rem;
+    transition: all 0.2s;
+}
+#welcomeDiv > div > div form input[type="button"]:hover {
+    background-color: var(--hover-background-color, #1877f2);
+}
+#welcomeDiv > div > div form + hr {
+    width: 100%;
+    margin-bottom: 20px;
+}
+#welcomeDiv > div > div > h2 {
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+#welcomeDiv > div > div > h2 a button {
+    background: none;
+    border: none;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: var(--background-color, #519bfc);
+}
+#welcomeDiv > div > div > h2 a button:hover {
+    color: var(--hover-background-color, #1877f2);
+}
+@media (max-width: 780px) {
+    #welcomeDiv > div > div + div {
+        display: none;
+    }
+}
