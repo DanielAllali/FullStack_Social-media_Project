@@ -15,20 +15,13 @@ const useApi = () => {
 
             switch (method) {
                 case METHOD.POST:
-                    response = await axios
-                        .post(url, payload)
-                        .then(function (res) {
-                            setApiResponse(res.data ? res.data : res);
-                            return;
-                        })
-                        .catch(function (err) {
-                            setErrors(err);
-                        });
+                    response = await axios.post(url, payload);
+                    setApiResponse(response.data);
                     break;
             }
             setApiResponse(response.data);
         } catch (err) {
-            setErrors(err.message);
+            setErrors(err);
         } finally {
             setIsLoading(false);
         }

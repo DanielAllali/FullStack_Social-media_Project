@@ -3,6 +3,7 @@ import "./welcomePage.css";
 import { useSelector } from "react-redux";
 import { verifyLogin } from "../../guard";
 import useApi, { METHOD } from "../../hooks/useApi";
+import Loader from "../loader/Loader";
 
 const WelcomePage = () => {
     const BASE_URL = "http://localhost:9999";
@@ -51,7 +52,8 @@ const WelcomePage = () => {
             email: fields.email,
             password: fields.password,
         });
-        console.log(apiResponse ? apiResponse : apiErrors);
+        console.log(apiResponse);
+        console.log(apiErrors);
     };
     return (
         <div id="welcomeDiv">
@@ -90,17 +92,33 @@ const WelcomePage = () => {
                         />
                         {errors.password && <h2>{errors.password}</h2>}
 
-                        <input
+                        <button
                             style={{
                                 "--background-color": theme.highlight_weak,
                                 "--hover-background-color":
                                     theme.highlight_strong,
                             }}
                             type="submit"
-                            value={language == "HE" ? "התחבר/י" : "Conact"}
-                            disabled={!validFields}
-                            className={!validFields ? "disabled" : ""}
-                        />
+                            disabled={!validFields || isLoading}
+                            className={
+                                !validFields || isLoading ? "disabled" : ""
+                            }
+                        >
+                            {isLoading ? (
+                                <Loader size={30} />
+                            ) : language === "HE" ? (
+                                "התחבר/י"
+                            ) : (
+                                "Connect"
+                            )}
+                        </button>
+                        {apiErrors && (
+                            <h2>
+                                {apiErrors.response
+                                    ? apiErrors.response.data
+                                    : "Server error try again later..."}
+                            </h2>
+                        )}
                     </form>
                     <hr />
                     <h2>
