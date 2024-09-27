@@ -27,7 +27,7 @@ const useApi = () => {
         }
     };
 
-    return [errors, isLoading, apiResponse, callApi, url];
+    return [errors, setErrors, isLoading, apiResponse, callApi, url];
 };
 
 export const METHOD = {

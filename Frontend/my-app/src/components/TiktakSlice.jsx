@@ -1,8 +1,10 @@
 import React from "react";
 import { createSlice } from "@reduxjs/toolkit";
-
+if (!localStorage.getItem("Language")) {
+    localStorage.setItem("Language", "EN");
+}
 const initialState = {
-    language: "EN",
+    language: localStorage.getItem("Language"),
     theme: {
         weak: "#fff",
         strong: "#000",
@@ -16,7 +18,8 @@ const tiktakSlice = createSlice({
     initialState,
     reducers: {
         setLanguage: (state, language) => {
-            state.language = language;
+            state.language = language.payload;
+            localStorage.setItem("Language", language.payload);
         },
         setTheme: (state, newTheme) => {
             state.theme = newTheme;

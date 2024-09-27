@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { verifyLogin } from "../../guard";
 import useApi, { METHOD } from "../../hooks/useApi";
 import Loader from "../loader/Loader";
+import toast from "react-hot-toast";
+import Footer from "../footer/Footer";
 
 const WelcomePage = () => {
     const BASE_URL = "http://localhost:9999";
@@ -16,7 +18,8 @@ const WelcomePage = () => {
         password: null,
     });
     const [validFields, setValidFields] = useState(false);
-    const [apiErrors, isLoading, apiResponse, callApi, url] = useApi();
+    const [apiErrors, setApiErrors, isLoading, apiResponse, callApi, url] =
+        useApi();
     const language = useSelector((state) => state.tiktak.language);
     const theme = useSelector((state) => state.tiktak.theme);
 
@@ -28,16 +31,17 @@ const WelcomePage = () => {
         };
         setFields(updatedField);
         setErrors({
-            email: verifyLogin.email(fields.email),
-            password: verifyLogin.password(fields.password),
+            email: verifyLogin.email(updatedField.email),
+            password: verifyLogin.password(updatedField.password),
         });
 
         setValidFields(
-            verifyLogin.email(fields.email) ||
-                verifyLogin.password(fields.password)
+            verifyLogin.email(updatedField.email) ||
+                verifyLogin.password(updatedField.password)
                 ? false
                 : true
         );
+        setApiErrors(false);
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -52,15 +56,28 @@ const WelcomePage = () => {
             email: fields.email,
             password: fields.password,
         });
-        console.log(apiResponse);
-        console.log(apiErrors);
     };
+    useEffect(() => {
+        if (apiResponse && !apiErrors) {
+            toast.success("Login successfully!");
+            localStorage.setItem("jwt-token", apiResponse);
+        }
+        if (!apiResponse && apiErrors) {
+            if (apiErrors.response)
+                toast.error(
+                    apiErrors.response
+                        ? apiErrors.response.data
+                        : "Server error..."
+                );
+        }
+    }, [apiResponse, apiErrors]);
     return (
         <div id="welcomeDiv">
-            <div style={{ direction: language == "HE" ? "rtl" : "ltr" }}>
+            <div>
                 <div>
-                    <h1>Tiktak</h1>
+                    <h1 className="logo">Tiktak</h1>
                     <form
+                        style={{ direction: language == "HE" ? "rtl" : "ltr" }}
                         onSubmit={(e) => {
                             handleSubmit(e);
                         }}
@@ -97,6 +114,7 @@ const WelcomePage = () => {
                                 "--background-color": theme.highlight_weak,
                                 "--hover-background-color":
                                     theme.highlight_strong,
+                                direction: language == "HE" ? "ltr" : "rtl",
                             }}
                             type="submit"
                             disabled={!validFields || isLoading}
@@ -104,13 +122,9 @@ const WelcomePage = () => {
                                 !validFields || isLoading ? "disabled" : ""
                             }
                         >
-                            {isLoading ? (
-                                <Loader size={30} />
-                            ) : language === "HE" ? (
-                                "התחבר/י"
-                            ) : (
-                                "Connect"
-                            )}
+                            {isLoading && <Loader size={30} />}
+
+                            <h3>{language === "HE" ? "התחבר/י" : "Connect"}</h3>
                         </button>
                         {apiErrors && (
                             <h2>
@@ -121,7 +135,7 @@ const WelcomePage = () => {
                         )}
                     </form>
                     <hr />
-                    <h2>
+                    <h2 style={{ direction: language == "HE" ? "rtl" : "ltr" }}>
                         {language == "HE"
                             ? "אין לך משתמש?"
                             : "Don't have account?"}
@@ -140,6 +154,7 @@ const WelcomePage = () => {
                 </div>
                 <div></div>
             </div>
+            <Footer />
         </div>
     );
 };
