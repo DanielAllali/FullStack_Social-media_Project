@@ -5,7 +5,10 @@
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 20px;
+    gap: 10px;
+}
+#footer * {
+    color: var(--color);
 }
 #footer ul {
     display: flex;
@@ -18,10 +21,35 @@
 #footer ul a {
     text-decoration: none;
 }
+
 #footer ul li {
     cursor: pointer;
-    color: var(--color);
 }
 #footer ul li:hover {
     text-decoration: underline;
+}
+#footer > div {
+    display: flex;
+    flex-direction: row !important;
+    gap: 20px;
+}
+#footer > div > div {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+#footer > div > div select {
+    background-color: var(--backgroundColor);
+}
+@media (max-width: 400px) {
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    #footer ul a {
+        font-size: 0.8rem;
+    }
+    #footer > div > div > h2 {
+        font-size: 0.2rem;
+    }
 }

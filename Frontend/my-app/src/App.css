@@ -8,6 +8,12 @@
     box-sizing: border-box;
     font-family: "regular", Arial, Helvetica, sans-serif;
 }
+body {
+    background-color: var(--backgroundColor);
+    margin: 0;
+    padding: 0;
+}
+
 .logo {
     font-family: "fancyFont";
 }

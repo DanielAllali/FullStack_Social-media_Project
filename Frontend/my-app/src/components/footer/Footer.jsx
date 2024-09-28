@@ -16,7 +16,12 @@ const Footer = () => {
     return (
         <div id="footer">
             <h1 className="logo">Tiktak</h1>
-            <ul style={{ "--color": theme.strong }}>
+            <ul
+                style={{
+                    "--color": theme.strong,
+                    "--backgroundColor": theme.weak,
+                }}
+            >
                 <Link to="/home">
                     <li>{language == "HE" ? "בית" : "Home"}</li>
                 </Link>
@@ -39,24 +44,12 @@ const Footer = () => {
                         }}
                         name="language"
                     >
-                        {language == "HE" ? (
-                            <option value="EN">
-                                {language == "HE" ? "אנגלית" : "English"}
-                            </option>
-                        ) : (
-                            <option value="HE">
-                                {language == "HE" ? "עברית" : "Hebrew"}
-                            </option>
-                        )}
-                        {language == "HE" ? (
-                            <option value="HE">
-                                {language == "HE" ? "עברית" : "Hebrew"}
-                            </option>
-                        ) : (
-                            <option value="EN">
-                                {language == "HE" ? "אנגלית" : "English"}
-                            </option>
-                        )}
+                        <option value="EN">
+                            {language == "HE" ? "אנגלית" : "English"}
+                        </option>
+                        <option value="HE">
+                            {language == "HE" ? "עברית" : "Hebrew"}
+                        </option>
                     </select>
                 </div>
                 <h2>&copy; Daniel Allali</h2>

@@ -72,7 +72,13 @@ const WelcomePage = () => {
         }
     }, [apiResponse, apiErrors]);
     return (
-        <div id="welcomeDiv">
+        <div
+            id="welcomeDiv"
+            style={{
+                "--color": theme.strong,
+                "--background-color": theme.weak,
+            }}
+        >
             <div>
                 <div>
                     <h1 className="logo">Tiktak</h1>
@@ -111,7 +117,7 @@ const WelcomePage = () => {
 
                         <button
                             style={{
-                                "--background-color": theme.highlight_weak,
+                                "--btnBackground-color": theme.highlight_weak,
                                 "--hover-background-color":
                                     theme.highlight_strong,
                                 direction: language == "HE" ? "ltr" : "rtl",
@@ -142,7 +148,8 @@ const WelcomePage = () => {
                         <a href="/signup">
                             <button
                                 style={{
-                                    "--background-color": theme.highlight_weak,
+                                    "--btnBackground-color":
+                                        theme.highlight_weak,
                                     "--hover-background-color":
                                         theme.highlight_strong,
                                 }}

@@ -6,6 +6,9 @@
     align-items: center;
     justify-content: center;
 }
+#welcomeDiv * {
+    color: var(--color);
+}
 #welcomeDiv > div {
     width: 100%;
     display: flex;
@@ -34,6 +37,7 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 #welcomeDiv > div > div form {
     width: 100%;
     display: flex;
@@ -43,14 +47,13 @@
 }
 #welcomeDiv > div > div form label {
     width: 100px;
-    color: #000;
     font-size: 1rem;
     transform: translate(10px, 10px);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    background-color: #fff;
+    background-color: var(--background-color);
     transition: all 0.5s;
 }
 #welcomeDiv > div > div form input {
@@ -59,7 +62,7 @@
     padding: 5px;
     border-radius: 10px;
     border: 1px solid #ccc;
-    color: #000;
+    background-color: var(--background-color);
     font-size: 0.8rem;
     transition: all 0.5s;
 }
@@ -77,11 +80,11 @@
     height: 50px;
     padding: 5px;
     border-radius: 10px;
-    border: 1px solid #ccc;
-    color: white;
+    border: none;
     margin-top: 20px;
     cursor: pointer;
-    background-color: var(--background-color, #519bfc);
+    background-color: var(--btnBackground-color, #519bfc);
+    color: var(--background-color);
     font-size: 1rem;
     gap: 10px;
     display: flex;
@@ -90,9 +93,12 @@
     justify-content: center;
     transition: all 0.2s;
 }
+#welcomeDiv > div > div form button[type="submit"] h3 {
+    color: var(--background-color);
+}
 #welcomeDiv > div > div form button[type="submit"]:hover,
 #welcomeDiv > div > div form button[type="submit"]:active {
-    background-color: var(--hover-background-color, #1877f2);
+    background-color: var(--hover-btnBackground-color, #1877f2);
 }
 #welcomeDiv > div > div form button[type="submit"].disabled {
     background-color: #ccc !important;
@@ -117,7 +123,7 @@
     margin: 10px;
     cursor: pointer;
     font-size: 1.1rem;
-    color: var(--background-color, #519bfc);
+    color: var(--btnBackground-color, #519bfc);
 }
 #welcomeDiv > div > div > h2 a button:hover {
     color: var(--hover-background-color, #1877f2);
