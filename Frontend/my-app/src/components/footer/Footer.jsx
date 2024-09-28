@@ -2,7 +2,7 @@ import React from "react";
 import "./footer.css";
 import { useDispatch, useSelector } from "react-redux";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { setLanguage } from "../TiktakSlice";
+import { setDarkTheme, setLanguage, setLightTheme } from "../TiktakSlice";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -12,6 +12,16 @@ const Footer = () => {
     const dispatch = useDispatch();
     const handleLanguageChange = (e) => {
         dispatch(setLanguage(e.target.value));
+    };
+    const handleChangeTheme = () => {
+        if (theme.weak != "#000") {
+            dispatch(setDarkTheme());
+            return;
+        }
+        if (theme.weak != "#fff") {
+            dispatch(setLightTheme());
+            return;
+        }
     };
     return (
         <div id="footer">
@@ -36,6 +46,13 @@ const Footer = () => {
                 </Link>
             </ul>
             <div>
+                <button onClick={handleChangeTheme}>
+                    {localStorage.getItem("Theme") == "light" ? (
+                        <i className="bi bi-brightness-high"></i>
+                    ) : (
+                        <i className="bi bi-moon"></i>
+                    )}
+                </button>
                 <div>
                     <i className="bi bi-globe2"></i>
                     <select

@@ -31,12 +31,25 @@
 #footer > div {
     display: flex;
     flex-direction: row !important;
+    align-items: center;
+    justify-content: center;
     gap: 20px;
+}
+#footer > div h2 {
+    font-size: 1rem;
 }
 #footer > div > div {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
     gap: 5px;
+}
+#footer > div button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem;
 }
 #footer > div > div select {
     background-color: var(--backgroundColor);

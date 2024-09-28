@@ -77,6 +77,8 @@ const WelcomePage = () => {
             style={{
                 "--color": theme.strong,
                 "--background-color": theme.weak,
+                "--btnBackground-color": theme.highlight_weak,
+                "--hover-background-color": theme.highlight_strong,
             }}
         >
             <div>
@@ -88,38 +90,39 @@ const WelcomePage = () => {
                             handleSubmit(e);
                         }}
                     >
-                        <label htmlFor="email">
-                            {language == "HE" ? "אימייל" : "Email"}
-                        </label>
-                        <input
-                            onChange={(e) => {
-                                handleChange(e);
-                            }}
-                            type="email"
-                            name="email"
-                            id="email"
-                            value={fields.email}
-                        />
+                        <div>
+                            <input
+                                onChange={(e) => {
+                                    handleChange(e);
+                                }}
+                                type="email"
+                                name="email"
+                                id="email"
+                                value={fields.email}
+                            />
+                            <label htmlFor="email">
+                                {language == "HE" ? "אימייל" : "Email"}
+                            </label>
+                        </div>
                         {errors.email && <h2>{errors.email}</h2>}
-                        <label htmlFor="password">
-                            {language == "HE" ? "סיסמה" : "Password"}
-                        </label>
-                        <input
-                            onChange={(e) => {
-                                handleChange(e);
-                            }}
-                            type="password"
-                            name="password"
-                            id="password"
-                            value={fields.password}
-                        />
+                        <div>
+                            <input
+                                onChange={(e) => {
+                                    handleChange(e);
+                                }}
+                                type="password"
+                                name="password"
+                                id="password"
+                                value={fields.password}
+                            />
+                            <label htmlFor="password">
+                                {language == "HE" ? "סיסמה" : "Password"}
+                            </label>
+                        </div>
                         {errors.password && <h2>{errors.password}</h2>}
 
                         <button
                             style={{
-                                "--btnBackground-color": theme.highlight_weak,
-                                "--hover-background-color":
-                                    theme.highlight_strong,
                                 direction: language == "HE" ? "ltr" : "rtl",
                             }}
                             type="submit"

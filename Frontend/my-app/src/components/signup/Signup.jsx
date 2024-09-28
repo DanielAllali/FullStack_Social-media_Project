@@ -29,7 +29,12 @@ const Signup = () => {
                     }}
                 >
                     <h1>{language == "HE" ? "צור משתמש" : "Create account"}</h1>
-                    <ul>
+                    <ul
+                        style={{
+                            direction: language == "HE" ? "rtl" : "ltr",
+                            "--moveLabel": language == "HE" ? "-10px" : "10px",
+                        }}
+                    >
                         <li>
                             <div>
                                 <label htmlFor="username">
@@ -40,64 +45,66 @@ const Signup = () => {
                         </li>
                         <li>
                             <div>
+                                <input type="text" id="firstName" />
                                 <label htmlFor="firstName">
                                     {language == "HE"
-                                        ? "שם פרטי"
-                                        : "First name"}
+                                        ? "*שם פרטי"
+                                        : "First name*"}
                                 </label>
-                                <input type="text" id="firstName" />
                             </div>
                             <div>
+                                <input type="text" id="lastName" />
                                 <label htmlFor="lastName">
                                     {language == "HE"
-                                        ? "שפ משפחה"
-                                        : "Last name"}
+                                        ? "*שפ משפחה"
+                                        : "Last name*"}
                                 </label>
-                                <input type="text" id="lastName" />
                             </div>
                         </li>
                         <li>
                             <div>
-                                <label htmlFor="password">
-                                    {language == "HE" ? "סיסמה" : "Password"}
-                                </label>
                                 <input type="password" id="password" />
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <label htmlFor="email">
-                                    {language == "HE" ? "אימייל" : "Email"}
+                                <label htmlFor="password">
+                                    {language == "HE" ? "*סיסמה" : "Password*"}
                                 </label>
-                                <input type="email" id="email" />
-                            </div>
-                            <div>
-                                <label htmlFor="phone">Phone</label>
-                                <input type="tel" id="phone" />
                             </div>
                         </li>
                         <li>
                             <div>
+                                <input type="email" id="email" />
+                                <label htmlFor="email">
+                                    {language == "HE" ? "*אימייל" : "Email*"}
+                                </label>
+                            </div>
+                            <div>
+                                <input type="tel" id="phone" />
+                                <label htmlFor="phone">
+                                    {language == "HE" ? "טלפון" : "Phone*"}
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <input type="text" id="imageSrc" />
                                 <label htmlFor="imageSrc">
                                     {language == "HE"
                                         ? "קישור לתמונה"
                                         : "Image url"}
                                 </label>
-                                <input type="text" id="imageSrc" />
                             </div>
                         </li>
                         <li>
                             <div>
+                                <input type="text" id="imageAlt" />
                                 <label htmlFor="imageAlt">
                                     {language == "HE"
-                                        ? "טקסט מחליף לתמונה"
+                                        ? "טקסט לתמונה"
                                         : "Image alt"}
                                 </label>
-                                <input type="text" id="imageAlt" />
                             </div>
                         </li>
                     </ul>
-                    <button>
+                    <button type="submit">
                         <h3>
                             {language == "HE" ? "צור משתמש" : "Create account"}
                         </h3>

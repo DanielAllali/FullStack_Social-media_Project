@@ -12,7 +12,14 @@ function App() {
         document.body.style.setProperty("--backgroundColor", theme.weak);
     }, [theme.weak]);
     return (
-        <div className="App" style={{ overflowX: "hidden" }}>
+        <div
+            className="App"
+            style={{
+                overflowX: "hidden",
+                "--bgc": theme.weak,
+                "--color": theme.strong,
+            }}
+        >
             <div>
                 <Toaster position="top-right" reverseOrder={false} />
             </div>
