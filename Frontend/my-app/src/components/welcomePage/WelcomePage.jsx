@@ -9,6 +9,7 @@ import Footer from "../footer/Footer";
 
 const WelcomePage = () => {
     const BASE_URL = "http://localhost:9999";
+    const [passwordSee, setPasswordSee] = useState(false);
     const [fields, setFields] = useState({
         email: "",
         password: "",
@@ -59,15 +60,24 @@ const WelcomePage = () => {
     };
     useEffect(() => {
         if (apiResponse && !apiErrors) {
-            toast.success("Login successfully!");
+            toast.success(
+                language == "HE" ? "התחברת בהצלחה!" : "Login successfully!"
+            );
             localStorage.setItem("jwt-token", apiResponse);
         }
         if (!apiResponse && apiErrors) {
             if (apiErrors.response)
                 toast.error(
                     apiErrors.response
-                        ? apiErrors.response.data
-                        : "Server error..."
+                        ? apiErrors.response.data ===
+                          "Email or password uncorrect."
+                            ? language === "HE"
+                                ? "אימייל או סיסמה לא נכונים."
+                                : apiErrors.response.data
+                            : language === "HE"
+                            ? "תקלה בשרת נסה שוב מאוחר יותר..."
+                            : "Server error try again later..."
+                        : ""
                 );
         }
     }, [apiResponse, apiErrors]);
@@ -104,13 +114,19 @@ const WelcomePage = () => {
                                 {language == "HE" ? "אימייל" : "Email"}
                             </label>
                         </div>
-                        {errors.email && <h2>{errors.email}</h2>}
+                        {errors.email && (
+                            <h2>
+                                {language == "HE"
+                                    ? errors.email.he
+                                    : errors.email.en}
+                            </h2>
+                        )}
                         <div>
                             <input
                                 onChange={(e) => {
                                     handleChange(e);
                                 }}
-                                type="password"
+                                type={passwordSee ? "text" : "password"}
                                 name="password"
                                 id="password"
                                 value={fields.password}
@@ -119,7 +135,26 @@ const WelcomePage = () => {
                                 {language == "HE" ? "סיסמה" : "Password"}
                             </label>
                         </div>
-                        {errors.password && <h2>{errors.password}</h2>}
+                        <button
+                            type="button"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setPasswordSee(!passwordSee);
+                            }}
+                        >
+                            {passwordSee ? (
+                                <i className="bi bi-eye"></i>
+                            ) : (
+                                <i className="bi bi-eye-slash"></i>
+                            )}
+                        </button>
+                        {errors.password && (
+                            <h2>
+                                {language == "HE"
+                                    ? errors.password.he
+                                    : errors.password.en}
+                            </h2>
+                        )}
 
                         <button
                             style={{
@@ -138,8 +173,15 @@ const WelcomePage = () => {
                         {apiErrors && (
                             <h2>
                                 {apiErrors.response
-                                    ? apiErrors.response.data
-                                    : "Server error try again later..."}
+                                    ? apiErrors.response.data ===
+                                      "Email or password uncorrect."
+                                        ? language === "HE"
+                                            ? "אימייל או סיסמה לא נכונים."
+                                            : apiErrors.response.data
+                                        : language === "HE"
+                                        ? "תקלה בשרת נסה שוב מאוחר יותר..."
+                                        : "Server error try again later..."
+                                    : ""}
                             </h2>
                         )}
                     </form>

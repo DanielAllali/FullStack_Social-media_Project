@@ -74,21 +74,30 @@
 }
 #welcomeDiv > div > div form input:focus {
     outline: none;
-    border-color: var(--hover-btnBackground-color, #1877f2);
+    border-color: var(--hover-background-color, #1877f2);
 }
 
 #welcomeDiv > div > div form input:focus + label {
     transform: translate(0);
+    background: none;
 }
 
 #welcomeDiv > div > div form > div + h2,
-#welcomeDiv > div > div form button[type="submit"] + h2 {
+#welcomeDiv > div > div form button[type="submit"] + h2,
+#welcomeDiv > div > div form > button + h2 {
     color: red;
     font-size: 0.9rem;
 }
-#welcomeDiv > div > div form input:focus:not([type="submit"]) {
-    outline: none;
-    border: 1px solid rgba(0, 0, 0, 0.5);
+#welcomeDiv > div > div form > button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    padding-right: 10px;
 }
 #welcomeDiv > div > div form button[type="submit"] {
     width: 100%;
