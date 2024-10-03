@@ -1,10 +1,11 @@
-import WelcomePage from "./components/welcomePage/WelcomePage";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import Signup from "./components/signup/Signup";
+import Login from "./components/login/Login";
+import Home from "./components/home/Home";
 
 function App() {
     const theme = useSelector((state) => state.tiktak.theme);
@@ -25,7 +26,8 @@ function App() {
             </div>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<WelcomePage />} />
+                    <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                 </Routes>
             </BrowserRouter>

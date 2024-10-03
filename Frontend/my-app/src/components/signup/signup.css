@@ -80,11 +80,13 @@
     justify-content: start;
     padding-right: 10px;
 }
-#signup > .content form ul li div h2 {
+#signup > .content form ul li div h2,
+#signup > .content form button[type="submit"] + h2 {
     order: 4;
     color: red;
     font-size: 0.9rem;
 }
+
 #signup > .content form ul li div input:focus {
     outline: none;
     border-color: var(--btnHover, #1877f2);
@@ -110,8 +112,14 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
     transition: all 0.2s;
+}
+#signup > .content form button[type="submit"].disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+#signup > .content form button[type="submit"].disabled:hover {
+    background-color: #ccc;
 }
 #signup > .content form button[type="submit"] h3 {
     color: var(--bgc, #fff);
@@ -123,6 +131,7 @@
 #signup > .content hr {
     width: 100%;
     color: var(--color);
+    margin-top: 30px;
 }
 #signup > .content h5 {
     margin-top: 20px;

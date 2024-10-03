@@ -44,8 +44,8 @@ const verifyRegister = {
     username: (v) => {
         if (v !== "" && (v.length < 2 || v.length > 15)) {
             return {
-                he: "שם המשתמש חייב להיות בין 2 ל-15 תווים.",
-                en: "Username must be between 2 and 15 characters.",
+                he: "שם המשתמש חייב להיות בין 2 ל-15 תווים או ריק.",
+                en: "Username must be between 2 and 15 characters or empty.",
             };
         }
         return false;

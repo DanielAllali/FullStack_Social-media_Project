@@ -34,7 +34,7 @@ app.post("/users", async (req, res) => {
     const { username, name, email, phone, password, image } = req.body;
 
     if ((await User.find({ email })).length > 0) {
-        return res.status(409).send("User with that email already exsists.");
+        return res.status(409).send("User with that email already exists.");
     }
     if (image.alt == "") {
         image.alt = `${username} profile picture`;
@@ -95,6 +95,7 @@ app.post("/users/login", async (req, res) => {
             name: user.name,
             isAdmin: user.isAdmin,
             email: user.email,
+            image: user.image,
             createdAt: user.createdAt,
         },
         process.env.JWT_SECRET,

@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./welcomePage.css";
+import "./login.css";
 import { useSelector } from "react-redux";
 import { verifyLogin } from "../../guard";
 import useApi, { METHOD } from "../../hooks/useApi";
 import Loader from "../loader/Loader";
 import toast from "react-hot-toast";
 import Footer from "../footer/Footer";
+import { Link } from "react-router-dom";
 
-const WelcomePage = () => {
+const Login = () => {
     const BASE_URL = "http://localhost:9999";
     const [passwordSee, setPasswordSee] = useState(false);
     const [fields, setFields] = useState({
@@ -203,6 +204,13 @@ const WelcomePage = () => {
                             </button>
                         </a>
                     </h2>
+                    <Link to="/">
+                        <h5>
+                            {language === "HE"
+                                ? "המשך כאורח"
+                                : "Continue as quest"}
+                        </h5>
+                    </Link>
                 </div>
                 <div></div>
             </div>
@@ -211,4 +219,4 @@ const WelcomePage = () => {
     );
 };
 
-export default WelcomePage;
+export default Login;

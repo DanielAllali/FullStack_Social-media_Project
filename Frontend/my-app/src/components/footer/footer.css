@@ -6,6 +6,7 @@
     align-items: center !important;
     justify-content: center !important;
     gap: 10px;
+    margin-top: 40px;
 }
 #footer * {
     color: var(--color);

@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./signup.css";
 import { useSelector } from "react-redux";
-import useApi from "../../hooks/useApi";
+import useApi, { METHOD } from "../../hooks/useApi";
 import Loader from "../loader/Loader";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../footer/Footer";
 import { verifyRegister } from "../../guard";
+import toast from "react-hot-toast";
 
 const Signup = () => {
+    const navigate = useNavigate();
+    const [method, setMethod] = useState(null);
     const language = useSelector((state) => state.tiktak.language);
     const theme = useSelector((state) => state.tiktak.theme);
     const [passwordSee, setPasswordSee] = useState(false);
+    const [isValidForm, setIsValidForm] = useState(false);
     const [apiErrors, setApiErrors, isLoading, apiResponse, callApi, url] =
         useApi();
 
@@ -53,8 +57,100 @@ const Signup = () => {
             imageAlt: verifyRegister.imageAlt(updatedField.imageAlt),
         };
         setErrors(updatedErrors);
+        for (const error in updatedErrors) {
+            if (updatedErrors[error]) {
+                setIsValidForm(false);
+                return;
+            }
+        }
+        setIsValidForm(true);
     };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const newErrors = {
+            username: verifyRegister.username(fields.username),
+            firstName: verifyRegister.firstName(fields.firstName),
+            lastName: verifyRegister.lastName(fields.lastName),
+            password: verifyRegister.password(fields.password),
+            email: verifyRegister.email(fields.email),
+            phone: verifyRegister.phone(fields.phone),
+            imageSrc: verifyRegister.imageSrc(fields.imageSrc),
+            imageAlt: verifyRegister.imageAlt(fields.imageAlt),
+        };
+        for (const error in newErrors) {
+            if (newErrors[error]) {
+                return;
+            }
+        }
+        const newUser = {
+            username: fields.username,
+            name: {
+                firstName: fields.firstName,
+                lastName: fields.lastName,
+            },
+            email: fields.email,
+            phone: fields.phone,
+            password: fields.password,
+            image: {
+                src: fields.imageSrc,
+                alt: fields.imageAlt,
+            },
+        };
+        setMethod("REGISTER");
+        await callApi("http://localhost:9999/users", METHOD.POST, newUser);
+    };
+    useEffect(() => {
+        if (method === "REGISTER") {
+            if (apiResponse && !apiErrors) {
+                const login = async () => {
+                    setMethod("LOGIN");
+                    await callApi(
+                        "http://localhost:9999/users/login",
+                        METHOD.POST,
+                        {
+                            email: fields.email,
+                            password: fields.password,
+                        }
+                    );
+                };
+                login();
+            }
+            if (!apiResponse && apiErrors) {
+                if (apiErrors.status === 409) {
+                    toast.error(
+                        language === "HE"
+                            ? "יש משתמש עם האימייל הזה כבר..."
+                            : "This email is already taken..."
+                    );
+                    setApiErrors(null);
+                } else if (apiErrors && apiErrors.response)
+                    toast.error(
+                        apiErrors.response
+                            ? apiErrors.response.data ===
+                              "Email or password uncorrect."
+                                ? language === "HE"
+                                    ? "אימייל או סיסמה לא נכונים."
+                                    : apiErrors.response.data
+                                : language === "HE"
+                                ? "תקלה בשרת נסה שוב מאוחר יותר..."
+                                : "Server error try again later..."
+                            : ""
+                    );
+                setApiErrors(null);
+            }
+        }
+        if (method === "LOGIN") {
+            if (apiResponse) {
+                console.log(apiResponse);
 
+                localStorage.setItem("jwt-token", apiResponse);
+                toast.success(
+                    language == "HE" ? "התחברת בהצלחה!" : "Login successfully!"
+                );
+                navigate("/");
+            }
+        }
+    }, [apiResponse, apiErrors]);
     return (
         <div
             id="signup"
@@ -66,11 +162,7 @@ const Signup = () => {
             }}
         >
             <div className="content">
-                <form
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                    }}
-                >
+                <form onSubmit={handleSubmit}>
                     <h1>
                         {language === "HE" ? "צור משתמש" : "Create account"}
                     </h1>
@@ -268,20 +360,34 @@ const Signup = () => {
                             </div>
                         </li>
                     </ul>
-                    <button type="submit">
+                    <button
+                        type="submit"
+                        disabled={!isValidForm}
+                        className={isValidForm ? "" : "disabled"}
+                    >
                         <h3>
                             {language === "HE" ? "צור משתמש" : "Create account"}
                         </h3>
-                        {isLoading && <Loader />}
+                        {isLoading && <Loader size={30} />}
                     </button>
+                    {apiErrors && apiErrors.response && (
+                        <h2>{apiErrors.response.data}</h2>
+                    )}
                 </form>
                 <hr />
                 <h5>
                     {language === "HE"
                         ? "יש לך משתמש?"
                         : "Already have an account?"}{" "}
-                    <Link to="/">{language === "HE" ? "התחבר" : "Login"}</Link>
+                    <Link to="/login">
+                        {language === "HE" ? "התחבר" : "Login"}
+                    </Link>
                 </h5>
+                <Link to="/">
+                    <h5>
+                        {language === "HE" ? "המשך כאורח" : "Continue as quest"}
+                    </h5>
+                </Link>
             </div>
             <Footer />
         </div>
