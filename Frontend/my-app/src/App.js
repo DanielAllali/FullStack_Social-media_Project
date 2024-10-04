@@ -10,14 +10,14 @@ import Home from "./components/home/Home";
 function App() {
     const theme = useSelector((state) => state.tiktak.theme);
     useEffect(() => {
-        document.body.style.setProperty("--backgroundColor", theme.weak);
-    }, [theme.weak]);
+        document.body.style.setProperty("--backgroundColor", theme.bgc);
+    }, [theme.bgc]);
     return (
         <div
             className="App"
             style={{
                 overflowX: "hidden",
-                "--bgc": theme.weak,
+                "--bgc": theme.bgc,
                 "--color": theme.strong,
             }}
         >

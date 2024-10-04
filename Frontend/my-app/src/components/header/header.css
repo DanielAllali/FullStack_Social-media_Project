@@ -1,0 +1,89 @@
+#header {
+    width: 100vw;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--weak);
+    box-shadow: 0 4px 12px var(--strong-fade);
+}
+#header * {
+    color: var(--strong);
+}
+#header div.userStaff {
+    display: flex;
+    flex-direction: column;
+}
+#header div.userStaff > button img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+#header div.userStaff > button {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: var(--bgc);
+}
+#header div.userStaff > button:hover {
+    background-color: var(--strong-fade);
+}
+#header div.userStaff div.auth {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#header div.userStaff div.auth button {
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    border: 1px solid var(--highlight);
+    background-color: var(--highlight);
+    color: var(--weak);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+#header div.userStaff div.auth a + a button {
+    background: none;
+    color: var(--highlight);
+}
+#header div.userStaff div.auth a + a button:hover {
+    background-color: var(--highlight);
+    color: var(--weak);
+}
+#header div.userStaff div.auth button:hover {
+    background: none;
+    color: var(--highlight);
+}
+
+#header nav ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    list-style-type: none;
+}
+#header nav ul li a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 10px;
+    background: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+#header nav ul li a.current * {
+    color: var(--highlight);
+}
+#header nav ul li a:hover {
+    background-color: var(--bgc);
+}

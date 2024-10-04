@@ -14,11 +14,11 @@ const Footer = () => {
         dispatch(setLanguage(e.target.value));
     };
     const handleChangeTheme = () => {
-        if (theme.weak != "#000") {
+        if (theme.type != "dark") {
             dispatch(setDarkTheme());
             return;
         }
-        if (theme.weak != "#fff") {
+        if (theme.type != "light") {
             dispatch(setLightTheme());
             return;
         }
@@ -32,15 +32,17 @@ const Footer = () => {
                     "--backgroundColor": theme.weak,
                 }}
             >
-                <Link to="/home">
+                <Link to="/">
                     <li>{language == "HE" ? "בית" : "Home"}</li>
                 </Link>
                 <Link to="/about">
                     <li>{language == "HE" ? "אודות" : "About"}</li>
                 </Link>
-                <Link to="/">
-                    <li>{language == "HE" ? "התחבר/י" : "Login/Signup"}</li>
-                </Link>
+                {!localStorage.getItem("jwt-token") && (
+                    <Link to="/login">
+                        <li>{language == "HE" ? "התחבר/י" : "Login/Signup"}</li>
+                    </Link>
+                )}
                 <Link to="/help">
                     <li>{language == "HE" ? "עזרה" : "Help"}</li>
                 </Link>

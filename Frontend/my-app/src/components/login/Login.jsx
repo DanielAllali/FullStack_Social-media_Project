@@ -1,14 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./login.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { verifyLogin } from "../../guard";
 import useApi, { METHOD } from "../../hooks/useApi";
 import Loader from "../loader/Loader";
 import toast from "react-hot-toast";
 import Footer from "../footer/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../TiktakSlice";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const BASE_URL = "http://localhost:9999";
     const [passwordSee, setPasswordSee] = useState(false);
     const [fields, setFields] = useState({
@@ -61,10 +65,17 @@ const Login = () => {
     };
     useEffect(() => {
         if (apiResponse && !apiErrors) {
-            toast.success(
-                language == "HE" ? "התחברת בהצלחה!" : "Login successfully!"
-            );
-            localStorage.setItem("jwt-token", apiResponse);
+            try {
+                dispatch(login(jwtDecode(apiResponse)));
+                localStorage.setItem("jwt-token", apiResponse);
+                toast.success(
+                    language == "HE" ? "התחברת בהצלחה!" : "Login successfully!"
+                );
+                navigate("/");
+            } catch (err) {
+                localStorage.removeItem("jwt-token");
+                toast.error(err.message);
+            }
         }
         if (!apiResponse && apiErrors) {
             if (apiErrors.response)
@@ -87,7 +98,7 @@ const Login = () => {
             id="welcomeDiv"
             style={{
                 "--color": theme.strong,
-                "--background-color": theme.weak,
+                "--background-color": theme.bgc,
                 "--btnBackground-color": theme.highlight_weak,
                 "--hover-background-color": theme.highlight_strong,
             }}

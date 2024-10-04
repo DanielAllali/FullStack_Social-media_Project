@@ -17,8 +17,8 @@
 }
 .signupPopupWrapper > div {
     width: 400px;
-    background-color: var(--strong);
-    color: var(--bgc);
+    background-color: var(--weak);
+    color: var(--strong) !important;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,10 +29,10 @@
     gap: 20px;
 }
 .signupPopupWrapper > div h1 {
-    color: var(--bgc) !important;
+    color: var(--strong) !important;
 }
 .signupPopupWrapper > div p {
-    color: var(--bgc) !important;
+    color: var(--strong) !important;
     font-size: 1.2rem;
 }
 .signupPopupWrapper > div > div {
@@ -46,7 +46,7 @@
     background-color: var(--highlight) !important;
     color: var(--bgc) !important;
     background: none;
-    border: 1px solid #000;
+    border: 1px solid var(--highlight);
     padding: 10px;
     cursor: pointer;
     border-radius: 5px;
@@ -54,7 +54,10 @@
 }
 .signupPopupWrapper > div > div a + button {
     background: none !important;
-    border: 1px solid var(--highlight);
+    color: var(--highlight) !important;
+}
+.signupPopupWrapper > div > div a + button:hover {
+    color: var(--bgc) !important;
 }
 .signupPopupWrapper > div > div button:hover {
     background-color: var(--highlight_strong) !important;

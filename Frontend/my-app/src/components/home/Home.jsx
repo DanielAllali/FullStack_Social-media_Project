@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { useSelector } from "react-redux";
 import SignupPopup from "./SignupPopup";
 import Footer from "../footer/Footer";
+import Header from "../header/Header";
 
 const Home = () => {
     const language = useSelector((state) => state.tiktak.language);
@@ -18,16 +19,19 @@ const Home = () => {
             setSignupPopup(true);
         }
     }, []);
+
     return (
         <div
             id="home"
             style={{
-                "--bgc": theme.weak,
+                "--bgc": theme.bgc,
+                "--weak": theme.weak,
                 "--strong": theme.strong,
                 "--highlight": theme.highlight_weak,
                 "--highlight_strong": theme.highlight_strong,
             }}
         >
+            <Header />
             {signupPopup && <SignupPopup setIsDisplay={setSignupPopup} />}
             <Footer />
         </div>

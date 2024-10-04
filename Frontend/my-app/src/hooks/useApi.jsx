@@ -7,7 +7,7 @@ const useApi = () => {
     const [apiResponse, setApiResponse] = useState(null);
     const [url, setUrl] = useState(null);
 
-    const callApi = async (url, method = METHOD.POST, payload) => {
+    const callApi = async (url, method = METHOD.GET, payload) => {
         setUrl(url);
         try {
             setIsLoading(true);
@@ -32,6 +32,7 @@ const useApi = () => {
 
 export const METHOD = {
     POST: "POST",
+    GET: "GET",
 };
 
 export default useApi;

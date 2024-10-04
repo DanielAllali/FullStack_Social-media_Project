@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./signup.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useApi, { METHOD } from "../../hooks/useApi";
 import Loader from "../loader/Loader";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../footer/Footer";
 import { verifyRegister } from "../../guard";
 import toast from "react-hot-toast";
+import { login } from "../TiktakSlice";
+import { jwtDecode } from "jwt-decode";
 
 const Signup = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [method, setMethod] = useState(null);
     const language = useSelector((state) => state.tiktak.language);
     const theme = useSelector((state) => state.tiktak.theme);
@@ -141,13 +145,20 @@ const Signup = () => {
         }
         if (method === "LOGIN") {
             if (apiResponse) {
-                console.log(apiResponse);
-
                 localStorage.setItem("jwt-token", apiResponse);
-                toast.success(
-                    language == "HE" ? "התחברת בהצלחה!" : "Login successfully!"
-                );
-                navigate("/");
+                try {
+                    dispatch(login(jwtDecode(apiResponse)));
+
+                    toast.success(
+                        language == "HE"
+                            ? "התחברת בהצלחה!"
+                            : "Login successfully!"
+                    );
+                    navigate("/");
+                } catch (err) {
+                    localStorage.removeItem("jwt-token");
+                    toast.error(err.message);
+                }
             }
         }
     }, [apiResponse, apiErrors]);
@@ -155,7 +166,7 @@ const Signup = () => {
         <div
             id="signup"
             style={{
-                "--bgc": theme.weak,
+                "--bgc": theme.bgc,
                 "--color": theme.strong,
                 "--btnBgc": theme.highlight_weak,
                 "--btnHover": theme.highlight_strong,
