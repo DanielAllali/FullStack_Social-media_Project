@@ -176,10 +176,22 @@ app.post("/users/sandbox/:id", async (req, res) => {
                 .status(403)
                 .send('Object must contain "content" and "image".');
         }
-        if (content.length < 1 || content.length >= 40) {
+        if (content.en) {
+            for (const c in content) {
+                if (content[c].length < 1 || content[c].length >= 40) {
+                    return res
+                        .status(403)
+                        .send(
+                            'Content must be an object with two keys "he" "en" and with value between 1-40 characters.'
+                        );
+                }
+            }
+        } else {
             return res
                 .status(403)
-                .send("Content must be between 1-40 characters.");
+                .send(
+                    'Content must be an object with two keys "he" "en" and with value between 1-40 characters.'
+                );
         }
         const urlRegex =
             /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/[^\s]*)?$/;

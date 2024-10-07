@@ -39,7 +39,10 @@ const userSchema = new Schema(
         },
         sandbox: [
             {
-                content: String,
+                content: {
+                    en: { type: String, required: true },
+                    he: { type: String, required: true },
+                },
                 image: String,
                 createdAt: Date,
             },

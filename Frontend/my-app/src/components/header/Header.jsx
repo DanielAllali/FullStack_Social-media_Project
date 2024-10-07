@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import "./header.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { login } from "../TiktakSlice";
+import { login, logout } from "../TiktakSlice";
 import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
 import logo from "../../media/images/Logo.png";
+import SandboxSmall from "./SandboxSmall";
 
 const Header = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const [userSettings, setUserSettings] = useState(false);
+    const [isSandbox, setIsSandbox] = useState(false);
+
     const user = useSelector((state) => state.tiktak.user);
     const language = useSelector((state) => state.tiktak.language);
     const theme = useSelector((state) => state.tiktak.theme);
@@ -31,27 +34,54 @@ const Header = () => {
                 "--bgc": theme.bgc,
                 "--weak": theme.weak,
                 "--strong": theme.strong,
-                "--strong-fade": `${theme.strong}1`,
+                "--strong-fade": `${theme.strong}1A`,
                 "--highlight": theme.highlight,
+            }}
+            onClick={() => {
+                setUserSettings(false);
+                setIsSandbox(false);
             }}
         >
             <div className="userStaff">
                 {user && (
                     <>
-                        <button
-                            onClick={() => {
-                                setUserSettings(!userSettings);
-                            }}
-                        >
-                            <img
-                                src={user.image.src}
-                                alt={
-                                    user.image.alt
-                                        ? user.image.alt
-                                        : "Profile picture of " + user.username
+                        <div className="menus">
+                            <button
+                                style={
+                                    userSettings
+                                        ? {
+                                              transform: "scale(1.1)",
+                                          }
+                                        : {}
                                 }
-                            />
-                        </button>
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setUserSettings(!userSettings);
+                                    setIsSandbox(false);
+                                }}
+                            >
+                                <img
+                                    src={user.image.src}
+                                    alt={
+                                        user.image.alt
+                                            ? user.image.alt
+                                            : "Profile picture of " +
+                                              user.username
+                                    }
+                                />
+                            </button>
+                            <button
+                                className={isSandbox ? "sandboxActive" : ""}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setUserSettings(false);
+                                    setIsSandbox(!isSandbox);
+                                }}
+                            >
+                                <i className="bi bi-bell"></i>
+                            </button>
+                        </div>
+                        {isSandbox && user && <SandboxSmall user={user} />}
                         {userSettings && (
                             <ul>
                                 <li>
@@ -69,6 +99,13 @@ const Header = () => {
                                             {`${user.name.firstName} ${user.name.lastName}`}
                                         </h1>
                                     </div>
+                                    <hr />
+                                    <h4>
+                                        {language === "HE"
+                                            ? "להציג משתמש"
+                                            : "See account"}
+                                        <i className="bi bi-arrow-up-short"></i>
+                                    </h4>
                                 </li>
                                 <li>
                                     <Link to="/settings">
@@ -90,7 +127,13 @@ const Header = () => {
                                         </h1>
                                     </Link>
                                 </li>
-                                <li>
+                                <li
+                                    onClick={() => {
+                                        dispatch(logout());
+                                        localStorage.removeItem("jwt-token");
+                                        window.location.reload();
+                                    }}
+                                >
                                     <i className="bi bi-box-arrow-right"></i>
                                     <h1>
                                         {language === "HE" ? "התנתק" : "Logout"}

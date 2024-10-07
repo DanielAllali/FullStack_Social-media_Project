@@ -7,13 +7,17 @@ const useApi = () => {
     const [apiResponse, setApiResponse] = useState(null);
     const [url, setUrl] = useState(null);
 
-    const callApi = async (url, method = METHOD.GET, payload) => {
+    const callApi = async (url, method = METHOD.GET, payload, headers = {}) => {
         setUrl(url);
         try {
             setIsLoading(true);
             let response;
 
             switch (method) {
+                case METHOD.GET:
+                    response = await axios.get(url, headers);
+                    setApiResponse(response.data);
+                    break;
                 case METHOD.POST:
                     response = await axios.post(url, payload);
                     setApiResponse(response.data);

@@ -9,8 +9,8 @@ if (!localStorage.getItem("Theme")) {
 const lightTheme = {
     type: "light",
     bgc: "#F0F2F5",
-    weak: "#fff",
-    strong: "#000",
+    weak: "#ffffff",
+    strong: "#000000",
     highlight_weak: "#519bfc",
     highlight_strong: "#1877F2",
 };
@@ -18,7 +18,7 @@ const darkTheme = {
     type: "dark",
     bgc: "#18191A",
     weak: "#242526",
-    strong: "#fff",
+    strong: "#ffffff",
     highlight_weak: "#519bfc",
     highlight_strong: "#1877F2",
 };
