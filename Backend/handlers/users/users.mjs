@@ -16,6 +16,12 @@ import {
 } from "../../guard.mjs";
 import jwt from "jsonwebtoken";
 import { getPost } from "../posts/postsGuard.mjs";
+import path from "path";
+import express from "express";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 app.get("/users", async (req, res) => {
     const users = await User.find();
@@ -39,16 +45,14 @@ app.post("/users", async (req, res) => {
     if (image.alt == "") {
         image.alt = `${username} profile picture`;
     }
-    if (image.src == "") {
-        image.src = `/Backend/media/userProfile/user${
-            ["Black", "Blue", "Green", "Orange"][Math.floor(Math.random() * 4)]
-        }.png`;
-    }
     const { error } = userRegisterValidationSchema.validate(req.body, {
         allowUnknown: true,
     });
     if (error) {
         return res.status(403).send(error.details[0].message);
+    }
+    if (image.src == "") {
+        image.src = `${process.env.URL}/user/profile-picture`;
     }
     try {
         const newUser = new User({
@@ -63,7 +67,6 @@ app.post("/users", async (req, res) => {
         if (newUser.username == "") {
             newUser.username = await generateUsername();
         }
-        console.log(newUser);
 
         await newUser.save();
         res.send(newUser);
@@ -260,4 +263,24 @@ app.patch("/users/save-post/:id", async (req, res) => {
     } catch (err) {
         res.status(500).send(err.message ? err.message : "Server error.");
     }
+});
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use("/media", express.static(path.join(__dirname, "media")));
+
+app.get("/user/profile-picture", (req, res) => {
+    const colors = ["Black", "Blue", "Green", "Orange"];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+    const imagePath = path.join(
+        __dirname,
+        "../../media/userProfile",
+        `user${randomColor}.png`
+    );
+
+    res.sendFile(imagePath, (err) => {
+        if (err) {
+            res.status(500).send("Error loading image");
+        }
+    });
 });

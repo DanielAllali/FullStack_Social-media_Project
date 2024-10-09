@@ -104,10 +104,7 @@ const verifyRegister = {
     },
     imageSrc: (v) => {
         if (!v) {
-            return {
-                he: "מקור התמונה נדרש.",
-                en: "Image source is required.",
-            };
+            return false;
         }
         if (!urlRegex.test(v)) {
             return {

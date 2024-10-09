@@ -7,16 +7,22 @@ import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
 import logo from "../../media/images/Logo.png";
 import SandboxSmall from "./SandboxSmall";
+import useApi from "../../hooks/useApi";
 
 const Header = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const [userSettings, setUserSettings] = useState(false);
     const [isSandbox, setIsSandbox] = useState(false);
+    const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
+    const [posts, setPosts] = useState(null);
+    const [searchValue, setSearchValue] = useState("");
+    const [filteredPosts, setFilteredPosts] = useState([]);
 
     const user = useSelector((state) => state.tiktak.user);
     const language = useSelector((state) => state.tiktak.language);
     const theme = useSelector((state) => state.tiktak.theme);
+
     useEffect(() => {
         const token = localStorage.getItem("jwt-token");
         if (!user && token) {
@@ -26,7 +32,25 @@ const Header = () => {
                 toast.error(err.message);
             }
         }
+        callApi("http://localhost:9999/posts");
     }, []);
+    useEffect(() => {
+        if (apiResponse && !errors) {
+            setPosts(apiResponse);
+        }
+    }, [apiResponse, errors]);
+    useEffect(() => {
+        if (searchValue.trim()) {
+            const results = posts?.filter((p) =>
+                `${p.title} ${p.subtitle} ${p.content}`
+                    .toLowerCase()
+                    .includes(searchValue.toLowerCase())
+            );
+            setFilteredPosts(results);
+        } else {
+            setFilteredPosts([]);
+        }
+    }, [searchValue, posts]);
     return (
         <div
             id="header"
@@ -207,8 +231,44 @@ const Header = () => {
                 </nav>
             )}
             <div className="search">
+                <div>
+                    <input
+                        type="text"
+                        placeholder={
+                            language === "HE"
+                                ? "חפש פוסטים..."
+                                : "Search posts..."
+                        }
+                        value={searchValue}
+                        onChange={(e) => setSearchValue(e.target.value)}
+                    />
+                    {filteredPosts.length > 0 && (
+                        <ul className="search-results">
+                            <h1>{language === "HE" ? "פוסטים" : "Posts"}</h1>
+                            {filteredPosts.map((p) => (
+                                <li key={p._id}>
+                                    <Link to={`/posts/${p._id}`}>
+                                        <p>{p.title}</p>
+                                        <div>
+                                            <img
+                                                src={p.image.url}
+                                                alt="image"
+                                            />
+                                        </div>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                    {filteredPosts.length < 1 && searchValue !== "" && (
+                        <h2>
+                            {language === "HE"
+                                ? "אין פוסטים..."
+                                : "No posts..."}
+                        </h2>
+                    )}
+                </div>
                 <img src={logo} alt="Tiktak logo" />
-                <datalist id="posts"></datalist>
             </div>
         </div>
     );

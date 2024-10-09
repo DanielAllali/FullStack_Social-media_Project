@@ -63,12 +63,26 @@ const Footer = () => {
                         }}
                         name="language"
                     >
-                        <option value="EN">
-                            {language == "HE" ? "אנגלית" : "English"}
-                        </option>
-                        <option value="HE">
-                            {language == "HE" ? "עברית" : "Hebrew"}
-                        </option>
+                        {language === "HE" && (
+                            <>
+                                <option value="HE">
+                                    {language == "HE" ? "עברית" : "Hebrew"}
+                                </option>
+                                <option value="EN">
+                                    {language == "HE" ? "אנגלית" : "English"}
+                                </option>
+                            </>
+                        )}
+                        {language !== "HE" && (
+                            <>
+                                <option value="EN">
+                                    {language == "HE" ? "אנגלית" : "English"}
+                                </option>
+                                <option value="HE">
+                                    {language == "HE" ? "עברית" : "Hebrew"}
+                                </option>
+                            </>
+                        )}
                     </select>
                 </div>
                 <h2>&copy; Daniel Allali</h2>
