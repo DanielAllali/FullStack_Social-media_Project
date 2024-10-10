@@ -1,0 +1,105 @@
+#messages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#messages > div {
+    display: flex;
+    flex-direction: column !important;
+}
+#messages > div ul {
+    max-height: 300px;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start !important;
+    gap: 5px !important;
+}
+#messages > div hr {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#messages > div ul > h1 {
+    font-size: 1rem;
+}
+#messages > div ul li {
+    display: flex;
+    flex-direction: column;
+    padding: 0 !important;
+}
+#messages > div ul li img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: var(--bgc);
+}
+#messages > div ul li div {
+    display: flex;
+    flex-direction: column !important;
+    align-items: start !important;
+    justify-content: center !important;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 5px;
+    background-color: var(--bgc) !important;
+}
+#messages > div ul li div + div {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: start !important;
+    background: none;
+    padding: 0 !important;
+    background: none !important;
+}
+#messages > div ul li div h1 {
+    font-size: 1rem;
+}
+#messages > div ul li div p {
+    font-size: 1rem;
+}
+#messages > div ul li div button {
+    padding: 0;
+}
+#messages > div ul li div button:hover {
+    text-decoration: underline;
+    background: none !important;
+}
+#messages > div > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start !important;
+    gap: 5px;
+    margin: 0 auto;
+}
+#messages > div > div input {
+    width: 80%;
+    height: 30px;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: var(--bgc);
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+#messages > div > div input:focus {
+    outline: none;
+    border-color: var(--btnHover, #1877f2);
+}
+#messages > div > div button {
+    padding: 5px !important;
+}
+#messages > div > div a button {
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+#messages > div > div a button:hover {
+    background-color: var(--bgc);
+}

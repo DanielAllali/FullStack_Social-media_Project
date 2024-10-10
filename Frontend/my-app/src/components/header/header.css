@@ -7,6 +7,9 @@
     justify-content: space-between;
     background-color: var(--weak);
     box-shadow: 0 4px 12px var(--strong-fade);
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 #header * {
     color: var(--strong);
@@ -25,8 +28,8 @@
     gap: 5px;
 }
 #header div.userStaff > div.menus button img {
-    width: 50px;
-    height: 50px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
 }
 #header div.userStaff > div.menus button.sandboxActive {
@@ -44,6 +47,7 @@
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
+    transition: all 0.2s;
 }
 #header div.userStaff > div.menus button:hover {
     background-color: var(--strong-fade);
@@ -155,8 +159,8 @@
     background-color: var(--strong-fade);
 }
 #header .userStaff > ul li div img {
-    width: 50px;
-    height: 50px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
 }
 #header .userStaff > ul li a {
@@ -262,6 +266,36 @@
         display: none;
     }
     #header nav ul li a {
-        font-size: 2rem;
+        font-size: 1.5rem;
+    }
+
+    #header div.userStaff {
+        width: 40%;
+    }
+    #header .search {
+        width: 40%;
+    }
+    #header nav {
+        width: 20%;
+    }
+    #header nav ul {
+        gap: 10px;
+    }
+    #header nav ul li a {
+        padding: 10px;
+    }
+}
+@media (max-width: 510px) {
+    #header div.userStaff > div.menus button {
+        width: 30px;
+        height: 30px;
+        font-size: 1.5rem;
+    }
+    #header div.userStaff > div.menus button img {
+        width: 18px;
+        height: 18px;
+    }
+    #header .search input {
+        display: none;
     }
 }

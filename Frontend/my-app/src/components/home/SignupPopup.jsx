@@ -1,5 +1,5 @@
 import React from "react";
-import "./home.css";
+import "./signupPopup.css";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 

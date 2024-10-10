@@ -1,70 +1,145 @@
 #home * {
     color: var(--strong);
 }
-
-.signupPopupWrapper {
-    width: 100vw;
-    height: 100vh;
-    background: none;
-    backdrop-filter: blur(5px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    top: 0;
-    left: 0;
+#home .content {
+    width: 800px;
+    margin: 0 auto;
+    margin-top: 120px;
+    margin-bottom: 120px;
 }
-.signupPopupWrapper > div {
-    width: 400px;
-    background-color: var(--weak);
-    color: var(--strong) !important;
+#home .content .posts {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+#home .content .posts ul {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    list-style-type: none;
+}
+#home .content .posts ul li {
+    width: 100%;
+    background-color: var(--weak);
     padding: 20px;
     border-radius: 10px;
-    text-align: center;
-    gap: 20px;
 }
-.signupPopupWrapper > div h1 {
-    color: var(--strong) !important;
+#home .content .posts ul li .postHeader {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
 }
-.signupPopupWrapper > div p {
-    color: var(--strong) !important;
-    font-size: 1.2rem;
+#home .content .posts ul li .postHeader div {
+    display: flex;
+    flex-direction: column;
 }
-.signupPopupWrapper > div > div {
+#home .content .posts ul li .postHeader div div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+}
+#home .content .posts ul li .postHeader div div img {
+    width: 50px;
+    height: 50px;
+    background-color: var(--bgc);
+    padding: 5px;
+    border-radius: 50%;
+}
+#home .content .posts ul li .postHeader div div h1 {
+    font-size: 1rem;
+}
+#home .content .posts ul li .postHeader div div h4 {
+    color: #bbb;
+}
+#home .content .posts ul li .postHeader div div + div {
+    border: none;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 5px;
+}
+#home .content .posts ul li .postBody {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+#home .content .posts ul li .postBody div {
+    width: 90%;
+    min-height: 400px;
+    background-color: var(--bgc);
+    margin: 0 auto;
+}
+#home .content .posts ul li .postBody div img {
+    width: 90%;
+}
+#home .content .posts ul li .postBody p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#home .content .posts ul li .postSocial {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+#home .content .posts ul li .postSocial div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+#home .content .posts ul li .postSocial div > span {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
 }
-.signupPopupWrapper > div > div button {
-    background-color: var(--highlight) !important;
-    color: var(--bgc) !important;
+#home .content .posts ul li .postSocial div > span h2 {
+    font-size: 1rem;
+}
+
+#home .content .posts ul li .postSocial div > span i {
+    color: var(--highlight);
+    font-size: 1.5rem;
+}
+#home .content .posts ul li .postSocial div.likeComment {
+    justify-content: space-evenly;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#home .content .posts ul li .postSocial div > button {
     background: none;
-    border: 1px solid var(--highlight);
-    padding: 10px;
+    border: none;
+    font-size: 1rem;
     cursor: pointer;
+    padding: 10px;
     border-radius: 5px;
-    transition: all 0.2s;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
 }
-.signupPopupWrapper > div > div a + button {
-    background: none !important;
-    color: var(--highlight) !important;
+#home .content .posts ul li .postSocial div > button:hover {
+    background-color: var(--bgc);
 }
-.signupPopupWrapper > div > div a + button:hover {
-    color: var(--bgc) !important;
-}
-.signupPopupWrapper > div > div button:hover {
-    background-color: var(--highlight_strong) !important;
-    border: 1px solid var(--highlight_strong);
-}
-@media (max-width: 430px) {
-    .signupPopupWrapper > div {
-        width: 300px;
-    }
+.footerInHome {
+    width: 100vw;
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: var(--weak);
+    box-shadow: 0 -4px 6px var(--strong-fade);
 }

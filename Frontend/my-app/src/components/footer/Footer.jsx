@@ -5,7 +5,12 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { setDarkTheme, setLanguage, setLightTheme } from "../TiktakSlice";
 import { Link } from "react-router-dom";
 
-const Footer = () => {
+const Footer = ({
+    displayLogo = true,
+    displayNav = true,
+    displaySettings = true,
+    marginTop = true,
+}) => {
     const language = useSelector((state) => state.tiktak.language);
     const theme = useSelector((state) => state.tiktak.theme);
 
@@ -24,69 +29,79 @@ const Footer = () => {
         }
     };
     return (
-        <div id="footer">
-            <h1 className="logo">Tiktak</h1>
-            <ul
-                style={{
-                    "--color": theme.strong,
-                    "--backgroundColor": theme.weak,
-                }}
-            >
-                <Link to="/">
-                    <li>{language == "HE" ? "בית" : "Home"}</li>
-                </Link>
-                <Link to="/about">
-                    <li>{language == "HE" ? "אודות" : "About"}</li>
-                </Link>
-                {!localStorage.getItem("jwt-token") && (
-                    <Link to="/login">
-                        <li>{language == "HE" ? "התחבר/י" : "Login/Signup"}</li>
+        <div id="footer" style={{ marginTop: marginTop ? "40px" : "0" }}>
+            {displayLogo && <h1 className="logo">Tiktak</h1>}
+            {displayNav && (
+                <ul
+                    style={{
+                        "--color": theme.strong,
+                        "--backgroundColor": theme.weak,
+                    }}
+                >
+                    <Link to="/">
+                        <li>{language == "HE" ? "בית" : "Home"}</li>
                     </Link>
-                )}
-                <Link to="/help">
-                    <li>{language == "HE" ? "עזרה" : "Help"}</li>
-                </Link>
-            </ul>
-            <div>
-                <button onClick={handleChangeTheme}>
-                    {localStorage.getItem("Theme") == "light" ? (
-                        <i className="bi bi-brightness-high"></i>
-                    ) : (
-                        <i className="bi bi-moon"></i>
+                    <Link to="/about">
+                        <li>{language == "HE" ? "אודות" : "About"}</li>
+                    </Link>
+                    {!localStorage.getItem("jwt-token") && (
+                        <Link to="/login">
+                            <li>
+                                {language == "HE" ? "התחבר/י" : "Login/Signup"}
+                            </li>
+                        </Link>
                     )}
-                </button>
+                    <Link to="/help">
+                        <li>{language == "HE" ? "עזרה" : "Help"}</li>
+                    </Link>
+                </ul>
+            )}
+            {displaySettings && (
                 <div>
-                    <i className="bi bi-globe2"></i>
-                    <select
-                        onChange={(e) => {
-                            handleLanguageChange(e);
-                        }}
-                        name="language"
-                    >
-                        {language === "HE" && (
-                            <>
-                                <option value="HE">
-                                    {language == "HE" ? "עברית" : "Hebrew"}
-                                </option>
-                                <option value="EN">
-                                    {language == "HE" ? "אנגלית" : "English"}
-                                </option>
-                            </>
+                    <button onClick={handleChangeTheme}>
+                        {localStorage.getItem("Theme") == "light" ? (
+                            <i className="bi bi-brightness-high"></i>
+                        ) : (
+                            <i className="bi bi-moon"></i>
                         )}
-                        {language !== "HE" && (
-                            <>
-                                <option value="EN">
-                                    {language == "HE" ? "אנגלית" : "English"}
-                                </option>
-                                <option value="HE">
-                                    {language == "HE" ? "עברית" : "Hebrew"}
-                                </option>
-                            </>
-                        )}
-                    </select>
+                    </button>
+                    <div>
+                        <i className="bi bi-globe2"></i>
+                        <select
+                            onChange={(e) => {
+                                handleLanguageChange(e);
+                            }}
+                            name="language"
+                        >
+                            {language === "HE" && (
+                                <>
+                                    <option value="HE">
+                                        {language == "HE" ? "עברית" : "Hebrew"}
+                                    </option>
+                                    <option value="EN">
+                                        {language == "HE"
+                                            ? "אנגלית"
+                                            : "English"}
+                                    </option>
+                                </>
+                            )}
+                            {language !== "HE" && (
+                                <>
+                                    <option value="EN">
+                                        {language == "HE"
+                                            ? "אנגלית"
+                                            : "English"}
+                                    </option>
+                                    <option value="HE">
+                                        {language == "HE" ? "עברית" : "Hebrew"}
+                                    </option>
+                                </>
+                            )}
+                        </select>
+                    </div>
+                    <h2>&copy; Daniel Allali</h2>
                 </div>
-                <h2>&copy; Daniel Allali</h2>
-            </div>
+            )}
         </div>
     );
 };
