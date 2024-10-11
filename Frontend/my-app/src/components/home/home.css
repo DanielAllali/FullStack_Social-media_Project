@@ -135,11 +135,22 @@
     background-color: var(--bgc);
 }
 .footerInHome {
-    width: 100vw;
+    width: 400px;
     overflow: hidden;
     position: fixed;
     bottom: 0;
     left: 0;
     background-color: var(--weak);
-    box-shadow: 0 -4px 6px var(--strong-fade);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--strong);
+    border-left: none;
+    border-bottom: none;
+}
+@media (max-width: 510px) {
+    .footerInHome {
+        display: none;
+    }
 }

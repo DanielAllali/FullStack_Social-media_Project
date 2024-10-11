@@ -11,12 +11,14 @@ import Messages from "./Messages";
 const Home = () => {
     const language = useSelector((state) => state.tiktak.language);
     const theme = useSelector((state) => state.tiktak.theme);
+
     const [signupPopup, setSignupPopup] = useState(false);
     const [user, setUser] = useState(null);
     const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
     const [posts, setPosts] = useState(null);
     const [users, setUsers] = useState(null);
     const [method, setMethod] = useState(null);
+
     useEffect(() => {
         const token = localStorage.getItem("jwt-token");
         if (token) {
@@ -32,12 +34,22 @@ const Home = () => {
     }, []);
     useEffect(() => {
         if (apiResponse && !errors && method === "GET ALL POSTS") {
-            setPosts(apiResponse);
+            setPosts(apiResponse.filter((p) => !p.deleted));
             setMethod(null);
         }
         if (apiResponse && !errors && method === "GET ALL USERS") {
             setUsers(apiResponse);
             setMethod(null);
+        }
+        if (apiResponse && !errors && method === "TOGGLE LIKE POST") {
+            const updatedPost = apiResponse;
+            setPosts((prevPosts) =>
+                prevPosts.map((p) =>
+                    p._id.toString() === updatedPost._id.toString()
+                        ? updatedPost
+                        : p
+                )
+            );
         }
     }, [method]);
     useEffect(() => {
@@ -49,6 +61,23 @@ const Home = () => {
             fetchPosts();
         }
     }, [posts]);
+    const checkIfLiked = (post) => {
+        for (let i = 0; i < post.likes.length; i++) {
+            if (post.likes[i].toString() === user._id.toString()) {
+                return true;
+            }
+        }
+        return false;
+    };
+    const handleToggleLikePost = async (post) => {
+        await callApi(
+            `http://localhost:9999/posts/${post._id.toString()}`,
+            METHOD.PATCH,
+            null,
+            { authorization: localStorage.getItem("jwt-token") }
+        );
+        setMethod("TOGGLE LIKE POST");
+    };
     return (
         <div
             id="home"
@@ -65,7 +94,7 @@ const Home = () => {
             {signupPopup && <SignupPopup setIsDisplay={setSignupPopup} />}
 
             <div className="content">
-                {posts && users && (
+                {posts && users && user && (
                     <div className="posts">
                         <ul>
                             {posts.map((p) => (
@@ -118,7 +147,11 @@ const Home = () => {
                                     <div className="postSocial">
                                         <div>
                                             <span>
-                                                <i className="bi bi-hand-thumbs-up"></i>
+                                                {checkIfLiked(p) ? (
+                                                    <i className="bi bi-hand-thumbs-up-fill"></i>
+                                                ) : (
+                                                    <i className="bi bi-hand-thumbs-up"></i>
+                                                )}
                                                 {p.likes.length}
                                             </span>
                                             <span>
@@ -132,8 +165,16 @@ const Home = () => {
                                         </div>
                                         <hr />
                                         <div className="likeComment">
-                                            <button>
-                                                {language === "HE"
+                                            <button
+                                                onClick={() => {
+                                                    handleToggleLikePost(p);
+                                                }}
+                                            >
+                                                {checkIfLiked(p)
+                                                    ? language === "HE"
+                                                        ? "להסיר לייק"
+                                                        : "Unlike"
+                                                    : language === "HE"
                                                     ? "לייק"
                                                     : "Like"}
                                                 <i className="bi bi-hand-thumbs-up"></i>
@@ -146,7 +187,7 @@ const Home = () => {
                                             </button>
                                         </div>
                                         <hr />
-                                        <Messages postId={p._id} />
+                                        <Messages post={p} />
                                     </div>
                                 </li>
                             ))}

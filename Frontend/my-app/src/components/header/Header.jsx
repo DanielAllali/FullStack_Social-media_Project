@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import logo from "../../media/images/Logo.png";
 import SandboxSmall from "./SandboxSmall";
 import useApi from "../../hooks/useApi";
+import Footer from "../footer/Footer";
 
 const Header = () => {
     const dispatch = useDispatch();

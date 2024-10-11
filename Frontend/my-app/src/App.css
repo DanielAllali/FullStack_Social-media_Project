@@ -28,10 +28,10 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background-color: var(--strong);
+    background-color: #ccc;
 }
 ::-webkit-scrollbar-thumb {
-    background-color: var(--bgc);
+    background-color: #555;
     border-radius: 10px;
 }
 
@@ -39,7 +39,7 @@ body {
     background-color: #555;
 }
 ::-webkit-scrollbar-thumb:active {
-    background-color: var(--bgc);
+    background-color: #000;
 }
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px var(--bgc) inset !important;

@@ -15,11 +15,15 @@ const useApi = () => {
 
             switch (method) {
                 case METHOD.GET:
-                    response = await axios.get(url, headers);
+                    response = await axios.get(url, payload, { headers });
                     setApiResponse(response.data);
                     break;
                 case METHOD.POST:
-                    response = await axios.post(url, payload);
+                    response = await axios.post(url, payload, { headers });
+                    setApiResponse(response.data);
+                    break;
+                case METHOD.PATCH:
+                    response = await axios.patch(url, payload, { headers });
                     setApiResponse(response.data);
                     break;
             }
@@ -37,6 +41,7 @@ const useApi = () => {
 export const METHOD = {
     POST: "POST",
     GET: "GET",
+    PATCH: "PATCH",
 };
 
 export default useApi;
