@@ -7,11 +7,13 @@ import Footer from "../footer/Footer";
 import Header from "../header/Header";
 import useApi, { METHOD } from "../../hooks/useApi";
 import Messages from "./Messages";
+import CreatePost from "../createPost/CreatePost";
 
 const Home = () => {
     const language = useSelector((state) => state.tiktak.language);
     const theme = useSelector((state) => state.tiktak.theme);
 
+    const [createPostPopup, setCreatePostPopup] = useState(false);
     const [signupPopup, setSignupPopup] = useState(false);
     const [user, setUser] = useState(null);
     const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
@@ -164,30 +166,13 @@ const Home = () => {
                                             </span>
                                         </div>
                                         <hr />
-                                        <div className="likeComment">
-                                            <button
-                                                onClick={() => {
-                                                    handleToggleLikePost(p);
-                                                }}
-                                            >
-                                                {checkIfLiked(p)
-                                                    ? language === "HE"
-                                                        ? "להסיר לייק"
-                                                        : "Unlike"
-                                                    : language === "HE"
-                                                    ? "לייק"
-                                                    : "Like"}
-                                                <i className="bi bi-hand-thumbs-up"></i>
-                                            </button>
-                                            <button>
-                                                {language === "HE"
-                                                    ? "הודעה"
-                                                    : "Comment"}
-                                                <i className="bi bi-chat"></i>
-                                            </button>
-                                        </div>
-                                        <hr />
-                                        <Messages post={p} />
+                                        <Messages
+                                            handleToggleLikePost={
+                                                handleToggleLikePost
+                                            }
+                                            checkIfLiked={checkIfLiked}
+                                            post={p}
+                                        />
                                     </div>
                                 </li>
                             ))}
@@ -195,7 +180,7 @@ const Home = () => {
                     </div>
                 )}
             </div>
-
+            {createPostPopup && <CreatePost />}
             <div className="footerInHome">
                 <Footer
                     displayLogo={false}

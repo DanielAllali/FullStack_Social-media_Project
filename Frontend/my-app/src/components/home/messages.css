@@ -73,8 +73,19 @@
     gap: 5px;
     margin: 0 auto;
 }
-#messages > div > div input {
-    width: 80%;
+#messages > div > div div {
+    width: 100%;
+    display: flex;
+    flex-direction: column !important;
+    align-items: start !important;
+    justify-content: center;
+}
+#messages > div > div div h2 {
+    color: red;
+    font-size: 1rem;
+}
+#messages > div > div div input {
+    width: 100%;
     height: 30px;
     padding: 5px;
     border-radius: 10px;
@@ -83,12 +94,13 @@
     font-size: 0.8rem;
     transition: all 0.2s;
 }
-#messages > div > div input:focus {
+#messages > div > div div input:focus {
     outline: none;
     border-color: var(--btnHover, #1877f2);
 }
 #messages > div > div button {
-    padding: 5px !important;
+    padding: 10px !important;
+    font-size: 2rem !important;
 }
 #messages > div > div a button {
     text-decoration: none;
@@ -97,7 +109,7 @@
     cursor: pointer;
     padding: 5px;
     border-radius: 5px;
-    font-size: 1rem;
+    font-size: 1rem !important;
 }
 #messages > div > div a button:hover {
     background-color: var(--bgc);
@@ -138,4 +150,20 @@
     align-items: center;
     justify-content: center;
     font-size: 2rem !important  ;
+}
+@media (max-width: 580px) {
+    #messages > div.messagesWrapper > div {
+        width: 400px !important;
+    }
+    #messages > div.messagesWrapper > div ul {
+        max-height: 60vh;
+    }
+}
+@media (max-width: 450px) {
+    #messages > div.messagesWrapper > div {
+        width: 300px !important;
+    }
+    #messages > div.messagesWrapper > div ul {
+        max-height: 40vh;
+    }
 }

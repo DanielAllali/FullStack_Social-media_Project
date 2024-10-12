@@ -124,5 +124,28 @@ const verifyRegister = {
         return false;
     },
 };
+const verifyMessageContent = (v) => {
+    if (typeof v !== "string") {
+        return {
+            en: "Content should be a string.",
+            he: "התוכן חייב להיות מחרוזת.",
+        };
+    }
 
-export { verifyLogin, verifyRegister };
+    if (v.trim() === "") {
+        return {
+            en: "Content cannot be empty.",
+            he: "התוכן לא יכול להיות ריק.",
+        };
+    }
+
+    if (v.length > 300) {
+        return {
+            en: "Content exceeds the maximum length of 300 characters.",
+            he: "התוכן חורג מאורך מקסימלי של 300 תווים.",
+        };
+    }
+
+    return null;
+};
+export { verifyLogin, verifyRegister, verifyMessageContent };

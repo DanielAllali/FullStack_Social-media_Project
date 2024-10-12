@@ -149,6 +149,19 @@
     border-left: none;
     border-bottom: none;
 }
+
+@media (max-width: 860px) {
+    #home .content {
+        width: 500px;
+    }
+}
+
+@media (max-width: 550px) {
+    #home .content {
+        width: 300px;
+    }
+}
+
 @media (max-width: 510px) {
     .footerInHome {
         display: none;
