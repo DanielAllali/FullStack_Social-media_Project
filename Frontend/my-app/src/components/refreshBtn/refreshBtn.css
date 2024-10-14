@@ -1,0 +1,32 @@
+#refreshButton {
+    width: 100vw;
+    position: fixed;
+    top: 10px;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    animation: display 1s;
+    transition: all 1s;
+}
+#refreshButton button {
+    border: none;
+    color: var(--weak);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: var(--highlight);
+    cursor: pointer;
+}
+#refreshButton button:hover {
+    background-color: var(--highlight_strong);
+}
+@keyframes display {
+    0% {
+        top: -50px;
+    }
+    100% {
+        top: 10px;
+    }
+}

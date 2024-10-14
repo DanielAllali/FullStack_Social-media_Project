@@ -8,6 +8,7 @@ import Header from "../header/Header";
 import useApi, { METHOD } from "../../hooks/useApi";
 import Messages from "./Messages";
 import CreatePost from "../createPost/CreatePost";
+import RefreshBtn from "../refreshBtn/RefreshBtn";
 
 const Home = () => {
     const language = useSelector((state) => state.tiktak.language);
@@ -19,12 +20,19 @@ const Home = () => {
     const [posts, setPosts] = useState(null);
     const [users, setUsers] = useState(null);
     const [messages, setMessages] = useState(null);
+    const [displayRefreshBtn, setDisplayRefreshBtn] = useState(false);
     const [method, setMethod] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem("jwt-token");
         if (token) {
-            setUser(jwtDecode(token));
+            const { exp } = jwtDecode(token);
+            const currentTime = Math.floor(Date.now() / 1000);
+            if (!(exp < currentTime)) {
+                setUser(jwtDecode(token));
+            } else {
+                localStorage.removeItem("jwt-token");
+            }
         } else {
             setSignupPopup(true);
         }
@@ -85,7 +93,7 @@ const Home = () => {
         <div id="home">
             <Header />
             {signupPopup && <SignupPopup setIsDisplay={setSignupPopup} />}
-
+            {displayRefreshBtn && <RefreshBtn />}
             <div className="content">
                 {user && (
                     <div className="createPost">
@@ -108,15 +116,15 @@ const Home = () => {
                         <div>
                             <h1>
                                 {language === "HE" ? "סרטון" : "Video"}
-                                <i class="bi bi-play-circle"></i>
+                                <i className="bi bi-play-circle"></i>
                             </h1>
                             <h1>
                                 {language === "HE" ? "תמונה" : "Image"}
-                                <i class="bi bi-file-image"></i>
+                                <i className="bi bi-file-image"></i>
                             </h1>
                             <h1>
                                 {language === "HE" ? "טקסט" : "Text"}
-                                <i class="bi bi-chat-dots"></i>
+                                <i className="bi bi-chat-dots"></i>
                             </h1>
                         </div>
                     </div>
@@ -212,7 +220,11 @@ const Home = () => {
                 )}
             </div>
             {createPostPopup && (
-                <CreatePost setCreatePostPopup={setCreatePostPopup} />
+                <CreatePost
+                    setDisplayRefreshBtn={setDisplayRefreshBtn}
+                    user={user}
+                    setCreatePostPopup={setCreatePostPopup}
+                />
             )}
 
             <div className="footerInHome">

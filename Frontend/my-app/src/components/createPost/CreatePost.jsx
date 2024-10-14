@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./createPost.css";
 import { useSelector } from "react-redux";
 import { verifyCreatePost } from "../../guard";
+import useApi, { METHOD } from "../../hooks/useApi";
+import toast from "react-hot-toast";
 
-const CreatePost = ({ setCreatePostPopup }) => {
+const CreatePost = ({ setCreatePostPopup, user, setDisplayRefreshBtn }) => {
     const language = useSelector((state) => state.tiktak.language);
+
+    const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
     const [fields, setFields] = useState({
         title: "",
         subtitle: "",
@@ -38,7 +42,51 @@ const CreatePost = ({ setCreatePostPopup }) => {
         const isValid = !Object.values(updatedFieldErrors).some(Boolean);
         setFieldsValid(isValid);
     };
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!fieldsValid) {
+            return;
+        }
+        const newPost = {
+            title: fields.title,
+            subtitle: fields.subtitle,
+            content: fields.content,
+            image: {
+                src: fields.imageURL,
+                alt: `${user ? user : "user"}'s post image`,
+            },
+            video: {
+                src: fields.videoURL,
+                alt: `${user ? user : "user"}'s post video`,
+            },
+        };
+        callApi("http://localhost:9999/posts", METHOD.POST, newPost, {
+            authorization: localStorage.getItem("jwt-token"),
+        });
+    };
+    useEffect(() => {
+        if (apiResponse && !errors) {
+            toast.success(
+                language === "HE"
+                    ? "פוסט נוצר בהצלחה!"
+                    : "Post created successfuly!"
+            );
+            setDisplayRefreshBtn(true);
+            setCreatePostPopup(false);
+        } else if (errors) {
+            toast.error(
+                errors.response
+                    ? errors.response.data
+                        ? errors.response.data
+                        : language === "HE"
+                        ? "תקלה בשרת..."
+                        : "Server error..."
+                    : language === "HE"
+                    ? "תקלה בשרת..."
+                    : "Server error..."
+            );
+        }
+    }, [apiResponse, errors]);
     return (
         <div id="createPostWrapper">
             <div className="createPostContent">
@@ -138,8 +186,8 @@ const CreatePost = ({ setCreatePostPopup }) => {
                                     />
                                     <label htmlFor="imageURL">
                                         {language === "HE"
-                                            ? "קישור לתמונה*"
-                                            : "Image URL*"}
+                                            ? "קישור לתמונה"
+                                            : "Image URL"}
                                     </label>
                                     <h2
                                         className={
@@ -161,8 +209,8 @@ const CreatePost = ({ setCreatePostPopup }) => {
                                     />
                                     <label htmlFor="videoURL">
                                         {language === "HE"
-                                            ? "קישור לסירטון*"
-                                            : "Video URL*"}
+                                            ? "קישור לסירטון"
+                                            : "Video URL"}
                                     </label>
                                     <h2
                                         className={
@@ -179,13 +227,20 @@ const CreatePost = ({ setCreatePostPopup }) => {
                             <tr>
                                 <td>
                                     <button
+                                        onClick={handleSubmit}
                                         disabled={!fieldsValid}
                                         className={
                                             fieldsValid ? "" : "disabled"
                                         }
                                         type="submit"
                                     >
-                                        {language === "HE" ? "צור" : "Create"}
+                                        {!isLoading
+                                            ? language === "HE"
+                                                ? "צור"
+                                                : "Create"
+                                            : language === "HE"
+                                            ? "רגע..."
+                                            : "Wait..."}
                                     </button>
                                 </td>
                             </tr>

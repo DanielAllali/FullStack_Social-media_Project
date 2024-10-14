@@ -5,11 +5,11 @@ const postValidationSchema = Joi.object({
     subtitle: Joi.string().trim().allow("").max(50),
     content: Joi.string().trim().min(1).max(300).required(),
     image: Joi.object({
-        src: Joi.string().required().max(100),
+        src: Joi.string().allow("").max(100),
         alt: Joi.string().max(50),
     }).required(),
     video: Joi.object({
-        src: Joi.string().required().max(100),
+        src: Joi.string().allow("").max(100),
         alt: Joi.string().max(50),
     }).required(),
 });

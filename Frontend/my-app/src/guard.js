@@ -190,11 +190,8 @@ const verifyCreatePost = {
         return false;
     },
     imageSrc: (v) => {
-        if (!v || v.trim() === "") {
-            return {
-                he: "כתובת תמונה נדרשת.",
-                en: "Image URL is required.",
-            };
+        if (v === "") {
+            return false;
         }
         if (!urlRegex.test(v)) {
             return {
@@ -211,11 +208,8 @@ const verifyCreatePost = {
         return false;
     },
     videoSrc: (v) => {
-        if (!v || v.trim() === "") {
-            return {
-                he: "כתובת וידאו נדרשת.",
-                en: "Video URL is required.",
-            };
+        if (v === "") {
+            return false;
         }
         if (!urlRegex.test(v)) {
             return {
