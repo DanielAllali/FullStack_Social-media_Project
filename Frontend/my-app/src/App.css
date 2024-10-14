@@ -44,12 +44,12 @@ body {
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px var(--bgc) inset !important;
     box-shadow: 0 0 0px 1000px var(--bgc) inset !important;
-    -webkit-text-fill-color: var(--color) !important;
+    -webkit-text-fill-color: var(--strong) !important;
     transition: background-color 5000s ease-in-out 0s !important;
 }
 
 input:-moz-autofill {
     background-color: var(--bgc) !important;
-    color: var(--color) !important;
-    -moz-text-fill-color: var(--color) !important;
+    color: var(--strong) !important;
+    -moz-text-fill-color: var(--strong) !important;
 }

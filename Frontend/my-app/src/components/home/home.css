@@ -7,6 +7,59 @@
     margin-top: 120px;
     margin-bottom: 120px;
 }
+#home .content .createPost {
+    background-color: var(--weak);
+    margin-bottom: 20px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#home .content .createPost div {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    gap: 5px;
+}
+#home .content .createPost div + hr + div {
+    justify-content: space-evenly;
+}
+#home .content .createPost div img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+#home .content .createPost div button {
+    width: 80%;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    direction: var(--direction);
+    background-color: var(--bgc);
+}
+#home .content .createPost div h1 {
+    font-size: 1rem;
+    font-weight: normal;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+}
+#home .content .createPost hr {
+    width: 100%;
+}
+
 #home .content .posts {
     width: 100%;
     display: flex;
@@ -134,6 +187,7 @@
 #home .content .posts ul li .postSocial div > button:hover {
     background-color: var(--bgc);
 }
+
 .footerInHome {
     width: 400px;
     overflow: hidden;

@@ -148,4 +148,89 @@ const verifyMessageContent = (v) => {
 
     return null;
 };
-export { verifyLogin, verifyRegister, verifyMessageContent };
+
+const verifyCreatePost = {
+    title: (v) => {
+        if (!v || v.trim() === "") {
+            return {
+                he: "כותרת נדרשת.",
+                en: "Title is required.",
+            };
+        }
+        if (v.length > 50) {
+            return {
+                he: "הכותרת חייבת להיות עד 50 תווים.",
+                en: "Title must be up to 50 characters.",
+            };
+        }
+        return false;
+    },
+    subtitle: (v) => {
+        if (v.length > 50) {
+            return {
+                he: "הכותרת המשנית חייבת להיות עד 50 תווים.",
+                en: "Subtitle must be up to 50 characters.",
+            };
+        }
+        return false;
+    },
+    content: (v) => {
+        if (!v || v.trim() === "") {
+            return {
+                he: "תוכן נדרש.",
+                en: "Content is required.",
+            };
+        }
+        if (v.length > 300) {
+            return {
+                he: "התוכן חורג מאורך מקסימלי של 300 תווים.",
+                en: "Content exceeds the maximum length of 300 characters.",
+            };
+        }
+        return false;
+    },
+    imageSrc: (v) => {
+        if (!v || v.trim() === "") {
+            return {
+                he: "כתובת תמונה נדרשת.",
+                en: "Image URL is required.",
+            };
+        }
+        if (!urlRegex.test(v)) {
+            return {
+                he: "כתובת URL של התמונה לא חוקית.",
+                en: "Invalid image URL.",
+            };
+        }
+        if (v.length > 100) {
+            return {
+                he: "כתובת התמונה חורגת מאורך מקסימלי של 100 תווים.",
+                en: "Image URL exceeds the maximum length of 100 characters.",
+            };
+        }
+        return false;
+    },
+    videoSrc: (v) => {
+        if (!v || v.trim() === "") {
+            return {
+                he: "כתובת וידאו נדרשת.",
+                en: "Video URL is required.",
+            };
+        }
+        if (!urlRegex.test(v)) {
+            return {
+                he: "כתובת URL של הווידאו לא חוקית.",
+                en: "Invalid video URL.",
+            };
+        }
+        if (v.length > 100) {
+            return {
+                he: "כתובת הווידאו חורגת מאורך מקסימלי של 100 תווים.",
+                en: "Video URL exceeds the maximum length of 100 characters.",
+            };
+        }
+        return false;
+    },
+};
+
+export { verifyLogin, verifyRegister, verifyMessageContent, verifyCreatePost };

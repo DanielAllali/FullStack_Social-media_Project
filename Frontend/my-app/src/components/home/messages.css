@@ -60,6 +60,7 @@
 }
 #messages > div ul li div button {
     padding: 0;
+    font-size: 1rem !important;
 }
 #messages > div ul li div button:hover {
     text-decoration: underline;

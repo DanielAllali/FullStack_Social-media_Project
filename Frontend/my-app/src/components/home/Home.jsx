@@ -11,7 +11,6 @@ import CreatePost from "../createPost/CreatePost";
 
 const Home = () => {
     const language = useSelector((state) => state.tiktak.language);
-    const theme = useSelector((state) => state.tiktak.theme);
 
     const [createPostPopup, setCreatePostPopup] = useState(false);
     const [signupPopup, setSignupPopup] = useState(false);
@@ -19,6 +18,7 @@ const Home = () => {
     const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
     const [posts, setPosts] = useState(null);
     const [users, setUsers] = useState(null);
+    const [messages, setMessages] = useState(null);
     const [method, setMethod] = useState(null);
 
     useEffect(() => {
@@ -80,22 +80,47 @@ const Home = () => {
         );
         setMethod("TOGGLE LIKE POST");
     };
+
     return (
-        <div
-            id="home"
-            style={{
-                "--bgc": theme.bgc,
-                "--weak": theme.weak,
-                "--strong-fade": `${theme.strong}4D`,
-                "--strong": theme.strong,
-                "--highlight": theme.highlight_weak,
-                "--highlight_strong": theme.highlight_strong,
-            }}
-        >
+        <div id="home">
             <Header />
             {signupPopup && <SignupPopup setIsDisplay={setSignupPopup} />}
 
             <div className="content">
+                {user && (
+                    <div className="createPost">
+                        <div>
+                            <img
+                                src={user.image.src}
+                                alt={`${user.username} image`}
+                            />
+                            <button
+                                onClick={() => {
+                                    setCreatePostPopup(true);
+                                }}
+                            >
+                                {language === "HE"
+                                    ? `צור פוסט חדש ${user.username}!`
+                                    : `Create new post ${user.username}!`}
+                            </button>
+                        </div>
+                        <hr />
+                        <div>
+                            <h1>
+                                {language === "HE" ? "סרטון" : "Video"}
+                                <i class="bi bi-play-circle"></i>
+                            </h1>
+                            <h1>
+                                {language === "HE" ? "תמונה" : "Image"}
+                                <i class="bi bi-file-image"></i>
+                            </h1>
+                            <h1>
+                                {language === "HE" ? "טקסט" : "Text"}
+                                <i class="bi bi-chat-dots"></i>
+                            </h1>
+                        </div>
+                    </div>
+                )}
                 {posts && users && user && (
                     <div className="posts">
                         <ul>
@@ -157,7 +182,12 @@ const Home = () => {
                                                 {p.likes.length}
                                             </span>
                                             <span>
-                                                {p.messages.length}
+                                                {messages &&
+                                                    messages.filter(
+                                                        (m) =>
+                                                            m.post_id.toString() ===
+                                                            p._id.toString()
+                                                    ).length}
                                                 <h2>
                                                     {language === "HE"
                                                         ? "הודעות"
@@ -167,6 +197,7 @@ const Home = () => {
                                         </div>
                                         <hr />
                                         <Messages
+                                            setMessagesParent={setMessages}
                                             handleToggleLikePost={
                                                 handleToggleLikePost
                                             }
@@ -180,7 +211,10 @@ const Home = () => {
                     </div>
                 )}
             </div>
-            {createPostPopup && <CreatePost />}
+            {createPostPopup && (
+                <CreatePost setCreatePostPopup={setCreatePostPopup} />
+            )}
+
             <div className="footerInHome">
                 <Footer
                     displayLogo={false}

@@ -5,7 +5,12 @@ import useApi, { METHOD } from "../../hooks/useApi";
 import { Link } from "react-router-dom";
 import { verifyMessageContent } from "../../guard";
 
-const Messages = ({ post, handleToggleLikePost, checkIfLiked }) => {
+const Messages = ({
+    post,
+    handleToggleLikePost,
+    checkIfLiked,
+    setMessagesParent,
+}) => {
     const language = useSelector((state) => state.tiktak.language);
     const theme = useSelector((state) => state.tiktak.theme);
 
@@ -21,16 +26,19 @@ const Messages = ({ post, handleToggleLikePost, checkIfLiked }) => {
 
     useEffect(() => {
         const fetchMessages = async () => {
-            await callApi(
-                `http://localhost:9999/messages/post-messages/${post._id.toString()}`
-            );
+            await callApi("http://localhost:9999/messages");
             setMethod("GET ALL MESSAGES");
         };
         fetchMessages();
     }, []);
     useEffect(() => {
         if (apiResponse && !errors && method === "GET ALL MESSAGES") {
-            setMessages(apiResponse.filter((m) => !m.deleted));
+            const postMessages = apiResponse.filter(
+                (m) =>
+                    m.post_id.toString() === post._id.toString() && !m.deleted
+            );
+            setMessages(postMessages);
+            setMessagesParent(apiResponse);
             setMethod(null);
         }
         if (apiResponse && !errors && method === "GET ALL USERS") {
@@ -40,6 +48,7 @@ const Messages = ({ post, handleToggleLikePost, checkIfLiked }) => {
         if (apiResponse && !errors && method === "ADD COMMENT") {
             const updatedMessages = [...messages, apiResponse];
             setMessages(updatedMessages);
+            setMessagesParent((prevMessages) => [...prevMessages, apiResponse]);
         }
     }, [method, errors, apiResponse]);
     useEffect(() => {

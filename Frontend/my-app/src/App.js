@@ -9,6 +9,7 @@ import Home from "./components/home/Home";
 
 function App() {
     const theme = useSelector((state) => state.tiktak.theme);
+    const language = useSelector((state) => state.tiktak.language);
     useEffect(() => {
         document.body.style.setProperty("--backgroundColor", theme.bgc);
     }, [theme.bgc]);
@@ -18,7 +19,13 @@ function App() {
             style={{
                 overflowX: "hidden",
                 "--bgc": theme.bgc,
-                "--color": theme.strong,
+                "--weak": theme.weak,
+                "--weak-fade": `${theme.weak}99`,
+                "--strong-fade": `${theme.strong}4D`,
+                "--strong": theme.strong,
+                "--highlight": theme.highlight_weak,
+                "--highlight_strong": theme.highlight_strong,
+                "--direction": language === "HE" ? "rtl" : "ltr",
             }}
         >
             <div>

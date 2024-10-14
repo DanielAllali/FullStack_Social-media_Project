@@ -1,0 +1,173 @@
+#createPostWrapper {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--weak-fade);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    padding: 20px;
+}
+#createPostWrapper > div.createPostContent {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--weak);
+    box-shadow: 0 4px 8px var(--strong-fade);
+    border-radius: 10px;
+    padding-bottom: 10px;
+}
+#createPostWrapper > div.createPostContent > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+}
+
+#createPostWrapper > div.createPostContent > div h1 {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+}
+
+#createPostWrapper > div.createPostContent > div button {
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    border-radius: 50%;
+    background-color: var(--bgc);
+}
+#createPostWrapper > div.createPostContent > hr {
+    width: 100%;
+    margin-bottom: 20px;
+}
+#createPostWrapper > div.createPostContent form {
+    width: 100%;
+}
+#createPostWrapper > div.createPostContent form table,
+#createPostWrapper > div.createPostContent form table tbody {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+#createPostWrapper > div.createPostContent form table tr {
+    width: 95%;
+    display: flex;
+    gap: 5px;
+}
+
+#createPostWrapper > div.createPostContent form table tr td {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+#createPostWrapper > div.createPostContent form table tr td:only-child {
+    flex: 0 0 100%;
+}
+#createPostWrapper > div.createPostContent form table tr td h2 {
+    order: 3;
+    font-size: 1rem;
+    color: red;
+    height: 20px;
+    visibility: hidden;
+    margin: 0;
+}
+
+#createPostWrapper > div.createPostContent form table tr td h2.show {
+    visibility: visible;
+}
+
+#createPostWrapper > div.createPostContent form table tr td input {
+    width: 100%;
+    height: 40px;
+    order: 2;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: var(--weak);
+    border: 1px solid #ccc;
+    transition: all 0.2s;
+}
+#createPostWrapper > div.createPostContent form table tr td input:focus {
+    outline: none;
+    border-color: var(--highlight_strong, #1877f2);
+}
+#createPostWrapper > div.createPostContent form table tr td label {
+    width: 100px;
+    font-size: 1rem;
+    background-color: var(--weak);
+    order: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    transform: translate(10px, 10px);
+    transition: all 0.5s;
+}
+#createPostWrapper > div.createPostContent form table tr td input:focus + label,
+#createPostWrapper
+    > div.createPostContent
+    form
+    table
+    tr
+    td
+    textarea:focus
+    + label {
+    transform: translate(0);
+    background: none;
+}
+#createPostWrapper > div.createPostContent form table tr td textarea {
+    width: 100%;
+    height: 200px;
+    order: 2;
+    background-color: var(--weak);
+    border: 1px solid #ccc;
+    outline: none;
+    border-radius: 10px;
+    padding: 5px;
+    transition: all 0.2s;
+}
+#createPostWrapper > div.createPostContent form table tr td textarea:focus {
+    outline: none;
+    border-color: var(--highlight_strong, #1877f2);
+}
+#createPostWrapper > div.createPostContent form table tr td button {
+    width: 100%;
+    height: 40px;
+    order: 2;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: var(--highlight);
+    color: var(--weak);
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+#createPostWrapper > div.createPostContent form table tr td button:hover {
+    background-color: var(--highlight_strong);
+}
+#createPostWrapper > div.createPostContent form table tr td button.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+@media (max-width: 600px) {
+    #createPostWrapper > div.createPostContent {
+        width: 300px;
+    }
+}
