@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./header.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { login, logout } from "../TiktakSlice";
 import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
@@ -13,6 +13,7 @@ import Footer from "../footer/Footer";
 const Header = () => {
     const dispatch = useDispatch();
     const location = useLocation();
+    const navigate = useNavigate();
     const [userSettings, setUserSettings] = useState(false);
     const [isSandbox, setIsSandbox] = useState(false);
     const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
@@ -110,7 +111,13 @@ const Header = () => {
                         {userSettings && (
                             <ul>
                                 <li>
-                                    <div>
+                                    <div
+                                        onClick={() => {
+                                            navigate(
+                                                `/user-profile/${user._id}/posts`
+                                            );
+                                        }}
+                                    >
                                         <img
                                             src={user.image.src}
                                             alt={

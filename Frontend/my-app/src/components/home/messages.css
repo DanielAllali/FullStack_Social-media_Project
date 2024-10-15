@@ -3,6 +3,20 @@
     flex-direction: column;
     align-items: center;
 }
+
+button.noUserBtn {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 5px;
+    direction: var(--direction);
+}
+button.noUserBtn:hover {
+    background-color: var(--bgc);
+}
+
 #messages > div {
     display: flex;
     flex-direction: column !important;
@@ -66,6 +80,7 @@
     text-decoration: underline;
     background: none !important;
 }
+
 #messages > div > div {
     display: flex;
     flex-direction: row;

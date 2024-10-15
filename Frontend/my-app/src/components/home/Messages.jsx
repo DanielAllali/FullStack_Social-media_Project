@@ -2,18 +2,22 @@ import React, { useEffect, useRef, useState } from "react";
 import "./messages.css";
 import { useSelector } from "react-redux";
 import useApi, { METHOD } from "../../hooks/useApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { verifyMessageContent } from "../../guard";
+import toast from "react-hot-toast";
 
 const Messages = ({
     post,
     handleToggleLikePost,
     checkIfLiked,
     setMessagesParent,
+    user,
 }) => {
     const language = useSelector((state) => state.tiktak.language);
     const theme = useSelector((state) => state.tiktak.theme);
 
+    const navigate = useNavigate();
+    const [fullUser, setFullUser] = useState(null);
     const [messages, setMessages] = useState(null);
     const [messagesSmall, setMessagesSmall] = useState(null);
     const [messagesPopup, setMessagesPopup] = useState(false);
@@ -50,6 +54,13 @@ const Messages = ({
             setMessages(updatedMessages);
             setMessagesParent((prevMessages) => [...prevMessages, apiResponse]);
         }
+        if (apiResponse && !errors && method === "GET FULL USER") {
+            setFullUser(apiResponse);
+            setMethod(null);
+        }
+        if (apiResponse && !errors && method === "TOGGLE SAVE POST") {
+            updateFullUser();
+        }
     }, [method, errors, apiResponse]);
     useEffect(() => {
         if (messages) {
@@ -69,6 +80,15 @@ const Messages = ({
             fetchMessages();
         }
     }, [messages]);
+    useEffect(() => {
+        if (user) {
+            updateFullUser();
+        }
+    }, []);
+    const updateFullUser = async () => {
+        await callApi(`http://localhost:9999/users/${user._id}`);
+        setMethod("GET FULL USER");
+    };
     const getRelativeTime = (timestamp) => {
         const now = new Date();
         const date = new Date(timestamp);
@@ -112,29 +132,83 @@ const Messages = ({
             inputRef.current.focus();
         }
     };
+    const handleToggleSavePost = async () => {
+        if (user) {
+            await callApi(
+                `http://localhost:9999/users/save-post/${post._id}`,
+                METHOD.PATCH,
+                null,
+                { Authorization: localStorage.getItem("jwt-token") }
+            );
+            setMethod("TOGGLE SAVE POST");
+        } else {
+            toast.error("Login/Signup to save post.");
+        }
+    };
+    const checkIfSaved = () => {
+        if (fullUser) {
+            for (const p of fullUser.saved_posts) {
+                if (p === post._id.toString()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
     return (
         <>
-            <div className="likeComment">
+            {user && (
+                <>
+                    <div className="likeComment">
+                        <button
+                            onClick={() => {
+                                handleToggleLikePost(post);
+                            }}
+                        >
+                            {checkIfLiked(post)
+                                ? language === "HE"
+                                    ? "להסיר לייק"
+                                    : "Unlike"
+                                : language === "HE"
+                                ? "לייק"
+                                : "Like"}
+                            <i className="bi bi-hand-thumbs-up"></i>
+                        </button>
+                        <button onClick={commentClicked}>
+                            {language === "HE" ? "הודעה" : "Comment"}
+                            <i className="bi bi-chat"></i>
+                        </button>
+                        <button onClick={handleToggleSavePost}>
+                            {!checkIfSaved()
+                                ? language === "HE"
+                                    ? "שמור"
+                                    : "Save"
+                                : language === "HE"
+                                ? "הסר משמורים"
+                                : "Unsave"}
+                            {!checkIfSaved() && (
+                                <i className="bi bi-bookmark-plus"></i>
+                            )}
+                            {checkIfSaved() && (
+                                <i class="bi bi-bookmark-dash"></i>
+                            )}
+                        </button>
+                    </div>
+                    <hr />
+                </>
+            )}
+            {!user && (
                 <button
+                    className="noUserBtn"
                     onClick={() => {
-                        handleToggleLikePost(post);
+                        navigate("/signup");
                     }}
                 >
-                    {checkIfLiked(post)
-                        ? language === "HE"
-                            ? "להסיר לייק"
-                            : "Unlike"
-                        : language === "HE"
-                        ? "לייק"
-                        : "Like"}
-                    <i className="bi bi-hand-thumbs-up"></i>
+                    {language === "HE"
+                        ? "התחברות/הרשמה בשביל לעשות לייק להגיב ועוד..."
+                        : "Login/Signup to like/comment etc..."}
                 </button>
-                <button onClick={commentClicked}>
-                    {language === "HE" ? "הודעה" : "Comment"}
-                    <i className="bi bi-chat"></i>
-                </button>
-            </div>
-            <hr />
+            )}
             <div
                 id="messages"
                 style={{
@@ -202,38 +276,49 @@ const Messages = ({
                             )}
                         </ul>
                         <div>
-                            <div>
-                                <input
-                                    ref={inputRef}
-                                    type="text"
-                                    value={messageContent}
-                                    onChange={(e) => {
-                                        setMessageContent(e.target.value);
-                                        setInputError(
-                                            verifyMessageContent(e.target.value)
-                                        );
-                                    }}
-                                    placeholder={
-                                        language === "HE"
-                                            ? "כתיבת תגובה ציבורית..."
-                                            : "Add public comment..."
-                                    }
-                                />
-                                {inputError && (
-                                    <h2>
-                                        {language === "HE"
-                                            ? inputError.he
-                                            : inputError.en}
-                                    </h2>
-                                )}
-                            </div>
-                            <button
-                                onClick={() => {
-                                    handleAddComment(post, messageContent);
-                                }}
-                            >
-                                <i className="bi bi-send"></i>
-                            </button>
+                            {user && (
+                                <>
+                                    <div>
+                                        <input
+                                            ref={inputRef}
+                                            type="text"
+                                            value={messageContent}
+                                            onChange={(e) => {
+                                                setMessageContent(
+                                                    e.target.value
+                                                );
+                                                setInputError(
+                                                    verifyMessageContent(
+                                                        e.target.value
+                                                    )
+                                                );
+                                            }}
+                                            placeholder={
+                                                language === "HE"
+                                                    ? "כתיבת תגובה ציבורית..."
+                                                    : "Add public comment..."
+                                            }
+                                        />
+                                        {inputError && (
+                                            <h2>
+                                                {language === "HE"
+                                                    ? inputError.he
+                                                    : inputError.en}
+                                            </h2>
+                                        )}
+                                    </div>
+                                    <button
+                                        onClick={() => {
+                                            handleAddComment(
+                                                post,
+                                                messageContent
+                                            );
+                                        }}
+                                    >
+                                        <i className="bi bi-send"></i>
+                                    </button>
+                                </>
+                            )}
                             <Link>
                                 <button
                                     onClick={() => {

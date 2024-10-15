@@ -46,15 +46,29 @@
     justify-content: start;
     direction: var(--direction);
     background-color: var(--bgc);
+    transition: all 0.2s;
+}
+#home .content .createPost div button:hover {
+    background-color: var(--strong-fade);
 }
 #home .content .createPost div h1 {
     font-size: 1rem;
-    font-weight: normal;
+    font-weight: bold;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     gap: 5px;
+}
+#home .content .createPost div h1 i {
+    color: red;
+    font-size: 1.4rem;
+}
+#home .content .createPost div h1 + h1 i {
+    color: green;
+}
+#home .content .createPost div h1 + h1 + h1 i {
+    color: orange;
 }
 #home .content .createPost hr {
     width: 100%;
@@ -109,6 +123,12 @@
 }
 #home .content .posts ul li .postHeader div div h1 {
     font-size: 1rem;
+}
+#home .content .posts ul li .postHeader div div h1.usernameLink {
+    cursor: pointer;
+}
+#home .content .posts ul li .postHeader div div h1.usernameLink:hover {
+    text-decoration: underline;
 }
 #home .content .posts ul li .postHeader div div h4 {
     color: #bbb;

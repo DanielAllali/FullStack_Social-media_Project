@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import Signup from "./components/signup/Signup";
 import Login from "./components/login/Login";
 import Home from "./components/home/Home";
+import UserProfile from "./components/userProfile/UserProfile";
 
 function App() {
     const theme = useSelector((state) => state.tiktak.theme);
@@ -36,6 +37,10 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
+                    <Route
+                        path="/user-profile/:userId/:tab"
+                        element={<UserProfile />}
+                    />
                 </Routes>
             </BrowserRouter>
         </div>

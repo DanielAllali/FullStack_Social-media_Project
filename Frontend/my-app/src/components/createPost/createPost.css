@@ -46,6 +46,10 @@
     font-size: 24px;
     border-radius: 50%;
     background-color: var(--bgc);
+    transition: all 0.2s;
+}
+#createPostWrapper > div.createPostContent > div button:hover {
+    background-color: var(--strong-fade);
 }
 #createPostWrapper > div.createPostContent > hr {
     width: 100%;

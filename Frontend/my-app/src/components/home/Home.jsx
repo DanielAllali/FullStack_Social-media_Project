@@ -9,19 +9,21 @@ import useApi, { METHOD } from "../../hooks/useApi";
 import Messages from "./Messages";
 import CreatePost from "../createPost/CreatePost";
 import RefreshBtn from "../refreshBtn/RefreshBtn";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
     const language = useSelector((state) => state.tiktak.language);
+    const navigate = useNavigate();
 
     const [createPostPopup, setCreatePostPopup] = useState(false);
     const [signupPopup, setSignupPopup] = useState(false);
-    const [user, setUser] = useState(null);
     const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
     const [posts, setPosts] = useState(null);
     const [users, setUsers] = useState(null);
     const [messages, setMessages] = useState(null);
     const [displayRefreshBtn, setDisplayRefreshBtn] = useState(false);
     const [method, setMethod] = useState(null);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem("jwt-token");
@@ -72,12 +74,16 @@ const Home = () => {
         }
     }, [posts]);
     const checkIfLiked = (post) => {
-        for (let i = 0; i < post.likes.length; i++) {
-            if (post.likes[i].toString() === user._id.toString()) {
-                return true;
+        if (user && post) {
+            for (let i = 0; i < post.likes.length; i++) {
+                if (post.likes[i].toString() === user._id.toString()) {
+                    return true;
+                }
             }
+            return false;
+        } else {
+            return false;
         }
-        return false;
     };
     const handleToggleLikePost = async (post) => {
         await callApi(
@@ -129,7 +135,7 @@ const Home = () => {
                         </div>
                     </div>
                 )}
-                {posts && users && user && (
+                {posts && users && (
                     <div className="posts">
                         <ul>
                             {posts.map((p) => (
@@ -147,7 +153,20 @@ const Home = () => {
                                                     }
                                                     alt="image"
                                                 />
-                                                <h1>
+                                                <h1
+                                                    className="usernameLink"
+                                                    onClick={() => {
+                                                        navigate(
+                                                            `/user-profile/${
+                                                                users.filter(
+                                                                    (u) =>
+                                                                        u._id.toString() ===
+                                                                        p.user_id.toString()
+                                                                )[0]._id
+                                                            }/posts`
+                                                        );
+                                                    }}
+                                                >
                                                     {
                                                         users.filter(
                                                             (u) =>
@@ -205,6 +224,7 @@ const Home = () => {
                                         </div>
                                         <hr />
                                         <Messages
+                                            user={user}
                                             setMessagesParent={setMessages}
                                             handleToggleLikePost={
                                                 handleToggleLikePost
