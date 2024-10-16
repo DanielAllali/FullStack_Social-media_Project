@@ -27,15 +27,22 @@ const Header = () => {
 
     useEffect(() => {
         const token = localStorage.getItem("jwt-token");
-        if (!user && token) {
-            try {
-                dispatch(login(jwtDecode(token)));
-            } catch (err) {
-                toast.error(err.message);
+        try {
+            if (token) {
+                const { exp } = jwtDecode(token);
+                const currentTime = Math.floor(Date.now() / 1000);
+                if (!(exp < currentTime)) {
+                    dispatch(login(jwtDecode(token)));
+                } else {
+                    localStorage.removeItem("jwt-token");
+                }
             }
+        } catch (err) {
+            toast.error(err.message);
         }
         callApi("http://localhost:9999/posts");
     }, []);
+
     useEffect(() => {
         if (apiResponse && !errors) {
             setPosts(apiResponse);
@@ -195,13 +202,13 @@ const Header = () => {
                     <ul>
                         <li>
                             <Link
+                                to="/"
                                 className={
                                     location.pathname === "/" ? "current" : ""
                                 }
                             >
                                 <i className="bi bi-house"></i>
                                 <h4>
-                                    {" "}
                                     {language === "HE" ? "דף הבית" : "Home"}
                                 </h4>
                             </Link>

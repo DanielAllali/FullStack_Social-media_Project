@@ -6,10 +6,11 @@
     align-items: center;
     justify-content: space-between;
     background-color: var(--weak);
-    box-shadow: 0 4px 12px var(--strong-fade);
+    box-shadow: 0 4px 12px #0000004d;
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 2;
 }
 #header * {
     color: var(--strong);

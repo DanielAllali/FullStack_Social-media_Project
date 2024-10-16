@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./home.css";
 import { jwtDecode } from "jwt-decode";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SignupPopup from "./SignupPopup";
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
@@ -10,10 +10,14 @@ import Messages from "./Messages";
 import CreatePost from "../createPost/CreatePost";
 import RefreshBtn from "../refreshBtn/RefreshBtn";
 import { useNavigate } from "react-router-dom";
+import { login } from "../TiktakSlice";
+import toast from "react-hot-toast";
 
 const Home = () => {
     const language = useSelector((state) => state.tiktak.language);
+    const user = useSelector((state) => state.tiktak.user);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [createPostPopup, setCreatePostPopup] = useState(false);
     const [signupPopup, setSignupPopup] = useState(false);
@@ -23,20 +27,22 @@ const Home = () => {
     const [messages, setMessages] = useState(null);
     const [displayRefreshBtn, setDisplayRefreshBtn] = useState(false);
     const [method, setMethod] = useState(null);
-    const [user, setUser] = useState(null);
-
     useEffect(() => {
         const token = localStorage.getItem("jwt-token");
-        if (token) {
-            const { exp } = jwtDecode(token);
-            const currentTime = Math.floor(Date.now() / 1000);
-            if (!(exp < currentTime)) {
-                setUser(jwtDecode(token));
+        try {
+            if (token) {
+                const { exp } = jwtDecode(token);
+                const currentTime = Math.floor(Date.now() / 1000);
+                if (!(exp < currentTime)) {
+                    dispatch(login(jwtDecode(token)));
+                } else {
+                    localStorage.removeItem("jwt-token");
+                }
             } else {
-                localStorage.removeItem("jwt-token");
+                setSignupPopup(true);
             }
-        } else {
-            setSignupPopup(true);
+        } catch (err) {
+            toast.error(err.message);
         }
         const fetchPosts = async () => {
             await callApi("http://localhost:9999/posts");

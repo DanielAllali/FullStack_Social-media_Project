@@ -1,0 +1,188 @@
+#userProfile {
+    width: 100vw;
+    margin-top: 100px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+}
+
+#userProfile header {
+    width: 100%;
+    height: 30vh;
+    padding: 0;
+    margin: 0;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    background-color: var(--weak);
+    box-shadow: 0px 2px 5px #0000004d;
+    position: relative;
+}
+
+#userProfile header > div {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#userProfile header > div > div {
+    display: flex;
+    flex-direction: row;
+}
+
+#userProfile header > div > div > div:first-child {
+    width: 70px;
+    height: 70px;
+    background-color: var(--bgc);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+#userProfile header > div > div > div img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+#userProfile header > div > div div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+#userProfile header > div > div div h1 {
+    font-size: 1rem;
+}
+
+#userProfile header > div > div div h2 {
+    font-size: 1rem;
+    color: var(--strong-fade);
+}
+
+#userProfile header > div button {
+    font-size: 1rem;
+    background-color: var(--highlight);
+    color: var(--weak);
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+#userProfile header > div button:hover {
+    background-color: var(--highlight_strong);
+    transform: scale(1.05);
+}
+
+#userProfile header > div button:active {
+    transform: scale(0.95);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.1s ease;
+}
+
+#userProfile header > div button::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.3s ease;
+}
+
+#userProfile header > div button:hover::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#userProfile header > div button i {
+    color: var(--weak);
+    font-size: 1.5rem;
+}
+
+#userProfile header hr {
+    width: 60%;
+}
+
+#userProfile header nav {
+    width: 60%;
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+
+#userProfile header nav ul {
+    display: flex;
+    justify-content: center;
+}
+#userProfile header nav ul li {
+    padding: 10px;
+    font-size: 1.2rem;
+    list-style: none;
+}
+#userProfile header nav ul li.active {
+    font-weight: bold;
+    color: var(--highlight);
+    border-bottom: 3px solid var(--highlight);
+}
+
+#userProfile header nav ul li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+@media (max-width: 770px) {
+    #userProfile {
+        margin-top: 70px;
+    }
+    #userProfile header > div {
+        width: 80%;
+    }
+    #userProfile header hr {
+        width: 80%;
+    }
+
+    #userProfile header nav {
+        width: 80%;
+    }
+}
+@media (max-width: 460px) {
+    #userProfile header > div button {
+        font-size: 0.7rem;
+        padding: 5px;
+        border-radius: 15px;
+    }
+    #userProfile header > div > div div h1 {
+        font-size: 0.7rem;
+    }
+
+    #userProfile header > div > div div h2 {
+        font-size: 0.7rem;
+    }
+    #userProfile header nav ul li {
+        padding: 10px;
+        font-size: 0.8rem;
+    }
+}

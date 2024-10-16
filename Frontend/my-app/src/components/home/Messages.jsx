@@ -190,7 +190,7 @@ const Messages = ({
                                 <i className="bi bi-bookmark-plus"></i>
                             )}
                             {checkIfSaved() && (
-                                <i class="bi bi-bookmark-dash"></i>
+                                <i className="bi bi-bookmark-dash"></i>
                             )}
                         </button>
                     </div>
