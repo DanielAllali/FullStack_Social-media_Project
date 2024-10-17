@@ -6,12 +6,13 @@ import SignupPopup from "./SignupPopup";
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
 import useApi, { METHOD } from "../../hooks/useApi";
-import Messages from "./Messages";
+import Messages from "../post/Messages";
 import CreatePost from "../createPost/CreatePost";
 import RefreshBtn from "../refreshBtn/RefreshBtn";
 import { useNavigate } from "react-router-dom";
 import { login } from "../TiktakSlice";
 import toast from "react-hot-toast";
+import Post from "../post/Post";
 
 const Home = () => {
     const language = useSelector((state) => state.tiktak.language);
@@ -146,99 +147,7 @@ const Home = () => {
                         <ul>
                             {posts.map((p) => (
                                 <li key={p._id}>
-                                    <div className="postHeader">
-                                        <div>
-                                            <div>
-                                                <img
-                                                    src={
-                                                        users.filter(
-                                                            (u) =>
-                                                                u._id.toString() ===
-                                                                p.user_id.toString()
-                                                        )[0].image?.src
-                                                    }
-                                                    alt="image"
-                                                />
-                                                <h1
-                                                    className="usernameLink"
-                                                    onClick={() => {
-                                                        navigate(
-                                                            `/user-profile/${
-                                                                users.filter(
-                                                                    (u) =>
-                                                                        u._id.toString() ===
-                                                                        p.user_id.toString()
-                                                                )[0]._id
-                                                            }/posts`
-                                                        );
-                                                    }}
-                                                >
-                                                    {
-                                                        users.filter(
-                                                            (u) =>
-                                                                u._id.toString() ===
-                                                                p.user_id.toString()
-                                                        )[0]?.username
-                                                    }
-                                                </h1>
-                                            </div>
-                                            <div>
-                                                <h1>{p.title}</h1>
-                                                <h4>{p.subtitle}</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="postBody">
-                                        <div>
-                                            {p.image?.src && (
-                                                <img
-                                                    src={p.image?.src}
-                                                    alt="Image"
-                                                />
-                                            )}
-                                            {p.video?.src && !p.image?.src && (
-                                                <video
-                                                    src={p.video?.src}
-                                                ></video>
-                                            )}
-                                        </div>
-                                        <p>{p.content}</p>
-                                    </div>
-                                    <div className="postSocial">
-                                        <div>
-                                            <span>
-                                                {checkIfLiked(p) ? (
-                                                    <i className="bi bi-hand-thumbs-up-fill"></i>
-                                                ) : (
-                                                    <i className="bi bi-hand-thumbs-up"></i>
-                                                )}
-                                                {p.likes.length}
-                                            </span>
-                                            <span>
-                                                {messages &&
-                                                    messages.filter(
-                                                        (m) =>
-                                                            m.post_id.toString() ===
-                                                            p._id.toString()
-                                                    ).length}
-                                                <h2>
-                                                    {language === "HE"
-                                                        ? "הודעות"
-                                                        : "Comments"}
-                                                </h2>
-                                            </span>
-                                        </div>
-                                        <hr />
-                                        <Messages
-                                            user={user}
-                                            setMessagesParent={setMessages}
-                                            handleToggleLikePost={
-                                                handleToggleLikePost
-                                            }
-                                            checkIfLiked={checkIfLiked}
-                                            post={p}
-                                        />
-                                    </div>
+                                    <Post post={p} />
                                 </li>
                             ))}
                         </ul>
@@ -258,6 +167,7 @@ const Home = () => {
                     displayLogo={false}
                     displayNav={false}
                     marginTop={false}
+                    width="400px"
                 />
             </div>
         </div>

@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import useApi, { METHOD } from "../../hooks/useApi";
 import toast from "react-hot-toast";
 import Footer from "../footer/Footer";
+import Post from "../post/Post";
 
 const UserProfile = () => {
     const language = useSelector((state) => state.tiktak.language);
@@ -14,16 +15,25 @@ const UserProfile = () => {
     const { tab } = useParams();
     const { userId } = useParams();
 
+    const [users, setUsers] = useState(null);
+    const [posts, setPosts] = useState(null);
+
     const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
     const [method, setMethod] = useState(null);
     const [userProfile, setUserProfile] = useState(null);
 
     useEffect(() => {
-        const fetchUser = async () => {
+        const fetchData = async () => {
             await callApi(`http://localhost:9999/users/${userId}`, METHOD.GET);
             setMethod("GET USER");
+
+            await callApi("http://localhost:9999/users", METHOD.GET);
+            setMethod("GET ALL USERS");
+
+            await callApi("http://localhost:9999/posts", METHOD.GET);
+            setMethod("GET ALL POSTS");
         };
-        fetchUser();
+        fetchData();
     }, []);
     useEffect(() => {
         if (apiResponse && !errors && method === "GET USER") {
@@ -34,6 +44,14 @@ const UserProfile = () => {
             let newUser = userProfile;
             newUser.followers = apiResponse.followers;
             setUserProfile(newUser);
+            setMethod(null);
+        }
+        if (apiResponse && !errors && method === "GET ALL USERS") {
+            setUsers(apiResponse);
+            setMethod(null);
+        }
+        if (apiResponse && !errors && method === "GET ALL POSTS") {
+            setPosts(apiResponse);
             setMethod(null);
         }
         if (!apiResponse && errors && method !== null) {
@@ -92,7 +110,10 @@ const UserProfile = () => {
                                     <i className="bi bi-pencil"></i>
                                 </button>
                             ) : checkIfFollow() ? (
-                                <button onClick={handleToggleFollowUser}>
+                                <button
+                                    className="followed"
+                                    onClick={handleToggleFollowUser}
+                                >
                                     {language === "HE"
                                         ? "הסר עוקב"
                                         : "Unfollow"}
@@ -106,6 +127,40 @@ const UserProfile = () => {
                             )}
                         </div>
                         <hr />
+                        {users && posts && (
+                            <div>
+                                <h1>
+                                    <span>
+                                        {
+                                            posts.filter(
+                                                (p) =>
+                                                    p.user_id.toString() ===
+                                                    userProfile._id.toString()
+                                            ).length
+                                        }
+                                    </span>
+                                    {language === "HE" ? "פוסטים" : "Posts"}
+                                </h1>
+                                <h1>
+                                    <span>{userProfile.followers.length}</span>
+                                    {language === "HE" ? "עוקבים" : "Followers"}
+                                </h1>
+                                <h1>
+                                    <span>
+                                        {
+                                            users.filter(
+                                                (u) =>
+                                                    u.followers.toString() ===
+                                                    userProfile._id.toString()
+                                            ).length
+                                        }
+                                    </span>
+                                    {language === "HE"
+                                        ? "עוקב אחרי"
+                                        : "Following"}
+                                </h1>
+                            </div>
+                        )}
                         <nav>
                             <ul>
                                 <li className={tab === "posts" ? "active" : ""}>
@@ -115,35 +170,99 @@ const UserProfile = () => {
                                         {language === "HE" ? "פוסטים" : "Posts"}
                                     </Link>
                                 </li>
+
+                                {String(userProfile._id) ===
+                                    String(user._id) && (
+                                    <>
+                                        <li
+                                            className={
+                                                tab === "saved-posts"
+                                                    ? "active"
+                                                    : ""
+                                            }
+                                        >
+                                            <Link
+                                                to={`/user-profile/${userProfile._id}/saved-posts`}
+                                            >
+                                                {language === "HE"
+                                                    ? "פוסטים שמורים"
+                                                    : "Saved posts"}
+                                            </Link>
+                                        </li>
+                                        <li
+                                            className={
+                                                tab === "liked-posts"
+                                                    ? "active"
+                                                    : ""
+                                            }
+                                        >
+                                            <Link
+                                                to={`/user-profile/${userProfile._id}/liked-posts`}
+                                            >
+                                                {language === "HE"
+                                                    ? "פוסטים אהובים"
+                                                    : "Liked posts"}
+                                            </Link>
+                                        </li>
+                                    </>
+                                )}
                                 <li
                                     className={
-                                        tab === "saved-posts" ? "active" : ""
+                                        tab === "followers" ? "active" : ""
                                     }
                                 >
                                     <Link
-                                        to={`/user-profile/${userProfile._id}/saved-posts`}
+                                        to={`/user-profile/${userProfile._id}/followers`}
                                     >
                                         {language === "HE"
-                                            ? "פוסטים שמורים"
-                                            : "Saved posts"}
+                                            ? "עוקבים"
+                                            : "Followers"}
                                     </Link>
                                 </li>
                                 <li
                                     className={
-                                        tab === "liked-posts" ? "active" : ""
+                                        tab === "following" ? "active" : ""
                                     }
                                 >
                                     <Link
-                                        to={`/user-profile/${userProfile._id}/liked-posts`}
+                                        to={`/user-profile/${userProfile._id}/following`}
                                     >
                                         {language === "HE"
-                                            ? "פוסטים אהובים"
-                                            : "Liked posts"}
+                                            ? "עוקב אחרי"
+                                            : "Following"}
                                     </Link>
                                 </li>
                             </ul>
                         </nav>
                     </header>
+                    {tab === "posts" && posts && (
+                        <div className="posts">
+                            <ul>
+                                {posts
+                                    .filter(
+                                        (p) =>
+                                            p.user_id.toString() ===
+                                            userProfile._id.toString()
+                                    )
+                                    .map((p) => (
+                                        <li key={p._id}>
+                                            <Post post={p} />
+                                        </li>
+                                    ))}
+                                {posts.filter(
+                                    (p) =>
+                                        p.user_id.toString() ===
+                                        userProfile._id.toString()
+                                ).length < 1 && (
+                                    <h2>
+                                        {language === "HE"
+                                            ? "למשתמש הזה איו פוסטים..."
+                                            : "This user has no posts..."}
+                                    </h2>
+                                )}
+                            </ul>
+                        </div>
+                    )}
                 </>
             )}
             <div className="footerInHome">
@@ -151,6 +270,7 @@ const UserProfile = () => {
                     displayLogo={false}
                     displayNav={false}
                     marginTop={false}
+                    width="400px"
                 />
             </div>
         </div>

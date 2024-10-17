@@ -1,0 +1,120 @@
+#post {
+    width: 100%;
+}
+#post div {
+    width: 100%;
+    background-color: var(--weak);
+    padding: 5px;
+    border-radius: 10px;
+}
+#post div .postHeader {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+#post div .postHeader div {
+    display: flex;
+    flex-direction: column;
+}
+#post div .postHeader div div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+}
+#post div .postHeader div div img {
+    width: 50px;
+    height: 50px;
+    background-color: var(--bgc);
+    padding: 5px;
+    border-radius: 50%;
+}
+#post div .postHeader div div h1 {
+    font-size: 1rem;
+}
+#post div .postHeader div div h1.usernameLink {
+    cursor: pointer;
+}
+#post div .postHeader div div h1.usernameLink:hover {
+    text-decoration: underline;
+}
+#post div .postHeader div div h4 {
+    color: #bbb;
+}
+#post div .postHeader div div + div {
+    border: none;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 5px;
+}
+#post div .postBody {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+#post div .postBody div {
+    width: 90%;
+    min-height: 400px;
+    background-color: var(--bgc);
+    margin: 0 auto;
+}
+#post div .postBody div img {
+    width: 90%;
+}
+#post div .postBody p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#post div .postSocial {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+#post div .postSocial div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+#post div .postSocial div > span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+#post div .postSocial div > span h2 {
+    font-size: 1rem;
+}
+
+#post div .postSocial div > span i {
+    color: var(--highlight);
+    font-size: 1.5rem;
+}
+#post div .postSocial div.likeComment {
+    justify-content: space-evenly;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#post div .postSocial div > button {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+#post div .postSocial div > button:hover {
+    background-color: var(--bgc);
+}

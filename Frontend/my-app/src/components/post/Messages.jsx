@@ -5,6 +5,7 @@ import useApi, { METHOD } from "../../hooks/useApi";
 import { Link, useNavigate } from "react-router-dom";
 import { verifyMessageContent } from "../../guard";
 import toast from "react-hot-toast";
+import Loader from "../loader/Loader.jsx";
 
 const Messages = ({
     post,
@@ -29,12 +30,22 @@ const Messages = ({
     const inputRef = useRef(null);
 
     useEffect(() => {
-        const fetchMessages = async () => {
+        const fetchData = async () => {
+            await callApi("http://localhost:9999/users");
+            setMethod("GET ALL USERS");
+        };
+        fetchData();
+        if (user) {
+            updateFullUser();
+        }
+    }, []);
+    useEffect(() => {
+        const fetchData = async () => {
             await callApi("http://localhost:9999/messages");
             setMethod("GET ALL MESSAGES");
         };
-        fetchMessages();
-    }, []);
+        fetchData();
+    }, [users]);
     useEffect(() => {
         if (apiResponse && !errors && method === "GET ALL MESSAGES") {
             const postMessages = apiResponse.filter(
@@ -72,19 +83,9 @@ const Messages = ({
                     ? [newMessages[0]]
                     : []
             );
-
-            const fetchMessages = async () => {
-                await callApi("http://localhost:9999/users");
-                setMethod("GET ALL USERS");
-            };
-            fetchMessages();
         }
     }, [messages]);
-    useEffect(() => {
-        if (user) {
-            updateFullUser();
-        }
-    }, []);
+
     const updateFullUser = async () => {
         await callApi(`http://localhost:9999/users/${user._id}`);
         setMethod("GET FULL USER");
@@ -172,7 +173,11 @@ const Messages = ({
                                 : language === "HE"
                                 ? "לייק"
                                 : "Like"}
-                            <i className="bi bi-hand-thumbs-up"></i>
+                            {checkIfLiked(post) ? (
+                                <i className="bi bi-hand-thumbs-up-fill"></i>
+                            ) : (
+                                <i className="bi bi-hand-thumbs-up"></i>
+                            )}
                         </button>
                         <button onClick={commentClicked}>
                             {language === "HE" ? "הודעה" : "Comment"}
@@ -190,7 +195,7 @@ const Messages = ({
                                 <i className="bi bi-bookmark-plus"></i>
                             )}
                             {checkIfSaved() && (
-                                <i className="bi bi-bookmark-dash"></i>
+                                <i className="bi bi-bookmark-dash-fill"></i>
                             )}
                         </button>
                     </div>
@@ -221,6 +226,7 @@ const Messages = ({
                     "--highlight_strong": theme.highlight_strong,
                 }}
             >
+                {isLoading && <Loader size={40} />}
                 {messagesSmall && messages && users && (
                     <div>
                         <ul>

@@ -16,7 +16,22 @@ button.noUserBtn {
 button.noUserBtn:hover {
     background-color: var(--bgc);
 }
-
+div.likeComment button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+div.likeComment button i.bi-bookmark-dash-fill {
+    color: gold !important;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+div.likeComment button i.bi-hand-thumbs-up-fill {
+    color: var(--highlight) !important;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
 #messages > div {
     display: flex;
     flex-direction: column !important;
@@ -76,6 +91,7 @@ button.noUserBtn:hover {
     padding: 0;
     font-size: 1rem !important;
 }
+
 #messages > div ul li div button:hover {
     text-decoration: underline;
     background: none !important;
@@ -173,6 +189,11 @@ button.noUserBtn:hover {
     }
     #messages > div.messagesWrapper > div ul {
         max-height: 60vh;
+    }
+}
+@media (max-width: 550px) {
+    .likeComment button {
+        font-size: 0.8rem !important;
     }
 }
 @media (max-width: 450px) {
