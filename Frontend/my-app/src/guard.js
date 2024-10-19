@@ -199,10 +199,10 @@ const verifyCreatePost = {
                 en: "Invalid image URL.",
             };
         }
-        if (v.length > 100) {
+        if (v.length > 300) {
             return {
-                he: "כתובת התמונה חורגת מאורך מקסימלי של 100 תווים.",
-                en: "Image URL exceeds the maximum length of 100 characters.",
+                he: "כתובת התמונה חורגת מאורך מקסימלי של 300 תווים.",
+                en: "Image URL exceeds the maximum length of 300 characters.",
             };
         }
         return false;
@@ -217,10 +217,10 @@ const verifyCreatePost = {
                 en: "Invalid video URL.",
             };
         }
-        if (v.length > 100) {
+        if (v.length > 300) {
             return {
-                he: "כתובת הווידאו חורגת מאורך מקסימלי של 100 תווים.",
-                en: "Video URL exceeds the maximum length of 100 characters.",
+                he: "כתובת הווידאו חורגת מאורך מקסימלי של 300 תווים.",
+                en: "Video URL exceeds the maximum length of 300 characters.",
             };
         }
         return false;

@@ -50,6 +50,7 @@ app.post("/posts", registered_user_guard, async (req, res) => {
             video,
             user_id,
         });
+
         await newPost.save();
         res.send(newPost);
     } catch (err) {

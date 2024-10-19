@@ -122,7 +122,7 @@ const Post = ({ post }) => {
                         </div>
                     </div>
                     <div className="postBody">
-                        {p.image.url && isImageValid && (
+                        {p.image.src && isImageValid && (
                             <div>
                                 {p.image?.src && (
                                     <img src={p.image?.src} alt="Image" />
@@ -157,14 +157,16 @@ const Post = ({ post }) => {
                             </span>
                         </div>
                         <hr />
-                        {user && p && (
-                            <Messages
-                                user={user}
-                                setMessagesParent={setMessages}
-                                handleToggleLikePost={handleToggleLikePost}
-                                checkIfLiked={checkIfLiked}
-                                post={p}
-                            />
+                        {p && (
+                            <>
+                                <Messages
+                                    user={user}
+                                    setMessagesParent={setMessages}
+                                    handleToggleLikePost={handleToggleLikePost}
+                                    checkIfLiked={checkIfLiked}
+                                    post={p}
+                                />
+                            </>
                         )}
                     </div>
                 </div>

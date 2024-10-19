@@ -71,7 +71,7 @@
     color: orange;
 }
 #home .content .createPost hr {
-    width: 100%;
+    width: 90%;
 }
 
 #home .content .posts {
@@ -80,20 +80,36 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 20px;
 }
+#home .content .posts > div {
+    width: 100%;
+    border-radius: 10px;
+    background-color: var(--weak);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), 0 16px 40px rgba(0, 0, 0, 0.05);
+}
+
 #home .content .posts ul {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     gap: 50px;
     list-style-type: none;
 }
-#home .content .posts ul li {
-    width: 100%;
-}
 
+#home .content .posts > ul > li {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), 0 16px 40px rgba(0, 0, 0, 0.05);
+}
+#home .content .posts > ul li {
+    width: 100%;
+    border-radius: 10px;
+}
 @media (max-width: 860px) {
     #home .content {
         width: 500px;

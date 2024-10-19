@@ -197,22 +197,20 @@ const Header = () => {
                     </div>
                 )}
             </div>
-            {user && (
-                <nav>
-                    <ul>
-                        <li>
-                            <Link
-                                to="/"
-                                className={
-                                    location.pathname === "/" ? "current" : ""
-                                }
-                            >
-                                <i className="bi bi-house"></i>
-                                <h4>
-                                    {language === "HE" ? "דף הבית" : "Home"}
-                                </h4>
-                            </Link>
-                        </li>
+            <nav>
+                <ul>
+                    <li>
+                        <Link
+                            to="/"
+                            className={
+                                location.pathname === "/" ? "current" : ""
+                            }
+                        >
+                            <i className="bi bi-house"></i>
+                            <h4>{language === "HE" ? "דף הבית" : "Home"}</h4>
+                        </Link>
+                    </li>
+                    {user && (
                         <li>
                             <Link
                                 className={
@@ -228,23 +226,20 @@ const Header = () => {
                                 </h4>
                             </Link>
                         </li>
-                        <li>
-                            <Link
-                                className={
-                                    location.pathname === "/search"
-                                        ? "current"
-                                        : ""
-                                }
-                            >
-                                <i className="bi bi-search"></i>
-                                <h4>
-                                    {language === "HE" ? "חיפוש" : "Search"}
-                                </h4>
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>
-            )}
+                    )}
+                    <li>
+                        <Link
+                            className={
+                                location.pathname === "/search" ? "current" : ""
+                            }
+                        >
+                            <i className="bi bi-search"></i>
+                            <h4>{language === "HE" ? "חיפוש" : "Search"}</h4>
+                        </Link>
+                    </li>
+                </ul>
+            </nav>
+
             <div className="search">
                 <div>
                     <input

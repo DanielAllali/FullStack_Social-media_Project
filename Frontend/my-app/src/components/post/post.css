@@ -24,6 +24,7 @@
     gap: 10px;
     padding: 5px;
     border-bottom: 1px solid #ccc;
+    border-radius: 0;
 }
 #post div .postHeader div div img {
     width: 50px;
@@ -60,11 +61,16 @@
 #post div .postBody div {
     width: 90%;
     min-height: 400px;
+    padding: 0;
     background-color: var(--bgc);
     margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 #post div .postBody div img {
-    width: 90%;
+    width: 100%;
 }
 #post div .postBody p {
     margin-top: 10px;

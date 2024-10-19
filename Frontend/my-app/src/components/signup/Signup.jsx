@@ -400,7 +400,7 @@ const Signup = () => {
                     </h5>
                 </Link>
             </div>
-            <Footer />
+            <Footer displayArrow={true} />
         </div>
     );
 };

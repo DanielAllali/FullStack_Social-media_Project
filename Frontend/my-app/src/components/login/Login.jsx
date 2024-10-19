@@ -225,7 +225,7 @@ const Login = () => {
                 </div>
                 <div></div>
             </div>
-            <Footer />
+            <Footer displayArrow={false} />
         </div>
     );
 };

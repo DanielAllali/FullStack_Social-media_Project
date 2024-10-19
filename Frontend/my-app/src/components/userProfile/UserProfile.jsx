@@ -73,7 +73,7 @@ const UserProfile = () => {
         }
     };
     const handleToggleFollowUser = async () => {
-        if (String(userProfile._id) !== String(user._id)) {
+        if (user && String(userProfile._id) !== String(user._id)) {
             await callApi(
                 `http://localhost:9999/users/follow/${userProfile._id.toString()}`,
                 METHOD.PATCH,
@@ -86,7 +86,7 @@ const UserProfile = () => {
     return (
         <div id="userProfile">
             <Header />
-            {userProfile && user && (
+            {userProfile && (
                 <>
                     <header>
                         <div>
@@ -102,7 +102,8 @@ const UserProfile = () => {
                                     <h2>{userProfile.username}</h2>
                                 </div>
                             </div>
-                            {String(userProfile._id) === String(user._id) ? (
+                            {String(userProfile._id) ===
+                            String(user ? user._id : null) ? (
                                 <button>
                                     {language === "HE"
                                         ? "עריכת פרופיל"
@@ -135,7 +136,8 @@ const UserProfile = () => {
                                             posts.filter(
                                                 (p) =>
                                                     p.user_id.toString() ===
-                                                    userProfile._id.toString()
+                                                        userProfile._id.toString() &&
+                                                    !p.deleted
                                             ).length
                                         }
                                     </span>
@@ -172,7 +174,7 @@ const UserProfile = () => {
                                 </li>
 
                                 {String(userProfile._id) ===
-                                    String(user._id) && (
+                                    String(user ? user._id : null) && (
                                     <>
                                         <li
                                             className={

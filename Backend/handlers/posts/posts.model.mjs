@@ -20,7 +20,7 @@ const postSchema = new mongoose.Schema(
             required: true,
         },
         image: {
-            url: {
+            src: {
                 type: String,
                 trim: true,
             },

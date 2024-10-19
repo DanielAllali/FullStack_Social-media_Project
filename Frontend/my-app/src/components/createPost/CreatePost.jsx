@@ -53,11 +53,11 @@ const CreatePost = ({ setCreatePostPopup, user, setDisplayRefreshBtn }) => {
             content: fields.content,
             image: {
                 src: fields.imageURL,
-                alt: `${user ? user : "user"}'s post image`,
+                alt: `${user.username ? user.username : "user"}'s post image`,
             },
             video: {
                 src: fields.videoURL,
-                alt: `${user ? user : "user"}'s post video`,
+                alt: `${user.username ? user.username : "user"}'s post video`,
             },
         };
         callApi("http://localhost:9999/posts", METHOD.POST, newPost, {
@@ -101,7 +101,7 @@ const CreatePost = ({ setCreatePostPopup, user, setDisplayRefreshBtn }) => {
                     </button>
                 </div>
                 <hr />
-                <form>
+                <form onSubmit={handleSubmit}>
                     <table>
                         <tbody>
                             <tr>
@@ -227,7 +227,6 @@ const CreatePost = ({ setCreatePostPopup, user, setDisplayRefreshBtn }) => {
                             <tr>
                                 <td>
                                     <button
-                                        onClick={handleSubmit}
                                         disabled={!fieldsValid}
                                         className={
                                             fieldsValid ? "" : "disabled"

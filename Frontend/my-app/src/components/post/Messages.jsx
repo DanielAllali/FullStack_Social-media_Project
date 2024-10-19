@@ -33,6 +33,9 @@ const Messages = ({
         const fetchData = async () => {
             await callApi("http://localhost:9999/users");
             setMethod("GET ALL USERS");
+
+            await callApi("http://localhost:9999/messages");
+            setMethod("GET ALL MESSAGES");
         };
         fetchData();
         if (user) {
@@ -40,12 +43,11 @@ const Messages = ({
         }
     }, []);
     useEffect(() => {
-        const fetchData = async () => {
-            await callApi("http://localhost:9999/messages");
-            setMethod("GET ALL MESSAGES");
-        };
-        fetchData();
-    }, [users]);
+        if (messages) {
+            const newMessages = messages.reverse();
+            setMessagesSmall(newMessages.slice(0, 2));
+        }
+    }, [messages]);
     useEffect(() => {
         if (apiResponse && !errors && method === "GET ALL MESSAGES") {
             const postMessages = apiResponse.filter(
@@ -73,18 +75,6 @@ const Messages = ({
             updateFullUser();
         }
     }, [method, errors, apiResponse]);
-    useEffect(() => {
-        if (messages) {
-            const newMessages = messages.reverse();
-            setMessagesSmall(
-                newMessages[0] && newMessages[1]
-                    ? [newMessages[0], newMessages[1]]
-                    : newMessages[0]
-                    ? [newMessages[0]]
-                    : []
-            );
-        }
-    }, [messages]);
 
     const updateFullUser = async () => {
         await callApi(`http://localhost:9999/users/${user._id}`);
@@ -105,16 +95,19 @@ const Messages = ({
             { unit: "second", seconds: 1 },
         ];
 
+        const locale = language === "HE" ? "he" : "en";
+
         for (const { unit, seconds: intervalSeconds } of intervals) {
             const count = Math.floor(seconds / intervalSeconds);
             if (count > 0) {
-                const rtf = new Intl.RelativeTimeFormat("en", {
+                const rtf = new Intl.RelativeTimeFormat(locale, {
                     numeric: "auto",
                 });
                 return rtf.format(-count, unit);
             }
         }
-        return "just now";
+
+        return language === "HE" ? "הרגע" : "just now";
     };
     const handleAddComment = async (post, comment) => {
         setInputError(verifyMessageContent(messageContent));
@@ -214,6 +207,7 @@ const Messages = ({
                         : "Login/Signup to like/comment etc..."}
                 </button>
             )}
+
             <div
                 id="messages"
                 style={{
@@ -230,43 +224,53 @@ const Messages = ({
                 {messagesSmall && messages && users && (
                     <div>
                         <ul>
-                            {messagesSmall &&
-                                messagesSmall.reverse().map((m) => (
-                                    <li key={m._id}>
-                                        <img
-                                            src={
+                            {messagesSmall.reverse().map((m) => (
+                                <li key={m._id}>
+                                    <img
+                                        src={
+                                            users.filter(
+                                                (u) =>
+                                                    u._id.toString() ===
+                                                    m.user_id.toString()
+                                            )[0].image?.src
+                                        }
+                                        alt="Image"
+                                    />
+                                    <div>
+                                        <h1
+                                            className="userH1"
+                                            onClick={() => {
+                                                navigate(
+                                                    `/user-profile/${users
+                                                        .filter(
+                                                            (u) =>
+                                                                u._id.toString() ===
+                                                                m.user_id.toString()
+                                                        )[0]
+                                                        ._id.toString()}/posts`
+                                                );
+                                            }}
+                                        >
+                                            {
                                                 users.filter(
                                                     (u) =>
                                                         u._id.toString() ===
                                                         m.user_id.toString()
-                                                )[0].image?.src
+                                                )[0].username
                                             }
-                                            alt="Image"
-                                        />
-                                        <div>
-                                            <h1>
-                                                {
-                                                    users.filter(
-                                                        (u) =>
-                                                            u._id.toString() ===
-                                                            m.user_id.toString()
-                                                    )[0].username
-                                                }
-                                            </h1>
-                                            <p>{m.content}</p>
-                                        </div>
-                                        <div>
-                                            <h1>
-                                                {getRelativeTime(m.createdAt)}
-                                            </h1>
-                                            <button>
-                                                {language === "HE"
-                                                    ? "לייק"
-                                                    : "Like"}
-                                            </button>
-                                        </div>
-                                    </li>
-                                ))}
+                                        </h1>
+                                        <p>{m.content}</p>
+                                    </div>
+                                    <div>
+                                        <h1>{getRelativeTime(m.createdAt)}</h1>
+                                        <button>
+                                            {language === "HE"
+                                                ? "לייק"
+                                                : "Like"}
+                                        </button>
+                                    </div>
+                                </li>
+                            ))}
                             {messages && messages.length > 2 && (
                                 <i
                                     style={{ fontSize: "2rem" }}

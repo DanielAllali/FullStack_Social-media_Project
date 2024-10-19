@@ -84,6 +84,13 @@ div.likeComment button i.bi-hand-thumbs-up-fill {
 #messages > div ul li div h1 {
     font-size: 1rem;
 }
+#messages > div ul li div > h1.userH1 {
+    cursor: pointer;
+}
+#messages > div ul li div > h1.userH1:hover {
+    text-decoration: underline;
+}
+
 #messages > div ul li div p {
     font-size: 1rem;
 }

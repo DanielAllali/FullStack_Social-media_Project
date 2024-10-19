@@ -80,27 +80,6 @@ const Home = () => {
             fetchPosts();
         }
     }, [posts]);
-    const checkIfLiked = (post) => {
-        if (user && post) {
-            for (let i = 0; i < post.likes.length; i++) {
-                if (post.likes[i].toString() === user._id.toString()) {
-                    return true;
-                }
-            }
-            return false;
-        } else {
-            return false;
-        }
-    };
-    const handleToggleLikePost = async (post) => {
-        await callApi(
-            `http://localhost:9999/posts/${post._id.toString()}`,
-            METHOD.PATCH,
-            null,
-            { authorization: localStorage.getItem("jwt-token") }
-        );
-        setMethod("TOGGLE LIKE POST");
-    };
 
     return (
         <div id="home">
@@ -144,12 +123,22 @@ const Home = () => {
                 )}
                 {posts && users && (
                     <div className="posts">
+                        <div>
+                            <h1> {language === "HE" ? "פוסטים" : "Posts"}</h1>
+                        </div>
                         <ul>
                             {posts.map((p) => (
                                 <li key={p._id}>
                                     <Post post={p} />
                                 </li>
                             ))}
+                            {posts.length < 1 && (
+                                <h1>
+                                    {language === "HE"
+                                        ? "אין פוסטים."
+                                        : "No posts."}
+                                </h1>
+                            )}
                         </ul>
                     </div>
                 )}
