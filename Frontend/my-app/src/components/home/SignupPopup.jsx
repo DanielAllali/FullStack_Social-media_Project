@@ -29,7 +29,7 @@ const SignupPopup = ({ setIsDisplay }) => {
                             setIsDisplay(false);
                         }}
                     >
-                        {language === "HE" ? "המשיך כאורח" : "Keep as quest"}
+                        {language === "HE" ? "המשך כאורח" : "Keep as quest"}
                     </button>
                 </div>
             </div>

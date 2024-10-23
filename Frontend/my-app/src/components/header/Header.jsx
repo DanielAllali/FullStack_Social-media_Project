@@ -185,7 +185,7 @@ const Header = () => {
                 {!user && (
                     <div className="auth">
                         <Link to="/signup">
-                            <button>
+                            <button className="signupBtn">
                                 {language === "HE" ? "הרשמה" : "Signup"}
                             </button>
                         </Link>

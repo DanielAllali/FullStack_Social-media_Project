@@ -8,6 +8,7 @@
     box-sizing: border-box;
     font-family: "regular", Arial, Helvetica, sans-serif;
     color: var(--strong);
+    direction: var(--direction);
 }
 body {
     background-color: var(--backgroundColor);

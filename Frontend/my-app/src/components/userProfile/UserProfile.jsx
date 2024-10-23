@@ -14,6 +14,7 @@ const UserProfile = () => {
     const user = useSelector((state) => state.tiktak.user);
     const { tab } = useParams();
     const { userId } = useParams();
+    const navigate = useNavigate();
 
     const [users, setUsers] = useState(null);
     const [posts, setPosts] = useState(null);
@@ -83,6 +84,7 @@ const UserProfile = () => {
             setMethod("TOGGLE FOLLOW USER");
         }
     };
+
     return (
         <div id="userProfile">
             <Header />
@@ -120,11 +122,17 @@ const UserProfile = () => {
                                         : "Unfollow"}
                                     <i className="bi bi-person-dash"></i>
                                 </button>
-                            ) : (
+                            ) : user ? (
                                 <button onClick={handleToggleFollowUser}>
                                     {language === "HE" ? "עקוב" : "Follow"}
                                     <i className="bi bi-person-add"></i>
                                 </button>
+                            ) : (
+                                <h4>
+                                    {language === "HE"
+                                        ? "הרשם כדי לעקוב"
+                                        : "Register to follow"}
+                                </h4>
                             )}
                         </div>
                         <hr />
@@ -237,6 +245,7 @@ const UserProfile = () => {
                             </ul>
                         </nav>
                     </header>
+
                     {tab === "posts" && posts && (
                         <div className="posts">
                             <ul>
@@ -261,6 +270,51 @@ const UserProfile = () => {
                                             ? "למשתמש הזה איו פוסטים..."
                                             : "This user has no posts..."}
                                     </h2>
+                                )}
+                            </ul>
+                        </div>
+                    )}
+
+                    {tab === "followers" && userProfile && users && (
+                        <div className="followers">
+                            <ul>
+                                {users
+                                    .filter((user) =>
+                                        userProfile.followers.includes(
+                                            user._id.toString()
+                                        )
+                                    )
+                                    .map((u) => (
+                                        <li key={u._id}>
+                                            <div className="profilePicture">
+                                                {u.image?.src && (
+                                                    <img
+                                                        src={u.image.src}
+                                                        alt="profile picture"
+                                                    />
+                                                )}
+                                            </div>
+                                            <div>
+                                                <h1
+                                                    onClick={() => {
+                                                        navigate(
+                                                            `/user-profile/${u._id}/posts`
+                                                        );
+                                                        window.location.reload();
+                                                    }}
+                                                >
+                                                    {u.username}
+                                                </h1>
+                                                <h2>{`${u.name.firstName} ${u.name.lastName}`}</h2>
+                                            </div>
+                                        </li>
+                                    ))}
+                                {userProfile.followers.length < 1 && (
+                                    <h1>
+                                        {language === "HE"
+                                            ? "אין למשתמש הזה עוקבים..."
+                                            : "This user has no followers..."}
+                                    </h1>
                                 )}
                             </ul>
                         </div>

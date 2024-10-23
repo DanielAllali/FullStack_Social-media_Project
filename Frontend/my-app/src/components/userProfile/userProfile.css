@@ -196,6 +196,60 @@
 #userProfile .posts ul li {
     width: 100%;
 }
+#userProfile .followers {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+#userProfile .followers ul {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+}
+#userProfile .followers ul li {
+    width: 100%;
+    background-color: var(--weak);
+    padding: 5px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    gap: 5px;
+}
+#userProfile .followers ul li div.profilePicture {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-color: var(--bgc);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+#userProfile .followers ul li div.profilePicture img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+#userProfile .followers ul li div + div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+#userProfile .followers ul li div + div h1 {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+#userProfile .followers ul li div + div h1:hover {
+    text-decoration: underline;
+}
+#userProfile .followers ul li div + div h2 {
+    font-size: 1rem;
+    color: var(--strong-fade);
+}
 @media (max-width: 900px) {
     #userProfile header nav ul li {
         padding: 5px;

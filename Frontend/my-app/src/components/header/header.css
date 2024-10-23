@@ -75,6 +75,10 @@
     background: none;
     color: var(--highlight);
 }
+#header div.userStaff div.auth button.signupBtn:hover {
+    color: var(--weak);
+    background-color: var(--highlight_strong) !important;
+}
 #header div.userStaff div.auth a + a button:hover {
     background-color: var(--highlight);
     color: var(--weak);
