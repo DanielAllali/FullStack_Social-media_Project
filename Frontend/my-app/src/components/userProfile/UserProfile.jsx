@@ -128,10 +128,15 @@ const UserProfile = () => {
                                     <i className="bi bi-person-add"></i>
                                 </button>
                             ) : (
-                                <h4>
+                                <h4
+                                    className="loginToFollow"
+                                    onClick={() => {
+                                        navigate("/login");
+                                    }}
+                                >
                                     {language === "HE"
-                                        ? "הרשם כדי לעקוב"
-                                        : "Register to follow"}
+                                        ? "התחבר/י בשביל לעקוב"
+                                        : "Login to follow"}
                                 </h4>
                             )}
                         </div>
@@ -267,7 +272,7 @@ const UserProfile = () => {
                                 ).length < 1 && (
                                     <h2>
                                         {language === "HE"
-                                            ? "למשתמש הזה איו פוסטים..."
+                                            ? "למשתמש זה אין פוסטים..."
                                             : "This user has no posts..."}
                                     </h2>
                                 )}
@@ -309,14 +314,58 @@ const UserProfile = () => {
                                             </div>
                                         </li>
                                     ))}
-                                {userProfile.followers.length < 1 && (
-                                    <h1>
-                                        {language === "HE"
-                                            ? "אין למשתמש הזה עוקבים..."
-                                            : "This user has no followers..."}
-                                    </h1>
-                                )}
                             </ul>
+                            {userProfile.followers.length < 1 && (
+                                <h2>
+                                    {language === "HE"
+                                        ? "למשתמש זה אין עוקבים..."
+                                        : "This user has no followers..."}
+                                </h2>
+                            )}
+                        </div>
+                    )}
+                    {tab === "following" && userProfile && users && (
+                        <div className="followers">
+                            <ul>
+                                {users
+                                    .filter((user) =>
+                                        user.followers.includes(
+                                            userProfile._id.toString()
+                                        )
+                                    )
+                                    .map((u) => (
+                                        <li key={u._id}>
+                                            <div className="profilePicture">
+                                                {u.image?.src && (
+                                                    <img
+                                                        src={u.image.src}
+                                                        alt="profile picture"
+                                                    />
+                                                )}
+                                            </div>
+                                            <div>
+                                                <h1
+                                                    onClick={() => {
+                                                        navigate(
+                                                            `/user-profile/${u._id}/posts`
+                                                        );
+                                                        window.location.reload();
+                                                    }}
+                                                >
+                                                    {u.username}
+                                                </h1>
+                                                <h2>{`${u.name.firstName} ${u.name.lastName}`}</h2>
+                                            </div>
+                                        </li>
+                                    ))}
+                            </ul>
+                            {userProfile.followers.length < 1 && (
+                                <h2>
+                                    {language === "HE"
+                                        ? "למשתמש זה אין עוקבים..."
+                                        : "This user has no followers..."}
+                                </h2>
+                            )}
                         </div>
                     )}
                 </>
