@@ -103,17 +103,49 @@ const verifyRegister = {
         return false;
     },
     imageSrc: (v) => {
-        if (!v) {
+        const validImageTypes = [
+            "image/jpeg", // JPEG
+            "image/png", // PNG
+            "image/gif", // GIF
+            "image/bmp", // BMP
+            "image/tiff", // TIFF
+            "image/svg+xml", // SVG
+            "image/webp", // WEBP
+            "image/jfif", // JFIF
+        ];
+
+        const maxSizeInBytes = 5 * 1024 * 1024; // Maximum size in bytes (e.g., 5 MB)
+
+        const errorMessages = {
+            invalidFileType: {
+                en: "Invalid file type. Please upload an image (JPEG, PNG, GIF, BMP, TIFF, SVG, WEBP, JFIF).",
+                he: "סוג קובץ לא תקין. אנא העלה תמונה (JPEG, PNG, GIF, BMP, TIFF, SVG, WEBP, JFIF).",
+            },
+            fileSizeExceeded: {
+                en: "File size exceeds the limit of 5 MB.",
+                he: "גודל הקובץ חורג מהמגבלה של 5 MB.",
+            },
+            noFileSelected: {
+                en: "No file selected.",
+                he: "לא נבחר קובץ.",
+            },
+        };
+
+        if (v) {
+            if (!validImageTypes.includes(v.type)) {
+                return errorMessages.invalidFileType;
+            }
+
+            if (v.size > maxSizeInBytes) {
+                return errorMessages.fileSizeExceeded;
+            }
+
             return false;
+        } else {
+            return errorMessages.noFileSelected;
         }
-        if (!urlRegex.test(v)) {
-            return {
-                he: "כתובת URL של התמונה לא חוקית.",
-                en: "Invalid image URL.",
-            };
-        }
-        return false;
     },
+
     imageAlt: (v) => {
         if (v.length > 30) {
             return {
@@ -190,19 +222,13 @@ const verifyCreatePost = {
         return false;
     },
     imageSrc: (v) => {
-        if (v === "") {
+        if (!v) {
             return false;
         }
         if (!urlRegex.test(v)) {
             return {
                 he: "כתובת URL של התמונה לא חוקית.",
                 en: "Invalid image URL.",
-            };
-        }
-        if (v.length > 300) {
-            return {
-                he: "כתובת התמונה חורגת מאורך מקסימלי של 300 תווים.",
-                en: "Image URL exceeds the maximum length of 300 characters.",
             };
         }
         return false;
@@ -226,5 +252,58 @@ const verifyCreatePost = {
         return false;
     },
 };
+const verifySandbox = (sandbox) => {
+    const { content, image } = sandbox;
 
-export { verifyLogin, verifyRegister, verifyMessageContent, verifyCreatePost };
+    if (!content || !image) {
+        return {
+            valid: false,
+            message: {
+                en: 'Object must contain "content" and "image".',
+                he: 'האובייקט חייב להכיל "תוכן" ו"תמונה".',
+            },
+        };
+    }
+
+    if (!content.he || !content.en) {
+        return {
+            valid: false,
+            message: {
+                en: 'Content must be an object with two keys "he" and "en".',
+                he: 'התוכן חייב להיות אובייקט עם שני מפתחות "he" ו-"en".',
+            },
+        };
+    }
+
+    for (const key in content) {
+        if (content[key].length < 1 || content[key].length >= 40) {
+            return {
+                valid: false,
+                message: {
+                    en: 'Each value in "content" must be between 1 and 40 characters.',
+                    he: "כל ערך בתוכן חייב להיות בין 1 ל-40 תווים.",
+                },
+            };
+        }
+    }
+
+    const urlRegex =
+        /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/[^\s]*)?$/;
+
+    if (!urlRegex.test(image)) {
+        return {
+            valid: false,
+            message: { en: "Invalid image URL.", he: "כתובת תמונה לא חוקית." },
+        };
+    }
+
+    return { valid: true };
+};
+
+export {
+    verifyLogin,
+    verifyRegister,
+    verifyMessageContent,
+    verifyCreatePost,
+    verifySandbox,
+};

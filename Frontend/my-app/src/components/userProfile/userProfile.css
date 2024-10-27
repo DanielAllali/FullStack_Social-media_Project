@@ -9,7 +9,7 @@
     overflow-x: hidden;
 }
 
-#userProfile header {
+#userProfile div.header {
     width: 100%;
     height: auto;
     padding: 0;
@@ -26,20 +26,28 @@
     top: 100px;
 }
 
-#userProfile header > div {
+#userProfile div.header > div {
     width: 60%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
-
-#userProfile header > div > div {
+#userProfile div.header .userInfo {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#userProfile div.header .userInfo > div {
+    display: flex;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 20px;
 }
 
-#userProfile header > div > div > div:first-child {
+#userProfile div.header .userInfo > div div:first-child {
     width: 70px;
     height: 70px;
     background-color: var(--bgc);
@@ -49,29 +57,29 @@
     justify-content: center;
     border-radius: 50%;
 }
-#userProfile header > div > div > div img {
+#userProfile div.header .userInfo > div:first-child img {
     width: 60px;
     height: 60px;
     border-radius: 50%;
 }
 
-#userProfile header > div > div div {
+#userProfile div.header .userInfo div {
     display: flex;
     flex-direction: column;
     align-items: start;
     justify-content: center;
 }
 
-#userProfile header > div > div div h1 {
+#userProfile div.header .userInfo div h1 {
     font-size: 1rem;
 }
 
-#userProfile header > div > div div h2 {
+#userProfile div.header .userInfo div h2 {
     font-size: 1rem;
     color: var(--strong-fade);
 }
 
-#userProfile header > div button {
+#userProfile div.header > div button {
     font-size: 1rem;
     background-color: var(--highlight);
     color: var(--weak);
@@ -88,28 +96,28 @@
     transition: all 0.2s ease;
     position: relative;
 }
-#userProfile header > div button.followed {
+#userProfile div.header > div button.followed {
     background-color: var(--bgc);
     color: var(--strong);
 }
-#userProfile header > div button.followed:hover {
+#userProfile div.header > div button.followed:hover {
     background-color: var(--strong-fade);
 }
-#userProfile header > div button.followed i {
+#userProfile div.header > div button.followed i {
     color: var(--strong);
 }
-#userProfile header > div button:hover {
+#userProfile div.header > div button:hover {
     background-color: var(--highlight_strong);
     transform: scale(1.05);
 }
 
-#userProfile header > div button:active {
+#userProfile div.header > div button:active {
     transform: scale(0.95);
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     transition: all 0.1s ease;
 }
 
-#userProfile header > div button::after {
+#userProfile div.header > div button::after {
     content: "";
     position: absolute;
     top: 50%;
@@ -122,26 +130,26 @@
     transition: transform 0.3s ease;
 }
 
-#userProfile header > div button:hover::after {
+#userProfile div.header > div button:hover::after {
     transform: translate(-50%, -50%) scale(1);
 }
 
-#userProfile header > div button i {
+#userProfile div.header > div button i {
     color: var(--weak);
     font-size: 1.5rem;
 }
 
-#userProfile header hr {
+#userProfile div.header hr {
     width: 60%;
 }
-#userProfile header > hr + div {
+#userProfile div.header > hr + div {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: start;
     gap: 30px;
 }
-#userProfile header > hr + div h1 {
+#userProfile div.header > hr + div h1 {
     font-size: 1rem;
     display: flex;
     flex-direction: column;
@@ -150,7 +158,7 @@
     direction: var(--direction);
 }
 
-#userProfile header nav {
+#userProfile div.header nav {
     width: 60%;
     margin-top: auto;
     display: flex;
@@ -158,22 +166,22 @@
     justify-content: start;
 }
 
-#userProfile header nav ul {
+#userProfile div.header nav ul {
     display: flex;
     justify-content: center;
 }
-#userProfile header nav ul li {
+#userProfile div.header nav ul li {
     padding: 10px;
     font-size: 1.2rem;
     list-style: none;
 }
-#userProfile header nav ul li.active {
+#userProfile div.header nav ul li.active {
     font-weight: bold;
     color: var(--highlight);
     border-bottom: 3px solid var(--highlight);
 }
 
-#userProfile header nav ul li a {
+#userProfile div.header nav ul li a {
     text-decoration: none;
     color: inherit;
 }
@@ -215,6 +223,11 @@
     display: flex;
     flex-direction: column;
     list-style-type: none;
+    gap: 20px;
+}
+#userProfile .followers ul > div {
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), 0 16px 40px rgba(0, 0, 0, 0.05);
 }
 #userProfile .followers ul li {
     width: 100%;
@@ -260,7 +273,7 @@
     color: var(--strong-fade);
 }
 @media (max-width: 900px) {
-    #userProfile header nav ul li {
+    #userProfile div.header nav ul li {
         padding: 5px;
         font-size: 1rem;
     }
@@ -274,17 +287,17 @@
     #userProfile {
         margin-top: 400px;
     }
-    #userProfile header > div {
+    #userProfile div.header > div {
         width: 80%;
     }
-    #userProfile header hr {
+    #userProfile div.header hr {
         width: 80%;
     }
 
-    #userProfile header nav {
+    #userProfile div.header nav {
         width: 80%;
     }
-    #userProfile header {
+    #userProfile div.header {
         top: 70px;
     }
 }
@@ -295,41 +308,41 @@
     }
 }
 @media (max-width: 530px) {
-    #userProfile header nav {
+    #userProfile div.header nav {
         width: 100%;
     }
-    #userProfile header nav ul li {
+    #userProfile div.header nav ul li {
         font-size: 0.7rem;
     }
 }
 
 @media (max-width: 460px) {
-    #userProfile header > div button {
+    #userProfile div.header > div button {
         font-size: 0.7rem;
         padding: 5px;
         border-radius: 15px;
     }
-    #userProfile header > div > div div h1 {
+    #userProfile div.header > div > div div h1 {
         font-size: 0.7rem;
     }
 
-    #userProfile header > div > div div h2 {
+    #userProfile div.header > div > div div h2 {
         font-size: 0.7rem;
     }
-    #userProfile header nav ul li {
+    #userProfile div.header nav ul li {
         font-size: 0.8rem;
     }
 }
 @media (max-width: 380px) {
-    #userProfile header > div {
+    #userProfile div.header > div {
         width: 90%;
     }
-    #userProfile header hr {
+    #userProfile div.header hr {
         width: 90%;
     }
 }
 @media (max-width: 360px) {
-    #userProfile header nav ul li {
+    #userProfile div.header nav ul li {
         font-size: 0.5rem;
     }
 }

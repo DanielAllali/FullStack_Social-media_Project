@@ -18,10 +18,6 @@ const userRegisterValidationSchema = Joi.object({
     email: Joi.string().email().required(),
     phone: Joi.string().allow(""),
     password: Joi.string().pattern(passwordRegex).required(),
-    image: Joi.object({
-        src: Joi.string().required().allow("").pattern(urlRegex),
-        alt: Joi.string().max(30),
-    }).required(),
 });
 
 const userEditValidationSchema = Joi.object({

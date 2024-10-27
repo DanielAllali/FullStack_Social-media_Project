@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import useApi, { METHOD } from "../../hooks/useApi";
 import Messages from "./Messages";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { verifySandbox } from "../../guard";
 
 const Post = ({ post }) => {
     const language = useSelector((state) => state.tiktak.language);
@@ -23,7 +25,19 @@ const Post = ({ post }) => {
             setMethod(null);
         }
         if (apiResponse && !errors && method === "TOGGLE LIKE POST") {
+            if (p.likes.length < apiResponse.likes.length) {
+                addToSandbox({
+                    content: {
+                        en: `${user.username} liked your post}`,
+                        he: `${user.username} עשה לייק`,
+                    },
+                    image: "https://jeremyImage.com",
+                });
+            }
             setP(apiResponse);
+            setMethod(null);
+        }
+        if (apiResponse && !errors && method === "ADD TO SANDBOX") {
             setMethod(null);
         }
     }, [method, apiResponse, errors]);
@@ -75,6 +89,21 @@ const Post = ({ post }) => {
             if (p.image?.src) checkImage();
         }
     }, [p]);
+    const addToSandbox = async (message) => {
+        const verify = verifySandbox(message);
+        if (!verify.valid) {
+            toast.error(
+                language === "HE" ? verify.message.he : verify.message.en
+            );
+            return;
+        }
+        callApi(
+            `http://localhost:9999/users/sandbox/${p.user_id}`,
+            METHOD.POST,
+            message
+        );
+        setMethod("ADD TO SANDBOX");
+    };
     return (
         <div id="post" key={p ? p._id : ""}>
             {users && p && (

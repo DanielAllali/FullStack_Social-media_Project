@@ -261,7 +261,7 @@ const Header = () => {
                                         <p>{p.title}</p>
                                         <div>
                                             <img
-                                                src={p.image.url}
+                                                src={p.image.src}
                                                 alt="image"
                                             />
                                         </div>

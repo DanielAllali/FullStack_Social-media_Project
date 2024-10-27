@@ -121,6 +121,13 @@ const Home = () => {
                         </div>
                     </div>
                 )}
+                {!posts && (
+                    <h2>
+                        {language === "HE"
+                            ? "יש בעיה נסה שוב מאוחר יותר..."
+                            : "Something wrong try again later..."}
+                    </h2>
+                )}
                 {posts && users && (
                     <div className="posts">
                         <div>

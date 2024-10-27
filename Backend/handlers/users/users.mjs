@@ -20,6 +20,8 @@ import path from "path";
 import express from "express";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+import multer from "multer";
+import fs from "fs";
 
 dotenv.config();
 
@@ -36,42 +38,55 @@ app.get("/users/:id", async (req, res) => {
     res.send(user);
 });
 
-app.post("/users", async (req, res) => {
-    const { username, name, email, phone, password, image } = req.body;
-
-    if ((await User.find({ email })).length > 0) {
-        return res.status(409).send("User with that email already exists.");
-    }
-    if (image.alt == "") {
-        image.alt = `${username} profile picture`;
-    }
-    const { error } = userRegisterValidationSchema.validate(req.body, {
-        allowUnknown: true,
-    });
-    if (error) {
-        return res.status(403).send(error.details[0].message);
-    }
-    if (image.src == "") {
-        image.src = `${process.env.URL}/user/profile-picture`;
-    }
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, "../../public/images"));
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+        const extension = path.extname(file.originalname);
+        cb(null, `${file.fieldname}-${uniqueSuffix}${extension}`);
+    },
+});
+const upload = multer({ storage });
+app.post("/users", upload.single("image"), async (req, res) => {
     try {
+        const { error } = userRegisterValidationSchema.validate(req.body, {
+            allowUnknown: true,
+        });
+        if (error) {
+            if (req.file) {
+                fs.unlinkSync(req.file.path);
+            }
+            return res.status(403).send(error.details[0].message);
+        }
+
+        const { username, name, email, phone, password } = req.body;
+
+        if (await User.findOne({ email })) {
+            return res.status(409).send("User with that email already exists.");
+        }
+
         const newUser = new User({
-            username,
+            username: username || (await generateUsername()),
             name,
             email,
             phone,
             password,
-            image,
+            image: {
+                src: `http://localhost:9999/images/${req.file.filename}`,
+                alt: `${username || "user"} profile picture`,
+            },
         });
-        newUser.password = await bcrypt.hash(newUser.password, 10);
-        if (newUser.username == "") {
-            newUser.username = await generateUsername();
-        }
 
+        newUser.password = await bcrypt.hash(newUser.password, 10);
         await newUser.save();
         res.send(newUser);
     } catch (err) {
-        res.status(500).send("Server error.");
+        if (req.file) {
+            fs.unlinkSync(req.file.path);
+        }
+        res.status(500).send(err.message ? err.message : "Server error.");
     }
 });
 

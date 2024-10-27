@@ -8,6 +8,7 @@ import useApi, { METHOD } from "../../hooks/useApi";
 import toast from "react-hot-toast";
 import Footer from "../footer/Footer";
 import Post from "../post/Post";
+import EditUser from "./EditUser";
 
 const UserProfile = () => {
     const language = useSelector((state) => state.tiktak.language);
@@ -22,6 +23,7 @@ const UserProfile = () => {
     const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
     const [method, setMethod] = useState(null);
     const [userProfile, setUserProfile] = useState(null);
+    const [isEditUser, setIsEditUser] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -90,18 +92,27 @@ const UserProfile = () => {
             <Header />
             {userProfile && (
                 <>
-                    <header>
+                    <div className="header">
                         <div>
-                            <div>
+                            <div className="userInfo">
                                 <div>
-                                    <img
-                                        src={userProfile.image.src}
-                                        alt="user profile picture"
-                                    />
+                                    <div>
+                                        <img
+                                            src={userProfile.image.src}
+                                            alt="user profile picture"
+                                        />
+                                    </div>
+                                    <div>
+                                        <h1>{`${userProfile.name.firstName} ${userProfile.name.lastName}`}</h1>
+                                        <h2>{userProfile.username}</h2>
+                                    </div>
                                 </div>
                                 <div>
-                                    <h1>{`${userProfile.name.firstName} ${userProfile.name.lastName}`}</h1>
-                                    <h2>{userProfile.username}</h2>
+                                    {userProfile.bio && userProfile.bio !== ""
+                                        ? userProfile.bio
+                                        : language === "HE"
+                                        ? "אין ביו."
+                                        : "No bio."}
                                 </div>
                             </div>
                             {String(userProfile._id) ===
@@ -249,7 +260,7 @@ const UserProfile = () => {
                                 </li>
                             </ul>
                         </nav>
-                    </header>
+                    </div>
 
                     {tab === "posts" && posts && (
                         <div className="posts">
@@ -318,8 +329,8 @@ const UserProfile = () => {
                             {userProfile.followers.length < 1 && (
                                 <h2>
                                     {language === "HE"
-                                        ? "למשתמש זה אין עוקבים..."
-                                        : "This user has no followers..."}
+                                        ? "למשתמש זה אין עוקבים."
+                                        : "This user has no followers."}
                                 </h2>
                             )}
                         </div>
@@ -359,17 +370,70 @@ const UserProfile = () => {
                                         </li>
                                     ))}
                             </ul>
-                            {userProfile.followers.length < 1 && (
+                            {users.filter((user) =>
+                                user.followers.includes(
+                                    userProfile._id.toString()
+                                )
+                            ).length < 1 && (
                                 <h2>
                                     {language === "HE"
-                                        ? "למשתמש זה אין עוקבים..."
-                                        : "This user has no followers..."}
+                                        ? "משתמש זה לא עוקב אחרי אף אחד."
+                                        : "This user doesn't follow anybody."}
+                                </h2>
+                            )}
+                        </div>
+                    )}
+                    {tab === "saved-posts" && userProfile && posts && (
+                        <div className="followers">
+                            <ul>
+                                {posts
+                                    .filter((p) =>
+                                        userProfile.saved_posts.includes(
+                                            p._id.toString()
+                                        )
+                                    )
+                                    .map((p) => (
+                                        <Post post={p} />
+                                    ))}
+                            </ul>
+                            {posts.filter((p) =>
+                                userProfile.saved_posts.includes(
+                                    p._id.toString()
+                                )
+                            ).length < 1 && (
+                                <h2>
+                                    {language === "HE"
+                                        ? "לא שמרת פוסטים."
+                                        : "You didn't saved any posts."}
+                                </h2>
+                            )}
+                        </div>
+                    )}
+                    {tab === "liked-posts" && userProfile && posts && (
+                        <div className="followers">
+                            <ul>
+                                {posts
+                                    .filter((p) =>
+                                        p.likes.includes(userProfile._id)
+                                    )
+                                    .map((p) => (
+                                        <Post post={p} />
+                                    ))}
+                            </ul>
+                            {posts.filter((p) =>
+                                p.likes.includes(userProfile._id)
+                            ).length < 1 && (
+                                <h2>
+                                    {language === "HE"
+                                        ? "לא שמרת פוסטים."
+                                        : "You didn't saved any posts."}
                                 </h2>
                             )}
                         </div>
                     )}
                 </>
             )}
+            {isEditUser && <EditUser />}
             <div className="footerInHome">
                 <Footer
                     displayLogo={false}

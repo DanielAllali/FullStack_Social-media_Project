@@ -29,7 +29,6 @@ const Signup = () => {
         password: "",
         email: "",
         phone: "",
-        imageSrc: "",
         imageAlt: "",
     });
     const [errors, setErrors] = useState({
@@ -57,7 +56,9 @@ const Signup = () => {
             password: verifyRegister.password(updatedField.password),
             email: verifyRegister.email(updatedField.email),
             phone: verifyRegister.phone(updatedField.phone),
-            imageSrc: verifyRegister.imageSrc(updatedField.imageSrc),
+            imageSrc: verifyRegister.imageSrc(
+                document.querySelector('input[type="file"]').files[0]
+            ),
             imageAlt: verifyRegister.imageAlt(updatedField.imageAlt),
         };
         setErrors(updatedErrors);
@@ -78,7 +79,6 @@ const Signup = () => {
             password: verifyRegister.password(fields.password),
             email: verifyRegister.email(fields.email),
             phone: verifyRegister.phone(fields.phone),
-            imageSrc: verifyRegister.imageSrc(fields.imageSrc),
             imageAlt: verifyRegister.imageAlt(fields.imageAlt),
         };
         for (const error in newErrors) {
@@ -100,8 +100,27 @@ const Signup = () => {
                 alt: fields.imageAlt,
             },
         };
+        const formData = new FormData();
+
+        formData.append("username", newUser.username);
+        formData.append("name[firstName]", newUser.name.firstName);
+        formData.append("name[lastName]", newUser.name.lastName);
+        formData.append("email", newUser.email);
+        formData.append("phone", newUser.phone);
+        formData.append("password", newUser.password);
+
+        const imageFile = document.querySelector('input[type="file"]').files[0];
+
+        if (imageFile) {
+            formData.append("image", imageFile);
+        }
+
         setMethod("REGISTER");
-        await callApi("http://localhost:9999/users", METHOD.POST, newUser);
+        await callApi("http://localhost:9999/users", METHOD.POST, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
     };
     useEffect(() => {
         if (method === "REGISTER") {
@@ -327,10 +346,9 @@ const Signup = () => {
                         <li>
                             <div>
                                 <input
-                                    type="text"
+                                    type="file"
                                     id="imageSrc"
                                     name="imageSrc"
-                                    value={fields.imageSrc}
                                     onChange={handleChange}
                                 />
                                 <label htmlFor="imageSrc">

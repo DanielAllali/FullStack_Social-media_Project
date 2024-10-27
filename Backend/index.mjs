@@ -28,10 +28,10 @@ app.use(express.static("public"));
 
 app.use(
     cors({
-        origin: true,
+        origin: ["http://localhost:3000"],
         credentials: true,
         methods: "GET,PUT,POST,PATCH,DELETE,OPTIONS",
-        allowedHeaders: "Content-Type, Accept, Authorization",
+        allowedHeaders: "*",
     })
 );
 

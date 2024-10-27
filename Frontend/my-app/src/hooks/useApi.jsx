@@ -30,6 +30,7 @@ const useApi = () => {
             setApiResponse(response.data);
         } catch (err) {
             setErrors(err);
+            setApiResponse(null);
         } finally {
             setIsLoading(false);
         }
