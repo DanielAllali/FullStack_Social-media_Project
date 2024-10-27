@@ -28,10 +28,10 @@ const Post = ({ post }) => {
             if (p.likes.length < apiResponse.likes.length) {
                 addToSandbox({
                     content: {
-                        en: `${user.username} liked your post}`,
+                        en: `${user.username} liked your post`,
                         he: `${user.username} עשה לייק`,
                     },
-                    image: "https://jeremyImage.com",
+                    image: user.image.src,
                 });
             }
             setP(apiResponse);

@@ -287,17 +287,87 @@ const verifySandbox = (sandbox) => {
         }
     }
 
-    const urlRegex =
-        /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/[^\s]*)?$/;
-
-    if (!urlRegex.test(image)) {
-        return {
-            valid: false,
-            message: { en: "Invalid image URL.", he: "כתובת תמונה לא חוקית." },
-        };
-    }
-
     return { valid: true };
+};
+const verifyEditUser = {
+    firstName: (v) => {
+        if (!v) {
+            return {
+                he: "שם פרטי נדרש.",
+                en: "First name is required.",
+            };
+        }
+        return false;
+    },
+    lastName: (v) => {
+        if (!v) {
+            return {
+                he: "שם משפחה נדרש.",
+                en: "Last name is required.",
+            };
+        }
+        return false;
+    },
+    username: (v) => {
+        if (v !== "" && (v.length < 2 || v.length > 15)) {
+            return {
+                he: "שם המשתמש חייב להיות בין 2 ל-15 תווים או ריק.",
+                en: "Username must be between 2 and 15 characters or empty.",
+            };
+        }
+        return false;
+    },
+    bio: (v) => {
+        if (v !== "" && v.length > 30) {
+            return {
+                he: "ביוגרפיה צריכה להיות בין 0-30 תווים.",
+                en: "Bio must be between 0-30 characters.",
+            };
+        }
+    },
+    imageSrc: (v) => {
+        const validImageTypes = [
+            "image/jpeg", // JPEG
+            "image/png", // PNG
+            "image/gif", // GIF
+            "image/bmp", // BMP
+            "image/tiff", // TIFF
+            "image/svg+xml", // SVG
+            "image/webp", // WEBP
+            "image/jfif", // JFIF
+        ];
+
+        const maxSizeInBytes = 5 * 1024 * 1024; // Maximum size in bytes (e.g., 5 MB)
+
+        const errorMessages = {
+            invalidFileType: {
+                en: "Invalid file type. Please upload an image (JPEG, PNG, GIF, BMP, TIFF, SVG, WEBP, JFIF).",
+                he: "סוג קובץ לא תקין. אנא העלה תמונה (JPEG, PNG, GIF, BMP, TIFF, SVG, WEBP, JFIF).",
+            },
+            fileSizeExceeded: {
+                en: "File size exceeds the limit of 5 MB.",
+                he: "גודל הקובץ חורג מהמגבלה של 5 MB.",
+            },
+            noFileSelected: {
+                en: "No file selected.",
+                he: "לא נבחר קובץ.",
+            },
+        };
+
+        if (v) {
+            if (!validImageTypes.includes(v.type)) {
+                return errorMessages.invalidFileType;
+            }
+
+            if (v.size > maxSizeInBytes) {
+                return errorMessages.fileSizeExceeded;
+            }
+
+            return false;
+        } else {
+            return errorMessages.noFileSelected;
+        }
+    },
 };
 
 export {
@@ -306,4 +376,5 @@ export {
     verifyMessageContent,
     verifyCreatePost,
     verifySandbox,
+    verifyEditUser,
 };

@@ -117,9 +117,7 @@ const Signup = () => {
 
         setMethod("REGISTER");
         await callApi("http://localhost:9999/users", METHOD.POST, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
+            "Content-Type": "multipart/form-data",
         });
     };
     useEffect(() => {

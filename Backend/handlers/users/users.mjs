@@ -22,6 +22,7 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import multer from "multer";
 import fs from "fs";
+import { log } from "console";
 
 dotenv.config();
 
@@ -122,36 +123,54 @@ app.post("/users/login", async (req, res) => {
     res.send(token);
 });
 
-app.put("/users/:id", the_registered_user_guard, async (req, res) => {
-    const { id } = req.params;
-    const { username, bio, name, image } = req.body;
-    if (await User.findOne({ username })) {
-        return res.status(409).send("This username is taken.");
-    }
+app.put(
+    "/users/:id",
+    the_registered_user_guard,
+    upload.single("image"),
+    async (req, res) => {
+        const { id } = req.params;
+        const { username, bio, name } = req.body;
+        if (
+            (await User.findOne({ username })) &&
+            (await User.findOne({ username }))?._id?.toString() !== id
+        ) {
+            return res.status(409).send("This username is taken.");
+        }
 
-    const user = await User.findById(id);
-    if (!user) {
-        return res.status(403).send("User not found.");
-    }
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(403).send("User not found.");
+        }
 
-    const validate = userEditValidationSchema.validate(req.body, {
-        allowUnknown: true,
-    });
-    if (validate.error) {
-        return res.status(403).send(validate.error.details[0].message);
-    }
+        const validate = userEditValidationSchema.validate(req.body, {
+            allowUnknown: true,
+        });
+        if (validate.error) {
+            if (req.file) {
+                fs.unlinkSync(req.file.path);
+            }
+            return res.status(403).send(validate.error.details[0].message);
+        }
 
-    user.username = username;
-    user.bio = bio;
-    user.name = name;
-    user.image = image;
-    try {
-        await user.save();
-        res.send(user);
-    } catch (err) {
-        res.status(500).send(err.message ? err.message : "Server error.");
+        user.username = username;
+        user.bio = bio;
+        user.name = name;
+        user.image = {
+            src: `http://localhost:9999/images/${req.file.filename}`,
+            alt: user.image.alt,
+        };
+        try {
+            await user.save();
+
+            res.send(user);
+        } catch (err) {
+            if (req.file) {
+                fs.unlinkSync(req.file.path);
+            }
+            res.status(500).send(err.message ? err.message : "Server error.");
+        }
     }
-});
+);
 
 app.delete("/users/:id", the_registered_user_guard, async (req, res) => {
     const { id } = req.params;
@@ -210,12 +229,6 @@ app.post("/users/sandbox/:id", async (req, res) => {
                 .send(
                     'Content must be an object with two keys "he" "en" and with value between 1-40 characters.'
                 );
-        }
-        const urlRegex =
-            /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/[^\s]*)?$/;
-
-        if (!urlRegex.test(image)) {
-            return res.status(403).send("Invalid image URL.");
         }
         const newSandbox = [
             ...user.sandbox,

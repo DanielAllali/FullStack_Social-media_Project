@@ -26,9 +26,15 @@ const useApi = () => {
                     response = await axios.patch(url, payload, { headers });
                     setApiResponse(response.data);
                     break;
+                case METHOD.PUT:
+                    response = await axios.put(url, payload, { headers });
+                    setApiResponse(response.data);
+                    break;
             }
             setApiResponse(response.data);
         } catch (err) {
+            console.log(err);
+
             setErrors(err);
             setApiResponse(null);
         } finally {
@@ -43,6 +49,7 @@ export const METHOD = {
     POST: "POST",
     GET: "GET",
     PATCH: "PATCH",
+    PUT: "PUT",
 };
 
 export default useApi;

@@ -117,7 +117,11 @@ const UserProfile = () => {
                             </div>
                             {String(userProfile._id) ===
                             String(user ? user._id : null) ? (
-                                <button>
+                                <button
+                                    onClick={() => {
+                                        setIsEditUser(true);
+                                    }}
+                                >
                                     {language === "HE"
                                         ? "עריכת פרופיל"
                                         : "Edit profile"}
@@ -433,7 +437,9 @@ const UserProfile = () => {
                     )}
                 </>
             )}
-            {isEditUser && <EditUser />}
+            {isEditUser && (
+                <EditUser setIsEditUser={setIsEditUser} user={user} />
+            )}
             <div className="footerInHome">
                 <Footer
                     displayLogo={false}
