@@ -13,8 +13,6 @@ const SandboxSmall = ({ user }) => {
     const [messages, setMessages] = useState(null);
     useEffect(() => {
         if (user) {
-            console.log("http://localhost:9999/users/" + user._id);
-
             callApi("http://localhost:9999/users/" + user._id);
         }
     }, []);

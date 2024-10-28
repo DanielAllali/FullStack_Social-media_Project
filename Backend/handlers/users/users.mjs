@@ -130,6 +130,17 @@ app.put(
     async (req, res) => {
         const { id } = req.params;
         const { username, bio, name } = req.body;
+
+        if (req.file) {
+            const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+            if (!validImageTypes.includes(req.file.mimetype)) {
+                fs.unlinkSync(req.file.path);
+                return res
+                    .status(400)
+                    .send("Only JPEG, PNG, and GIF files are allowed.");
+            }
+        }
+
         if (
             (await User.findOne({ username })) &&
             (await User.findOne({ username }))?._id?.toString() !== id
@@ -156,13 +167,29 @@ app.put(
         user.bio = bio;
         user.name = name;
         user.image = {
-            src: `http://localhost:9999/images/${req.file.filename}`,
+            src: `${
+                req.file
+                    ? "http://localhost:9999/images/" + req.file.filename
+                    : user.image.src
+            }`,
             alt: user.image.alt,
         };
         try {
             await user.save();
-
-            res.send(user);
+            const token = jwt.sign(
+                {
+                    _id: user._id,
+                    username: user.username,
+                    name: user.name,
+                    isAdmin: user.isAdmin,
+                    email: user.email,
+                    image: user.image,
+                    createdAt: user.createdAt,
+                },
+                process.env.JWT_SECRET,
+                { expiresIn: "30h" }
+            );
+            res.send(token);
         } catch (err) {
             if (req.file) {
                 fs.unlinkSync(req.file.path);

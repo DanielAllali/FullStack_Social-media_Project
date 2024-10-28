@@ -37,10 +37,11 @@ div.likeComment button i.bi-hand-thumbs-up-fill {
     flex-direction: column !important;
 }
 #messages > div ul {
+    width: 100%;
     overflow-y: hidden;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     justify-content: start !important;
     gap: 5px !important;
 }
@@ -106,11 +107,16 @@ div.likeComment button i.bi-hand-thumbs-up-fill {
 
 #messages > div > div {
     display: flex;
-    flex-direction: row;
+    flex-direction: column !important   ;
     align-items: center;
     justify-content: start !important;
     gap: 5px;
     margin: 0 auto;
+}
+#messages > div > div div.inputAndSend {
+    flex-direction: row !important;
+    align-items: center !important  ;
+    justify-content: center !important  ;
 }
 #messages > div > div div {
     width: 100%;

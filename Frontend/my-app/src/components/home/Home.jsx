@@ -8,7 +8,6 @@ import Header from "../header/Header";
 import useApi, { METHOD } from "../../hooks/useApi";
 import Messages from "../post/Messages";
 import CreatePost from "../createPost/CreatePost";
-import RefreshBtn from "../refreshBtn/RefreshBtn";
 import { useNavigate } from "react-router-dom";
 import { login } from "../TiktakSlice";
 import toast from "react-hot-toast";
@@ -26,7 +25,6 @@ const Home = () => {
     const [posts, setPosts] = useState(null);
     const [users, setUsers] = useState(null);
     const [messages, setMessages] = useState(null);
-    const [displayRefreshBtn, setDisplayRefreshBtn] = useState(false);
     const [method, setMethod] = useState(null);
     useEffect(() => {
         const token = localStorage.getItem("jwt-token");
@@ -85,7 +83,6 @@ const Home = () => {
         <div id="home">
             <Header />
             {signupPopup && <SignupPopup setIsDisplay={setSignupPopup} />}
-            {displayRefreshBtn && <RefreshBtn />}
             <div className="content">
                 {user && (
                     <div className="createPost">
@@ -152,7 +149,6 @@ const Home = () => {
             </div>
             {createPostPopup && (
                 <CreatePost
-                    setDisplayRefreshBtn={setDisplayRefreshBtn}
                     user={user}
                     setCreatePostPopup={setCreatePostPopup}
                 />

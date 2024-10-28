@@ -1,0 +1,180 @@
+#settings {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 120px;
+    padding-bottom: 80px;
+}
+#settings .settingsMain {
+    width: 800px;
+    background-color: var(--weak);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), 0 16px 40px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#settings .settingsMain > div.tabs {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
+}
+#settings .settingsMain > div.tabs div {
+    width: 30%;
+    min-height: 200px;
+    background-color: var(--bgc);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+#settings .settingsMain > div.tabs > div:hover {
+    background-color: var(--strong-fade);
+}
+#settings .settingsMain > div.tabs div img {
+    width: 100px;
+}
+#settings .settingsMain > div.tabs div div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    background: none;
+}
+#settings .settingsMain > div.tabs div div h1 {
+    font-size: 1.5rem;
+}
+#settings .tab {
+    margin-top: 80px;
+    background-color: var(--weak);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#settings .returnToMain {
+    background-color: var(--weak);
+    width: 150px;
+    height: 50px;
+    font-size: 2rem;
+    position: absolute;
+    top: 120px;
+    right: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+#settings .returnToMain:hover {
+    background-color: var(--strong-fade);
+}
+
+#settings .themeTab div {
+    width: 100%;
+    padding: 10px;
+}
+#settings .themeTab > button {
+    font-size: 1.5rem;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: var(--bgc);
+    border: 1px solid var(--strong);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+#settings .themeTab > button:hover {
+    border: 1px solid var(--bgc);
+}
+#settings .themeTab div ul {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style-type: none;
+}
+#settings .themeTab div ul li {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+#settings .themeTab div ul li:first-child {
+    width: 50px;
+    height: 50px;
+}
+#settings .themeTab div ul li.light {
+    background-color: #fff;
+    border: 3px solid #519bfc;
+}
+#settings .themeTab div ul li.dark {
+    background-color: #000;
+    border: 3px solid #519bfc;
+}
+#settings .themeTab div ul li.lightCrimson {
+    background-color: #fff;
+    border: 3px solid #dc143c;
+}
+#settings .themeTab div ul li.darkCrimson {
+    background-color: #000;
+    border: 3px solid #dc143c;
+}
+#settings .themeTab div ul li.lightPink {
+    background-color: #fff;
+    border: 3px solid #ff69b4;
+}
+#settings .themeTab div ul li.darkPink {
+    background-color: #000;
+    border: 3px solid #ff69b4;
+}
+@media (max-width: 900px) {
+    #settings .settingsMain {
+        width: 500px;
+    }
+    #settings .settingsMain > div.tabs div img {
+        width: 80px;
+    }
+    #settings .settingsMain > div.tabs div div h1 {
+        font-size: 1rem;
+    }
+    #settings .settingsMain > div.tabs div div p {
+        width: 100%;
+        font-size: 0.7rem;
+    }
+    #settings .settingsMain > div.tabs div {
+        min-height: 150px;
+    }
+}
+@media (max-width: 550px) {
+    #settings .settingsMain {
+        width: 300px;
+    }
+    #settings .settingsMain > div.tabs div {
+        width: 45%;
+        min-height: 50px;
+    }
+    #settings .settingsMain > div.tabs div img {
+        width: 50px;
+    }
+    #settings .settingsMain > div.tabs div div {
+        padding: 0 !important;
+    }
+    #settings .settingsMain > div.tabs div div h1 {
+        font-size: 0.7rem;
+    }
+    #settings .settingsMain > div.tabs div div p {
+        width: 100%;
+        font-size: 0.5rem;
+    }
+}

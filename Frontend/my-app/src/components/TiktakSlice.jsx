@@ -6,7 +6,7 @@ if (!localStorage.getItem("Language")) {
 if (!localStorage.getItem("Theme")) {
     localStorage.setItem("Theme", "light");
 }
-const lightTheme = {
+const light = {
     type: "light",
     bgc: "#F0F2F5",
     weak: "#ffffff",
@@ -14,7 +14,7 @@ const lightTheme = {
     highlight_weak: "#519bfc",
     highlight_strong: "#1877F2",
 };
-const darkTheme = {
+const dark = {
     type: "dark",
     bgc: "#18191A",
     weak: "#242526",
@@ -22,10 +22,46 @@ const darkTheme = {
     highlight_weak: "#519bfc",
     highlight_strong: "#1877F2",
 };
+const lightCrimson = {
+    type: "lightCrimson",
+    bgc: "#F0F2F5",
+    weak: "#ffffff",
+    strong: "#000000",
+    highlight_weak: "#dc143c",
+    highlight_strong: "#A4001D",
+};
+const darkCrimson = {
+    type: "darkCrimson",
+    bgc: "#18191A",
+    weak: "#242526",
+    strong: "#ffffff",
+    highlight_weak: "#dc143c",
+    highlight_strong: "#A4001D",
+};
+const lightPink = {
+    type: "lightPink",
+    bgc: "#F0F2F5",
+    weak: "#ffffff",
+    strong: "#000000",
+    highlight_weak: "#ff69b4",
+    highlight_strong: "#FF1493",
+};
+const darkPink = {
+    type: "darkPink",
+    bgc: "#18191A",
+    weak: "#242526",
+    strong: "#ffffff",
+    highlight_weak: "#ff69b4",
+    highlight_strong: "#FF1493",
+};
+const themes = { light, dark, lightCrimson, darkCrimson, lightPink, darkPink };
+let currentThemeObj = themes[localStorage.getItem("Theme")];
+
 const initialState = {
     language: localStorage.getItem("Language"),
-    theme: localStorage.getItem("Theme") == "dark" ? darkTheme : lightTheme,
+    theme: currentThemeObj === "" ? light : currentThemeObj,
     user: null,
+    displayRefreshBtn: false,
 };
 
 const tiktakSlice = createSlice({
@@ -36,17 +72,12 @@ const tiktakSlice = createSlice({
             state.language = language.payload;
             localStorage.setItem("Language", language.payload);
         },
-        setLightTheme: (state) => {
-            state.theme = lightTheme;
-            localStorage.setItem("Theme", "light");
-        },
-        setDarkTheme: (state) => {
-            state.theme = darkTheme;
-            localStorage.setItem("Theme", "dark");
-        },
-        setCustomTheme: (state, newTheme) => {
-            state.theme = newTheme.payload;
-            localStorage.setItem("Theme", "custom");
+
+        setTheme: (state, newTheme) => {
+            if (themes.filter((t) => t === newTheme.payload).length === 0) {
+                state.theme = newTheme.payload;
+                localStorage.setItem("Theme", newTheme.payload);
+            }
         },
         login: (state, newUser) => {
             state.user = newUser.payload;
@@ -54,16 +85,13 @@ const tiktakSlice = createSlice({
         logout: (state) => {
             state.user = null;
         },
+        setDisplayRefreshBtn: (state) => {
+            state.displayRefreshBtn = true;
+        },
     },
 });
 
-export const {
-    setLanguage,
-    setDarkTheme,
-    setLightTheme,
-    setCustomTheme,
-    login,
-    logout,
-} = tiktakSlice.actions;
+export const { setLanguage, setTheme, login, logout, setDisplayRefreshBtn } =
+    tiktakSlice.actions;
 
 export default tiktakSlice.reducer;

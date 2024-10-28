@@ -1,0 +1,22 @@
+#postPreview {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    margin-top: 120px;
+    margin-bottom: 120px;
+}
+#postPreview .post {
+    width: 700px;
+}
+@media (max-width: 800px) {
+    #postPreview .post {
+        width: 500px;
+    }
+}
+@media (max-width: 600px) {
+    #postPreview .post {
+        width: 300px;
+    }
+}

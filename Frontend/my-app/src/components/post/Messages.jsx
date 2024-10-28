@@ -287,7 +287,7 @@ const Messages = ({
                         </ul>
                         <div>
                             {user && (
-                                <>
+                                <div className="inputAndSend">
                                     <div>
                                         <input
                                             ref={inputRef}
@@ -327,7 +327,7 @@ const Messages = ({
                                     >
                                         <i className="bi bi-send"></i>
                                     </button>
-                                </>
+                                </div>
                             )}
                             <Link>
                                 <button

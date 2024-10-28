@@ -60,6 +60,7 @@ const Header = () => {
             setFilteredPosts([]);
         }
     }, [searchValue, posts]);
+
     return (
         <div
             id="header"
@@ -147,7 +148,7 @@ const Header = () => {
                                     </h4>
                                 </li>
                                 <li>
-                                    <Link to="/settings">
+                                    <Link to="/user/settings/main">
                                         <i className="bi bi-gear-fill"></i>
                                         <h1>
                                             {language === "HE"

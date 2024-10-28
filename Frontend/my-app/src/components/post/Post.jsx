@@ -152,7 +152,12 @@ const Post = ({ post }) => {
                     </div>
                     <div className="postBody">
                         {p.image.src && isImageValid && (
-                            <div>
+                            <div
+                                style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                    navigate(`/posts/${p._id}`);
+                                }}
+                            >
                                 {p.image?.src && (
                                     <img src={p.image?.src} alt="Image" />
                                 )}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./footer.css";
 import { useDispatch, useSelector } from "react-redux";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { setDarkTheme, setLanguage, setLightTheme } from "../TiktakSlice";
+import { setLanguage, setTheme } from "../TiktakSlice";
 import { Link } from "react-router-dom";
 
 const Footer = ({
@@ -11,6 +11,7 @@ const Footer = ({
     displaySettings = true,
     marginTop = true,
     displayArrow = true,
+    displayTheme = true,
     width = "100vw",
 }) => {
     const language = useSelector((state) => state.tiktak.language);
@@ -24,11 +25,11 @@ const Footer = ({
     };
     const handleChangeTheme = () => {
         if (theme.type != "dark") {
-            dispatch(setDarkTheme());
+            dispatch(setTheme("light"));
             return;
         }
         if (theme.type != "light") {
-            dispatch(setLightTheme());
+            dispatch(setTheme("dark"));
             return;
         }
     };
@@ -85,13 +86,15 @@ const Footer = ({
                 )}
                 {displaySettings && (
                     <div>
-                        <button onClick={handleChangeTheme}>
-                            {localStorage.getItem("Theme") == "light" ? (
-                                <i className="bi bi-brightness-high"></i>
-                            ) : (
-                                <i className="bi bi-moon"></i>
-                            )}
-                        </button>
+                        {displayTheme && (
+                            <button onClick={handleChangeTheme}>
+                                {localStorage.getItem("Theme") == "light" ? (
+                                    <i className="bi bi-brightness-high"></i>
+                                ) : (
+                                    <i className="bi bi-moon"></i>
+                                )}
+                            </button>
+                        )}
                         <div>
                             <i className="bi bi-globe2"></i>
                             <select

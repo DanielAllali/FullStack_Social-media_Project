@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import "./editUser.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useApi, { METHOD } from "../../hooks/useApi";
 import { verifyEditUser } from "../../guard";
 import toast from "react-hot-toast";
+import { setDisplayRefreshBtn } from "../TiktakSlice";
 
 const EditUser = ({ setIsEditUser, user }) => {
     const language = useSelector((state) => state.tiktak.language);
     const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
+    const [method, setMethod] = useState(null);
 
+    const dispatch = useDispatch();
     const [fields, setFields] = useState({
         firstName: user.name.firstName,
         lastName: user.name.lastName,
         username: user.username,
-        bio: user.bio || "",
+        bio: user.bio,
         imageURL: user.image.src || "",
     });
     const [fieldErrors, setFieldErrors] = useState({
@@ -54,17 +57,15 @@ const EditUser = ({ setIsEditUser, user }) => {
         e.preventDefault();
 
         const formData = new FormData();
+        const fileInput = document.querySelector('input[type="file"]');
+        const file = fileInput?.files[0];
 
         formData.append("name[firstName]", fields.firstName);
         formData.append("name[lastName]", fields.lastName);
         formData.append("username", fields.username);
         formData.append("bio", fields.bio);
 
-        const imageFile = document.querySelector('input[type="file"]').files[0];
-
-        if (imageFile) {
-            formData.append("image", imageFile);
-        }
+        formData.append("image", file);
 
         await callApi(
             `http://localhost:9999/users/${user._id}`,
@@ -75,21 +76,25 @@ const EditUser = ({ setIsEditUser, user }) => {
                 "Content-Type": "multipart/form-data",
             }
         );
+        setMethod("EDIT USER");
     };
     useEffect(() => {
-        if (apiResponse && !errors) {
-            console.log(apiResponse);
-
+        if (apiResponse && !errors && method === "EDIT USER") {
+            localStorage.setItem("jwt-token", apiResponse);
             toast.success(
                 language === "HE"
                     ? "משתמש התעדכן בהצלחה!"
                     : "User updated successfuly!"
             );
+            setMethod(null);
+            dispatch(setDisplayRefreshBtn());
+            setIsEditUser(false);
         }
         if (errors) {
             toast.error(errors?.response?.data);
         }
-    }, [apiResponse, errors]);
+    }, [apiResponse, errors, method]);
+
     return (
         <div id="editUserWrapper">
             <div className="editUserContent">

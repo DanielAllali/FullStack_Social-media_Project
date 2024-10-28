@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./createPost.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { verifyCreatePost } from "../../guard";
 import useApi, { METHOD } from "../../hooks/useApi";
 import toast from "react-hot-toast";
+import { setDisplayRefreshBtn } from "../TiktakSlice";
 
-const CreatePost = ({ setCreatePostPopup, user, setDisplayRefreshBtn }) => {
+const CreatePost = ({ setCreatePostPopup, user }) => {
     const language = useSelector((state) => state.tiktak.language);
 
+    const dispatch = useDispatch();
     const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
     const [fields, setFields] = useState({
         title: "",
@@ -71,7 +73,7 @@ const CreatePost = ({ setCreatePostPopup, user, setDisplayRefreshBtn }) => {
                     ? "פוסט נוצר בהצלחה!"
                     : "Post created successfuly!"
             );
-            setDisplayRefreshBtn(true);
+            dispatch(setDisplayRefreshBtn());
             setCreatePostPopup(false);
         } else if (errors) {
             toast.error(

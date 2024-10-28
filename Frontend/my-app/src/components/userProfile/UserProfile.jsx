@@ -388,7 +388,7 @@ const UserProfile = () => {
                         </div>
                     )}
                     {tab === "saved-posts" && userProfile && posts && (
-                        <div className="followers">
+                        <div className="posts">
                             <ul>
                                 {posts
                                     .filter((p) =>
@@ -414,7 +414,7 @@ const UserProfile = () => {
                         </div>
                     )}
                     {tab === "liked-posts" && userProfile && posts && (
-                        <div className="followers">
+                        <div className="posts">
                             <ul>
                                 {posts
                                     .filter((p) =>
@@ -437,9 +437,13 @@ const UserProfile = () => {
                     )}
                 </>
             )}
-            {isEditUser && (
-                <EditUser setIsEditUser={setIsEditUser} user={user} />
-            )}
+            {isEditUser &&
+                user._id.toString() === userProfile._id.toString() && (
+                    <EditUser
+                        setIsEditUser={setIsEditUser}
+                        user={userProfile}
+                    />
+                )}
             <div className="footerInHome">
                 <Footer
                     displayLogo={false}
