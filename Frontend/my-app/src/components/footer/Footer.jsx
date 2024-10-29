@@ -24,12 +24,12 @@ const Footer = ({
         dispatch(setLanguage(e.target.value));
     };
     const handleChangeTheme = () => {
-        if (theme.type != "dark") {
-            dispatch(setTheme("light"));
+        if (theme.type.includes("light")) {
+            dispatch(setTheme(theme.type.replace("light", "dark")));
             return;
         }
-        if (theme.type != "light") {
-            dispatch(setTheme("dark"));
+        if (theme.type.includes("dark")) {
+            dispatch(setTheme(theme.type.replace("dark", "light")));
             return;
         }
     };
@@ -88,7 +88,9 @@ const Footer = ({
                     <div>
                         {displayTheme && (
                             <button onClick={handleChangeTheme}>
-                                {localStorage.getItem("Theme") == "light" ? (
+                                {localStorage
+                                    .getItem("Theme")
+                                    .includes("light") ? (
                                     <i className="bi bi-brightness-high"></i>
                                 ) : (
                                     <i className="bi bi-moon"></i>

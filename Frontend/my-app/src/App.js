@@ -19,41 +19,51 @@ function App() {
     );
 
     useEffect(() => {
-        document.body.style.setProperty("--backgroundColor", theme.bgc);
-    }, [theme.bgc]);
+        if (theme) {
+            document.body.style.setProperty("--backgroundColor", theme.bgc);
+        }
+    }, [theme]);
     return (
-        <div
-            className="App"
-            style={{
-                overflowX: "hidden",
-                "--bgc": theme.bgc,
-                "--weak": theme.weak,
-                "--weak-fade": `${theme.weak}99`,
-                "--strong-fade": `${theme.strong}4D`,
-                "--strong": theme.strong,
-                "--highlight": theme.highlight_weak,
-                "--highlight_strong": theme.highlight_strong,
-                "--direction": language === "HE" ? "rtl" : "ltr",
-            }}
-        >
-            <div>
-                <Toaster position="top-right" reverseOrder={false} />
+        theme && (
+            <div
+                className="App"
+                style={{
+                    overflowX: "hidden",
+                    "--bgc": theme.bgc,
+                    "--weak": theme.weak,
+                    "--weak-fade": `${theme.weak}99`,
+                    "--strong-fade": `${theme.strong}4D`,
+                    "--strong": theme.strong,
+                    "--highlight": theme.highlight_weak,
+                    "--highlight_strong": theme.highlight_strong,
+                    "--direction": language === "HE" ? "rtl" : "ltr",
+                }}
+            >
+                <div>
+                    <Toaster position="top-right" reverseOrder={false} />
+                </div>
+                {displayRefreshBtn && <RefreshBtn />}
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/signup" element={<Signup />} />
+                        <Route
+                            path="/user-profile/:userId/:tab"
+                            element={<UserProfile />}
+                        />
+                        <Route
+                            path="/posts/:postId"
+                            element={<PostPreview />}
+                        />
+                        <Route
+                            path="/user/settings/:tab"
+                            element={<Settings />}
+                        />
+                    </Routes>
+                </BrowserRouter>
             </div>
-            {displayRefreshBtn && <RefreshBtn />}
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route
-                        path="/user-profile/:userId/:tab"
-                        element={<UserProfile />}
-                    />
-                    <Route path="/posts/:postId" element={<PostPreview />} />
-                    <Route path="/user/settings/:tab" element={<Settings />} />
-                </Routes>
-            </BrowserRouter>
-        </div>
+        )
     );
 }
 

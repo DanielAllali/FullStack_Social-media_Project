@@ -58,7 +58,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    background-color: var(--background-color);
+    background-color: var(--bgc);
     transition: all 0.5s;
 }
 #welcomeDiv > div > div form input {
@@ -68,13 +68,13 @@
     padding: 5px;
     border-radius: 10px;
     border: 1px solid #ccc;
-    background-color: var(--background-color) !important;
+    background-color: var(--bgc) !important;
     font-size: 0.8rem;
     transition: all 0.5s;
 }
 #welcomeDiv > div > div form input:focus {
     outline: none;
-    border-color: var(--hover-background-color, #1877f2);
+    border-color: var(--highlight_strong, #1877f2);
 }
 
 #welcomeDiv > div > div form input:focus + label {
@@ -108,7 +108,7 @@
     margin-top: 20px;
     cursor: pointer;
     background-color: var(--btnBackground-color, #519bfc);
-    color: var(--background-color);
+    color: var(--bgc);
     font-size: 1rem;
     gap: 10px;
     display: flex;
@@ -118,11 +118,11 @@
     transition: all 0.2s;
 }
 #welcomeDiv > div > div form button[type="submit"] h3 {
-    color: var(--background-color);
+    color: var(--bgc);
 }
 #welcomeDiv > div > div form button[type="submit"]:hover,
 #welcomeDiv > div > div form button[type="submit"]:active {
-    background-color: var(--hover-btnBackground-color, #1877f2);
+    background-color: var(--highlight_strong);
 }
 #welcomeDiv > div > div form button[type="submit"].disabled {
     background-color: #ccc !important;

@@ -200,10 +200,16 @@ app.put(
 );
 
 app.delete("/users/:id", the_registered_user_guard, async (req, res) => {
-    const { id } = req.params;
+    const { id, password } = req.params;
     const user = await User.findById(id);
     if (!user) {
         return res.status(403).send("User not found.");
+    }
+    if (!password) {
+        return res.status(403).send("You need to provide password.");
+    }
+    if (!bcrypt.compare(password, user.password)) {
+        return res.status(401).send("Password incorrect.");
     }
 
     user.deleted = true;

@@ -5,6 +5,7 @@ import Post from "./handlers/posts/posts.model.mjs";
 
 const the_registered_user_guard = (req, res, next) => {
     const { id } = req.params;
+
     if (!req.headers.authorization) {
         return res.status(403).send("Need to provide user jwt token.");
     }

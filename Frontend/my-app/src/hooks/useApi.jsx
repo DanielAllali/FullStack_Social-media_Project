@@ -30,6 +30,10 @@ const useApi = () => {
                     response = await axios.put(url, payload, { headers });
                     setApiResponse(response.data);
                     break;
+                case METHOD.DELETE:
+                    response = await axios.delete(url, payload, { headers });
+                    setApiResponse(response.data);
+                    break;
             }
             setApiResponse(response.data);
         } catch (err) {
@@ -50,6 +54,7 @@ export const METHOD = {
     GET: "GET",
     PATCH: "PATCH",
     PUT: "PUT",
+    DELETE: "DELETE",
 };
 
 export default useApi;

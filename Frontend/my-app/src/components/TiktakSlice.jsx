@@ -59,7 +59,7 @@ let currentThemeObj = themes[localStorage.getItem("Theme")];
 
 const initialState = {
     language: localStorage.getItem("Language"),
-    theme: currentThemeObj === "" ? light : currentThemeObj,
+    theme: currentThemeObj === null ? light : currentThemeObj,
     user: null,
     displayRefreshBtn: false,
 };
@@ -74,8 +74,8 @@ const tiktakSlice = createSlice({
         },
 
         setTheme: (state, newTheme) => {
-            if (themes.filter((t) => t === newTheme.payload).length === 0) {
-                state.theme = newTheme.payload;
+            if (themes[newTheme.payload]) {
+                state.theme = themes[newTheme.payload];
                 localStorage.setItem("Theme", newTheme.payload);
             }
         },
