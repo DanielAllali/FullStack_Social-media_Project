@@ -31,7 +31,7 @@ const useApi = () => {
                     setApiResponse(response.data);
                     break;
                 case METHOD.DELETE:
-                    response = await axios.delete(url, payload, { headers });
+                    response = await axios.delete(url, { headers });
                     setApiResponse(response.data);
                     break;
             }

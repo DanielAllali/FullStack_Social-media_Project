@@ -1,0 +1,96 @@
+#sandbox {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 120px;
+}
+#sandbox .sandboxContent {
+    width: 500px;
+    background-color: var(--weak);
+    border-radius: 10px;
+    padding: 10px;
+}
+#sandbox .sandboxContent ul > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+#sandbox .sandboxContent ul > div h2 {
+    font-size: 1rem;
+}
+#sandbox .sandboxContent ul > div img {
+    width: 50px;
+}
+#sandbox .sandboxContent .sandboxContent > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#sandbox .sandboxContent > div button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+#sandbox .sandboxContent > div button:hover {
+    background-color: var(--highlight);
+}
+#sandbox .sandboxContent > div button:hover i {
+    color: var(--weak);
+}
+#sandbox .sandboxContent ul {
+    width: 100%;
+    list-style-type: none;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+#sandbox .sandboxContent ul li {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    gap: 5px;
+    cursor: pointer;
+}
+#sandbox .sandboxContent ul li:hover div {
+    background-color: var(--strong-fade);
+}
+#sandbox .sandboxContent ul li img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+#sandbox .sandboxContent ul li div {
+    width: calc(100% - 50px);
+    background-color: var(--bgc);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+#sandbox .sandboxContent ul li div h3 {
+    font-size: 0.8rem;
+}
+#sandbox .sandboxContent ul + div button.active {
+    background-color: var(--highlight);
+}
+@media (max-width: 530px) {
+    #sandbox .sandboxContent {
+        width: 300px;
+    }
+    #sandbox .sandboxContent ul li div h2 {
+        font-size: 1.2rem;
+    }
+    #sandbox .sandboxContent ul li div p {
+        font-size: 0.9rem;
+    }
+}

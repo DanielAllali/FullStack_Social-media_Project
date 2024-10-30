@@ -12,6 +12,7 @@ import {
     generateUsername,
     getUser,
     getUser_jwt,
+    registered_user_guard,
     the_registered_user_guard,
 } from "../../guard.mjs";
 import jwt from "jsonwebtoken";
@@ -115,6 +116,7 @@ app.post("/users/login", async (req, res) => {
             isAdmin: user.isAdmin,
             email: user.email,
             image: user.image,
+            deleted: user.deleted,
             createdAt: user.createdAt,
         },
         process.env.JWT_SECRET,
@@ -184,6 +186,7 @@ app.put(
                     isAdmin: user.isAdmin,
                     email: user.email,
                     image: user.image,
+                    deleted: user.deleted,
                     createdAt: user.createdAt,
                 },
                 process.env.JWT_SECRET,
@@ -200,15 +203,17 @@ app.put(
 );
 
 app.delete("/users/:id", the_registered_user_guard, async (req, res) => {
-    const { id, password } = req.params;
+    const { id } = req.params;
+    const { password } = req.query;
+
     const user = await User.findById(id);
     if (!user) {
-        return res.status(403).send("User not found.");
+        return res.status(404).send("User not found.");
     }
     if (!password) {
         return res.status(403).send("You need to provide password.");
     }
-    if (!bcrypt.compare(password, user.password)) {
+    if (!(await bcrypt.compare(password, user.password))) {
         return res.status(401).send("Password incorrect.");
     }
 
@@ -233,18 +238,21 @@ app.patch("/users/admin/:id", admin_guard, async (req, res) => {
         res.status(500).send(err.message ? err.message : "Server error.");
     }
 });
-app.post("/users/sandbox/:id", async (req, res) => {
+app.post("/users/sandbox/:id", registered_user_guard, async (req, res) => {
     try {
         const user = await getUser(req, res);
         if (!user) {
             return res.status(403).send("User not found.");
         }
-        const { content, image } = req.body;
+        const { content } = req.body;
+        const userSendMessage = await getUser_jwt(req, res);
 
-        if (!content || !image) {
-            return res
-                .status(403)
-                .send('Object must contain "content" and "image".');
+        if (!userSendMessage) {
+            return res.status(403).send("User not found.");
+        }
+
+        if (!content) {
+            return res.status(403).send('Object must contain "content".');
         }
         if (content.en) {
             for (const c in content) {
@@ -263,9 +271,14 @@ app.post("/users/sandbox/:id", async (req, res) => {
                     'Content must be an object with two keys "he" "en" and with value between 1-40 characters.'
                 );
         }
+
         const newSandbox = [
             ...user.sandbox,
-            { content, image, createdAt: new Date() },
+            {
+                content,
+                userSendId: userSendMessage._id,
+                createdAt: new Date(),
+            },
         ];
         user.sandbox = newSandbox;
         await user.save();

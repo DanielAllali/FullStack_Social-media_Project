@@ -8,17 +8,26 @@ import chick from "../../media/images/chick.png";
 const SandboxSmall = ({ user }) => {
     const language = useSelector((state) => state.tiktak.language);
     const theme = useSelector((state) => state.tiktak.theme);
+
     const navigate = useNavigate();
     const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
     const [messages, setMessages] = useState(null);
+    const [users, setUsers] = useState(null);
+
     useEffect(() => {
         if (user) {
-            callApi("http://localhost:9999/users/" + user._id);
+            callApi("http://localhost:9999/users");
         }
     }, []);
     useEffect(() => {
-        if (apiResponse && apiResponse.sandbox) {
-            setMessages(apiResponse.sandbox.reverse());
+        if (apiResponse && !errors) {
+            setMessages(
+                apiResponse
+                    .filter((u) => u._id.toString() === user._id.toString())[0]
+                    .sandbox.reverse()
+                    .slice(0, 2)
+            );
+            setUsers(apiResponse);
         }
     }, [apiResponse, errors]);
     const getRelativeTime = (timestamp) => {
@@ -64,7 +73,16 @@ const SandboxSmall = ({ user }) => {
                     messages.map((m) => (
                         <li key={m._id}>
                             <div>
-                                <img src={m.image} alt="Profile picture" />
+                                <img
+                                    src={
+                                        users.filter(
+                                            (u) =>
+                                                u._id?.toString() ===
+                                                m.userSendId?.toString()
+                                        )[0].image.src
+                                    }
+                                    alt="Profile picture"
+                                />
                                 <p>
                                     {m.content.he && language === "HE"
                                         ? m.content.he
@@ -76,6 +94,9 @@ const SandboxSmall = ({ user }) => {
                             <h4>{getRelativeTime(m.createdAt)}</h4>
                         </li>
                     ))}
+                {messages && messages.length === 2 && (
+                    <i class="bi bi-three-dots"></i>
+                )}
                 {messages && messages.length < 1 && (
                     <div className="noMessages">
                         <h1>
@@ -89,7 +110,7 @@ const SandboxSmall = ({ user }) => {
             </ul>
             <button
                 onClick={() => {
-                    navigate("/sandbox");
+                    navigate(user ? `/user/sandbox/${user._id}` : "/");
                 }}
             >
                 {language === "HE" ? "כל ההודעות" : "All messages"}

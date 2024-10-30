@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from "react";
-import "./settings.css";
+import "./tabs.css";
 import { useSelector } from "react-redux";
-import useApi, { METHOD } from "../../hooks/useApi";
+import useApi, { METHOD } from "../../../hooks/useApi";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const DeleteUser = () => {
     const language = useSelector((state) => state.tiktak.language);
     const user = useSelector((state) => state.tiktak.user);
+    const navigate = useNavigate();
 
     const [password, setPassword] = useState("");
     const [passwordErr, setPasswordErr] = useState(null);
     const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
+    const [method, setMethod] = useState(null);
+
     useEffect(() => {
-        if (apiResponse && !errors) {
+        if (apiResponse && !errors && method === "DELETE USER") {
             localStorage.removeItem("jwt-token");
+            navigate("/");
+            setMethod(null);
             window.location.reload();
         }
-        if (errors) {
+        if (errors && method !== null) {
             if (errors.status === 401) {
                 toast.error(
                     language === "HE"
@@ -26,24 +32,36 @@ const DeleteUser = () => {
             }
             switch (errors.status) {
                 case 401:
-                    toast.error(
+                    const errFor401 =
                         language === "HE"
                             ? "סיסמה לא נכונה."
-                            : "Incorrect password."
-                    );
+                            : "Incorrect password.";
+                    toast.error(errFor401);
+                    setPasswordErr(errFor401);
+                    return;
+                case 403:
+                    const errFor403 =
+                        language === "HE"
+                            ? "צריך לספק סיסמה."
+                            : errors?.response?.data;
+                    toast.error(errFor403);
+                    setPasswordErr(errFor403);
+                    return;
                 default:
                     toast.error(errors?.response?.data);
+                    return;
             }
         }
     }, [apiResponse, errors]);
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        callApi(
-            `http://localhost:9999/users/${user._id}`,
+        await callApi(
+            `http://localhost:9999/users/${user._id}?password=${password}`,
             METHOD.DELETE,
-            { password },
+            null,
             { authorization: localStorage.getItem("jwt-token") }
         );
+        setMethod("DELETE USER");
     };
     return (
         user && (
@@ -51,7 +69,7 @@ const DeleteUser = () => {
                 <h1>{language === "HE" ? "מחיקת משתמש" : "Delete user"}</h1>
                 <p>
                     {language === "HE"
-                        ? "את/ה בטוח שאת/ה רוצה למחוק את המשתמש?"
+                        ? "את/ה בטוח/ה שאת/ה רוצה למחוק את המשתמש?"
                         : "Are you sure you want to delete your user?"}
                     <br />
                     {language === "HE"
@@ -70,7 +88,9 @@ const DeleteUser = () => {
                             language === "HE" ? "לדוגמה:" : "Example:"
                         } ${user.username}123`}
                     />
-                    {passwordErr && <h2>{passwordErr}</h2>}
+                    <h2 className={passwordErr ? "display" : ""}>
+                        {passwordErr}
+                    </h2>
                     <label htmlFor="password">
                         {language === "HE" ? "סיסמה" : "Password"}
                     </label>

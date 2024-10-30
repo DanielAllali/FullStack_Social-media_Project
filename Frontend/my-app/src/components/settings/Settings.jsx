@@ -9,8 +9,8 @@ import deleteIcon from "../../media/images/deleteIcon.png";
 import editUserIcon from "../../media/images/editUserIcon.png";
 import passwordIcon from "../../media/images/passwordIcon.png";
 import Footer from "../footer/Footer";
-import Theme from "./Theme";
-import DeleteUser from "./DeleteUser";
+import Theme from "./tabs/Theme";
+import DeleteUser from "./tabs/DeleteUser";
 
 const Settings = () => {
     const language = useSelector((state) => state.tiktak.language);

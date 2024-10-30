@@ -66,12 +66,22 @@ const Login = () => {
     useEffect(() => {
         if (apiResponse && !apiErrors) {
             try {
-                dispatch(login(jwtDecode(apiResponse)));
-                localStorage.setItem("jwt-token", apiResponse);
-                toast.success(
-                    language == "HE" ? "התחברת בהצלחה!" : "Login successfully!"
-                );
-                navigate("/");
+                if (!jwtDecode(apiResponse).deleted) {
+                    dispatch(login(jwtDecode(apiResponse)));
+                    localStorage.setItem("jwt-token", apiResponse);
+                    toast.success(
+                        language == "HE"
+                            ? "התחברת בהצלחה!"
+                            : "Login successfully!"
+                    );
+                    navigate("/");
+                } else {
+                    toast.error(
+                        language == "HE"
+                            ? "משתמש זה מחוק."
+                            : "This user is deleted."
+                    );
+                }
             } catch (err) {
                 localStorage.removeItem("jwt-token");
                 toast.error(err.message);

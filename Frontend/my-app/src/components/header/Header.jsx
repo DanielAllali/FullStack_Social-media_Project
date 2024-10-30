@@ -171,6 +171,7 @@ const Header = () => {
                                     onClick={() => {
                                         dispatch(logout());
                                         localStorage.removeItem("jwt-token");
+                                        navigate("/");
                                         window.location.reload();
                                     }}
                                 >

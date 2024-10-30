@@ -44,7 +44,7 @@ const userSchema = new Schema(
                     en: { type: String, required: true },
                     he: { type: String, required: true },
                 },
-                image: String,
+                userSendId: { type: Schema.Types.ObjectId, ref: "User" },
                 createdAt: Date,
             },
         ],

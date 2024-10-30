@@ -10,6 +10,7 @@ import UserProfile from "./components/userProfile/UserProfile";
 import RefreshBtn from "./components/refreshBtn/RefreshBtn";
 import PostPreview from "./components/postPreview/PostPreview";
 import Settings from "./components/settings/Settings";
+import Sandbox from "./components/sandbox/Sandbox";
 
 function App() {
     const theme = useSelector((state) => state.tiktak.theme);
@@ -59,6 +60,10 @@ function App() {
                         <Route
                             path="/user/settings/:tab"
                             element={<Settings />}
+                        />
+                        <Route
+                            path="/user/sandbox/:userId"
+                            element={<Sandbox />}
                         />
                     </Routes>
                 </BrowserRouter>

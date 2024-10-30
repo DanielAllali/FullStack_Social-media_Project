@@ -31,7 +31,6 @@ const Post = ({ post }) => {
                         en: `${user.username} liked your post`,
                         he: `${user.username} עשה לייק`,
                     },
-                    image: user.image.src,
                 });
             }
             setP(apiResponse);
@@ -41,6 +40,7 @@ const Post = ({ post }) => {
             setMethod(null);
         }
     }, [method, apiResponse, errors]);
+
     useEffect(() => {
         const fetchData = async () => {
             await callApi("http://localhost:9999/users");
@@ -100,10 +100,12 @@ const Post = ({ post }) => {
         callApi(
             `http://localhost:9999/users/sandbox/${p.user_id}`,
             METHOD.POST,
-            message
+            message,
+            { authorization: localStorage.getItem("jwt-token") }
         );
         setMethod("ADD TO SANDBOX");
     };
+
     return (
         <div id="post" key={p ? p._id : ""}>
             {users && p && (
@@ -194,6 +196,7 @@ const Post = ({ post }) => {
                         {p && (
                             <>
                                 <Messages
+                                    addToSandbox={addToSandbox}
                                     user={user}
                                     setMessagesParent={setMessages}
                                     handleToggleLikePost={handleToggleLikePost}

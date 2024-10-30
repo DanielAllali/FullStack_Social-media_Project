@@ -13,6 +13,7 @@ const Messages = ({
     checkIfLiked,
     setMessagesParent,
     user,
+    addToSandbox,
 }) => {
     const language = useSelector((state) => state.tiktak.language);
     const theme = useSelector((state) => state.tiktak.theme);
@@ -63,6 +64,12 @@ const Messages = ({
             setMethod(null);
         }
         if (apiResponse && !errors && method === "ADD COMMENT") {
+            addToSandbox({
+                content: {
+                    en: `${user.username} commented on your post`,
+                    he: `${user.username} הגיב לפוסט שלך`,
+                },
+            });
             const updatedMessages = [...messages, apiResponse];
             setMessages(updatedMessages);
             setMessagesParent((prevMessages) => [...prevMessages, apiResponse]);

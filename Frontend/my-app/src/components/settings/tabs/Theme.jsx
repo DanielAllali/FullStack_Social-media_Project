@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./settings.css";
+import "./tabs.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setDisplayRefreshBtn } from "../TiktakSlice";
+import { setDisplayRefreshBtn } from "../../TiktakSlice";
 import toast from "react-hot-toast";
 
 const Theme = () => {

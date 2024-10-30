@@ -253,9 +253,9 @@ const verifyCreatePost = {
     },
 };
 const verifySandbox = (sandbox) => {
-    const { content, image } = sandbox;
+    const { content } = sandbox;
 
-    if (!content || !image) {
+    if (!content) {
         return {
             valid: false,
             message: {

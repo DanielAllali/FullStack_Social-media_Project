@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import Footer from "../footer/Footer";
 import Post from "../post/Post";
 import EditUser from "./EditUser";
+import { verifySandbox } from "../../guard";
 
 const UserProfile = () => {
     const language = useSelector((state) => state.tiktak.language);
@@ -44,6 +45,14 @@ const UserProfile = () => {
             setMethod(null);
         }
         if (apiResponse && !errors && method === "TOGGLE FOLLOW USER") {
+            if (checkIfFollow()) {
+                addToSandbox({
+                    content: {
+                        en: `${user.username} followed you`,
+                        he: `${user.username} עקב אחריך`,
+                    },
+                });
+            }
             let newUser = userProfile;
             newUser.followers = apiResponse.followers;
             setUserProfile(newUser);
@@ -85,6 +94,22 @@ const UserProfile = () => {
             );
             setMethod("TOGGLE FOLLOW USER");
         }
+    };
+    const addToSandbox = async (message) => {
+        const verify = verifySandbox(message);
+        if (!verify.valid) {
+            toast.error(
+                language === "HE" ? verify.message.he : verify.message.en
+            );
+            return;
+        }
+        callApi(
+            `http://localhost:9999/users/sandbox/${userProfile._id}`,
+            METHOD.POST,
+            message,
+            { authorization: localStorage.getItem("jwt-token") }
+        );
+        setMethod("ADD TO SANDBOX");
     };
 
     return (
