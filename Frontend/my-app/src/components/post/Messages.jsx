@@ -227,7 +227,7 @@ const Messages = ({
                     "--highlight_strong": theme.highlight_strong,
                 }}
             >
-                {isLoading && <Loader size={40} />}
+                {isLoading && <Loader size={50} />}
                 {messagesSmall && messages && users && (
                     <div>
                         <ul>

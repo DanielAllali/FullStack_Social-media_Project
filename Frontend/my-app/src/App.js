@@ -11,6 +11,7 @@ import RefreshBtn from "./components/refreshBtn/RefreshBtn";
 import PostPreview from "./components/postPreview/PostPreview";
 import Settings from "./components/settings/Settings";
 import Sandbox from "./components/sandbox/Sandbox";
+import Search from "./components/search/Search";
 
 function App() {
     const theme = useSelector((state) => state.tiktak.theme);
@@ -36,6 +37,7 @@ function App() {
                     "--strong-fade": `${theme.strong}4D`,
                     "--strong": theme.strong,
                     "--highlight": theme.highlight_weak,
+                    "--highlight-fade": `${theme.highlight_weak}4D`,
                     "--highlight_strong": theme.highlight_strong,
                     "--direction": language === "HE" ? "rtl" : "ltr",
                 }}
@@ -65,6 +67,7 @@ function App() {
                             path="/user/sandbox/:userId"
                             element={<Sandbox />}
                         />
+                        <Route path="/search/:tab" element={<Search />} />
                     </Routes>
                 </BrowserRouter>
             </div>

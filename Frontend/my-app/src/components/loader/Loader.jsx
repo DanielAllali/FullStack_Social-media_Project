@@ -6,8 +6,6 @@ const Loader = ({ size, bgc = "#ccc", loader = "#000" }) => {
             style={{
                 width: size + "px",
                 height: size + "px",
-                background: bgc,
-                borderRight: `5px solid ${loader}`,
             }}
             id="loader"
         ></div>

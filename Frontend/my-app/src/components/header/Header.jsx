@@ -231,8 +231,11 @@ const Header = () => {
                     )}
                     <li>
                         <Link
+                            to="/search/posts"
                             className={
-                                location.pathname === "/search" ? "current" : ""
+                                location.pathname.includes("/search")
+                                    ? "current"
+                                    : ""
                             }
                         >
                             <i className="bi bi-search"></i>

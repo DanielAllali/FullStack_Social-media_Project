@@ -1,0 +1,183 @@
+#search {
+    padding-top: 120px;
+    padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#search .searchContent {
+    width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+#search .searchSettings {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--weak);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), 0 16px 40px rgba(0, 0, 0, 0.05);
+}
+#search .searchSettings div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+#search .searchSettings div:not(div + div) {
+    gap: 10px;
+}
+#search .searchSettings div:not(div + div) button {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 20px;
+    border: 2px solid var(--strong);
+    background-color: var(--weak);
+    font-weight: bold;
+    cursor: pointer;
+
+    transition: all 0.2s;
+}
+#search .searchSettings div:not(div + div) button:hover {
+    background-color: var(--highlight-fade);
+    border: 2px solid var(--weak);
+}
+#search .searchSettings div:not(div + div) button.active {
+    background-color: var(--highlight-fade);
+    border: none;
+}
+#search .searchSettings div h2 {
+    margin: 10px;
+    margin-left: 20px;
+}
+#search .searchSettings div button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+#search .searchSettings div button.active {
+    background-color: var(--highlight);
+    color: var(--weak);
+}
+#search .searchSettings div button.active i {
+    color: var(--weak);
+}
+#search .searchSettings div button:hover {
+    background-color: var(--highlight);
+}
+#search .searchSettings div button:hover i {
+    color: var(--weak);
+}
+
+#search .searchSettings div form input {
+    border-radius: 20px 0 0 20px;
+    padding: 10px;
+    border: 1px solid var(--strong);
+    background: none;
+    transition: all 0.3s;
+}
+#search .searchSettings div form input:focus {
+    outline: none;
+    border: 1px solid var(--highlight);
+}
+#search .searchSettings div form input:focus + button {
+    border: 1px solid var(--highlight);
+    border-left: none;
+}
+#search .searchSettings div form button {
+    padding: 10px;
+    border: 1px solid #000;
+    border-left: none;
+    border-radius: 0 20px 20px 0;
+    transition: all 0.2s;
+}
+#search .searchContent .items {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#search .searchContent .items > ul {
+    width: 100%;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+}
+#search .searchContent .items > ul > li {
+    width: 100%;
+    background-color: var(--weak);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), 0 16px 40px rgba(0, 0, 0, 0.05);
+}
+#search .searchContent .items ul li.user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    cursor: pointer;
+    gap: 10px;
+}
+#search .searchContent .items ul li.user:hover {
+    background-color: var(--strong-fade);
+}
+#search .searchContent .items ul li.user img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+#search .searchContent .items ul li.user div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+#search .searchContent .items ul li.user div h1 {
+    font-size: 1rem;
+}
+#search .searchContent .items ul li.user div h2 {
+    font-size: 1rem;
+    color: var(--strong-fade);
+}
+
+#search li.pagesLi button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+#search li.pagesLi button:hover {
+    background-color: var(--highlight);
+}
+#search li.pagesLi button.active {
+    background-color: var(--highlight);
+}
+.searchLoader {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    background-color: var(--strong-fade);
+}

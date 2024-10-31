@@ -105,7 +105,32 @@ const Post = ({ post }) => {
         );
         setMethod("ADD TO SANDBOX");
     };
+    const getRelativeTime = (timestamp) => {
+        const now = new Date();
+        const date = new Date(timestamp);
+        const seconds = Math.floor((now - date) / 1000);
 
+        const intervals = [
+            { unit: "year", seconds: 31536000 },
+            { unit: "month", seconds: 2592000 },
+            { unit: "week", seconds: 604800 },
+            { unit: "day", seconds: 86400 },
+            { unit: "hour", seconds: 3600 },
+            { unit: "minute", seconds: 60 },
+            { unit: "second", seconds: 1 },
+        ];
+
+        for (const { unit, seconds: intervalSeconds } of intervals) {
+            const count = Math.floor(seconds / intervalSeconds);
+            if (count > 0) {
+                const rtf = new Intl.RelativeTimeFormat("en", {
+                    numeric: "auto",
+                });
+                return rtf.format(-count, unit);
+            }
+        }
+        return "just now";
+    };
     return (
         <div id="post" key={p ? p._id : ""}>
             {users && p && (
@@ -145,6 +170,7 @@ const Post = ({ post }) => {
                                         )[0]?.username
                                     }
                                 </h1>
+                                <h4>{getRelativeTime(p.createdAt)}</h4>
                             </div>
                             <div>
                                 <h1>{p.title}</h1>

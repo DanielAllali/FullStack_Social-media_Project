@@ -1,8 +1,8 @@
 #loader {
     background: none;
     border-radius: 50%;
-    border: 5px solid #fff;
-    border-right: 5px solid #000;
+    border: 2px solid var(--weak);
+    border-right: 5px solid var(--strong);
     animation: spin 1s infinite;
 }
 @keyframes spin {
