@@ -14,7 +14,7 @@ const Post = ({ post }) => {
 
     const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
     const [users, setUsers] = useState(null);
-    const [messages, setMessages] = useState(null);
+    const [messages, setMessages] = useState([]);
     const [method, setMethod] = useState(null);
     const [isImageValid, setIsImageValid] = useState(false);
     const [p, setP] = useState(post);

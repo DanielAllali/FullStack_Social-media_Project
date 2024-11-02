@@ -1,14 +1,14 @@
 import React from "react";
 import "./loader.css";
-const Loader = ({ size, bgc = "#ccc", loader = "#000" }) => {
+const Loader = ({ size }) => {
     return (
-        <div
+        <span
             style={{
-                width: size + "px",
-                height: size + "px",
+                width: size + "px !important",
+                height: size + "px !important",
             }}
             id="loader"
-        ></div>
+        ></span>
     );
 };
 

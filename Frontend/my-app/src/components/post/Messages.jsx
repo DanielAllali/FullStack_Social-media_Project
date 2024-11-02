@@ -29,38 +29,59 @@ const Messages = ({
     const [messageContent, setMessageContent] = useState("");
     const [inputError, setInputError] = useState(null);
     const inputRef = useRef(null);
-
     useEffect(() => {
         const fetchData = async () => {
-            await callApi("http://localhost:9999/users");
-            setMethod("GET ALL USERS");
-
-            await callApi("http://localhost:9999/messages");
-            setMethod("GET ALL MESSAGES");
+            if (!users && method === null) {
+                await callApi("http://localhost:9999/users");
+                setMethod("GET ALL USERS");
+            }
         };
         fetchData();
-        if (user) {
+        if (user && method === null) {
             updateFullUser();
         }
     }, []);
     useEffect(() => {
+        const fetchData = async () => {
+            if (!messages) {
+                await callApi("http://localhost:9999/messages");
+                setMethod("GET ALL MESSAGES");
+            }
+        };
+        fetchData();
+    }, [users]);
+
+    useEffect(() => {
+        if (messages && messages.length > 0) {
+            const lastIndex = messages.length - 1;
+            let newMessages = [...messages];
+            if (
+                new Date(messages[0].createdAt) <
+                new Date(messages[lastIndex].createdAt)
+            ) {
+                newMessages.reverse();
+            }
+        }
         if (messages) {
-            const newMessages = messages.reverse();
-            setMessagesSmall(newMessages.slice(0, 2));
+            setMessagesSmall(messages.slice(0, 2));
         }
     }, [messages]);
     useEffect(() => {
-        if (apiResponse && !errors && method === "GET ALL MESSAGES") {
-            const postMessages = apiResponse.filter(
-                (m) =>
-                    m.post_id.toString() === post._id.toString() && !m.deleted
-            );
-            setMessages(postMessages);
-            setMessagesParent(apiResponse);
+        if (apiResponse && !errors && method === "GET ALL USERS") {
+            if (apiResponse.length > 0 && apiResponse[0].username) {
+                setUsers(apiResponse);
+            }
             setMethod(null);
         }
-        if (apiResponse && !errors && method === "GET ALL USERS") {
-            setUsers(apiResponse);
+        if (apiResponse && !errors && method === "GET ALL MESSAGES") {
+            if (apiResponse.length > 0 && apiResponse[0].content) {
+                setMessages(
+                    apiResponse.filter(
+                        (m) => m.post_id === post._id && !m.deleted
+                    )
+                );
+                setMessagesParent(apiResponse);
+            }
             setMethod(null);
         }
         if (apiResponse && !errors && method === "ADD COMMENT") {
@@ -75,8 +96,10 @@ const Messages = ({
             setMessagesParent((prevMessages) => [...prevMessages, apiResponse]);
         }
         if (apiResponse && !errors && method === "GET FULL USER") {
-            setFullUser(apiResponse);
-            setMethod(null);
+            if (apiResponse.username) {
+                setFullUser(apiResponse);
+                setMethod(null);
+            }
         }
         if (apiResponse && !errors && method === "TOGGLE SAVE POST") {
             updateFullUser();
@@ -156,8 +179,49 @@ const Messages = ({
         }
         return false;
     };
+
+    const handleToggleLikeComment = async (m) => {
+        const token = localStorage.getItem("jwt-token");
+        if (token) {
+            await callApi(
+                `http://localhost:9999/messages/${m._id}`,
+                METHOD.PATCH,
+                null,
+                {
+                    authorization: token,
+                }
+            );
+            setMessages((prevMessages) => {
+                const updatedMessages = prevMessages.map((msg) => {
+                    if (msg._id === m._id) {
+                        const isLiked = checkIfCommentLiked(msg);
+                        const newLikes = isLiked
+                            ? msg.likes.filter((id) => id !== user._id)
+                            : [...msg.likes, user._id];
+                        return { ...msg, likes: newLikes };
+                    }
+                    return msg;
+                });
+                return updatedMessages;
+            });
+        }
+    };
+
+    const checkIfCommentLiked = (m) => {
+        if (user && m) {
+            return m.likes.some(
+                (likeId) => likeId.toString() === user._id.toString()
+            );
+        }
+        return false;
+    };
+
     return (
         <>
+            {!users && <h1>no users</h1>}
+
+            {!messages && <h1>no messages</h1>}
+            {!messagesSmall && <h1>no messagesSmall</h1>}
             {user && (
                 <>
                     <div className="likeComment">
@@ -227,7 +291,7 @@ const Messages = ({
                     "--highlight_strong": theme.highlight_strong,
                 }}
             >
-                {isLoading && <Loader size={50} />}
+                {isLoading && <Loader size={100} />}
                 {messagesSmall && messages && users && (
                     <div>
                         <ul>
@@ -270,8 +334,16 @@ const Messages = ({
                                     </div>
                                     <div>
                                         <h1>{getRelativeTime(m.createdAt)}</h1>
-                                        <button>
-                                            {language === "HE"
+                                        <button
+                                            onClick={() => {
+                                                handleToggleLikeComment(m);
+                                            }}
+                                        >
+                                            {checkIfCommentLiked(m)
+                                                ? language === "HE"
+                                                    ? "הסר לייק"
+                                                    : "Unlike"
+                                                : language === "HE"
                                                 ? "לייק"
                                                 : "Like"}
                                         </button>
@@ -386,8 +458,18 @@ const Messages = ({
                                                         m.createdAt
                                                     )}
                                                 </h1>
-                                                <button>
-                                                    {language === "HE"
+                                                <button
+                                                    onClick={() => {
+                                                        handleToggleLikeComment(
+                                                            m
+                                                        );
+                                                    }}
+                                                >
+                                                    {checkIfCommentLiked(m)
+                                                        ? language === "HE"
+                                                            ? "הסר לייק"
+                                                            : "Unlike"
+                                                        : language === "HE"
                                                         ? "לייק"
                                                         : "Like"}
                                                 </button>

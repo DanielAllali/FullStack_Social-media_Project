@@ -223,7 +223,6 @@ const Header = () => {
                             >
                                 <i className="bi bi-people"></i>
                                 <h4>
-                                    {" "}
                                     {language === "HE" ? "חברים" : "Friends"}
                                 </h4>
                             </Link>
