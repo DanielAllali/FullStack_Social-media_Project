@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./post.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useApi, { METHOD } from "../../hooks/useApi";
 import Messages from "./Messages";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { verifySandbox } from "../../guard";
+import { setDisplayRefreshBtn } from "../TiktakSlice";
+import EditPost from "../editPost/EditPost";
 
 const Post = ({ post }) => {
     const language = useSelector((state) => state.tiktak.language);
     const user = useSelector((state) => state.tiktak.user);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
     const [users, setUsers] = useState(null);
@@ -18,8 +21,15 @@ const Post = ({ post }) => {
     const [method, setMethod] = useState(null);
     const [isImageValid, setIsImageValid] = useState(false);
     const [p, setP] = useState(post);
+    const [displayDeletePost, setDisplayDeletePost] = useState(false);
+    const [displayEditPost, setDisplayEditPost] = useState(false);
 
     useEffect(() => {
+        if (apiResponse && !errors && method === "DELETE POST") {
+            setDisplayDeletePost(false);
+            dispatch(setDisplayRefreshBtn());
+            setMethod(null);
+        }
         if (apiResponse && !errors && method === "GET ALL USERS") {
             setUsers(apiResponse);
             setMethod(null);
@@ -131,8 +141,57 @@ const Post = ({ post }) => {
         }
         return "just now";
     };
+    const handleDeletePost = async (p) => {
+        const token = localStorage.getItem("jwt-token");
+        if (token) {
+            await callApi(
+                `http://localhost:9999/posts/${p._id}`,
+                METHOD.DELETE,
+                null,
+                {
+                    authorization: token,
+                }
+            );
+            setMethod("DELETE POST");
+        }
+    };
     return (
         <div id="post" key={p ? p._id : ""}>
+            {displayDeletePost && post && (
+                <div id="deletePostWrapper">
+                    <div>
+                        <h1>
+                            {language === "HE"
+                                ? "האם אתה בטוח שאתה רוצה למחוק את הפוסט הזה?"
+                                : "Are you sure you want to delete this post?"}
+                        </h1>
+                        <h2>
+                            {language === "HE"
+                                ? "אי אפשר לחזור על התהליך הזה."
+                                : "This proccess canot be undone."}
+                        </h2>
+                        <div>
+                            <button
+                                onClick={() => {
+                                    handleDeletePost(post);
+                                }}
+                            >
+                                {language === "HE" ? "מחק פוסט" : "Delete post"}
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setDisplayDeletePost(false);
+                                }}
+                            >
+                                {language === "HE" ? "סגור" : "Cancel"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {displayEditPost && (
+                <EditPost post={post} setDisplayEditPost={setDisplayEditPost} />
+            )}
             {users && p && (
                 <div>
                     <div className="postHeader">
@@ -173,8 +232,22 @@ const Post = ({ post }) => {
                                 <h4>{getRelativeTime(p.createdAt)}</h4>
                             </div>
                             <div>
-                                <h1>{p.title}</h1>
-                                <h4>{p.subtitle}</h4>
+                                <h1
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                        navigate(`/posts/${p._id}`);
+                                    }}
+                                >
+                                    {p.title}
+                                </h1>
+                                <h4
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                        navigate(`/posts/${p._id}`);
+                                    }}
+                                >
+                                    {p.subtitle}
+                                </h4>
                             </div>
                         </div>
                     </div>
@@ -228,6 +301,8 @@ const Post = ({ post }) => {
                                     handleToggleLikePost={handleToggleLikePost}
                                     checkIfLiked={checkIfLiked}
                                     post={p}
+                                    setDisplayDeletePost={setDisplayDeletePost}
+                                    setDisplayEditPost={setDisplayEditPost}
                                 />
                             </>
                         )}

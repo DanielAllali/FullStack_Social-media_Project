@@ -1,0 +1,152 @@
+#adminPage {
+    width: 100vw;
+    padding-top: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+#adminPage > input {
+    width: 300px;
+    background: none;
+    height: 40px;
+    border-radius: 20px;
+    padding: 10px;
+}
+#adminPage ul {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    list-style-type: none;
+    gap: 10px;
+}
+#adminPage ul li:not(.pagesLi) {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--weak);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#adminPage ul li.pagesLi {
+    width: 100%;
+    background-color: var(--weak);
+    padding: 10px;
+    border-radius: 10px;
+}
+#adminPage ul li.pagesLi button {
+    background: none;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+#adminPage ul li.pagesLi button:hover {
+    background-color: var(--highlight);
+}
+#adminPage ul li.pagesLi button.active {
+    background-color: var(--highlight);
+}
+#adminPage ul li > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+#adminPage ul li > div img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+#adminPage ul li > div > div h1 {
+    font-size: 1rem;
+}
+#adminPage ul li > div > div h2 {
+    font-size: 0.8rem;
+    color: var(--strong-fade);
+}
+#adminPage ul li:hover > div + div button {
+    display: flex !important;
+}
+#adminPage ul li > div + div button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background-color: var(--highlight);
+    color: var(--weak);
+    border: none;
+    padding: 7px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: none;
+    transition: all 0.2s;
+}
+#adminPage ul li > div + div button i {
+    color: var(--weak);
+}
+#adminPage ul li > div + div button:hover {
+    background-color: var(--highlight_strong);
+}
+#deleteWrapper {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: var(--strong-fade);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#deleteWrapper div {
+    width: 500px;
+    background-color: var(--weak);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#deleteWrapper div h1 {
+    font-size: 1.2rem;
+}
+#deleteWrapper div div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+#deleteWrapper div div button {
+    background-color: darkred;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    color: var(--weak);
+    transition: all 0.2s;
+}
+#deleteWrapper div div button:last-child {
+    background-color: var(--highlight);
+}
+#deleteWrapper div div button:last-child:hover {
+    background-color: var(--highlight_strong);
+}
+#deleteWrapper div div button:first-child:hover {
+    background-color: red;
+}

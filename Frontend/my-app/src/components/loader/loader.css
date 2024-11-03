@@ -1,8 +1,10 @@
 #loader {
+    width: var(--size) !important;
+    height: var(--size) !important;
     background: none;
     border-radius: 50%;
     border: 2px solid var(--weak);
-    border-right: 5px solid var(--strong);
+    border-right: 2px solid var(--strong);
     animation: spin 1s infinite;
 }
 @keyframes spin {

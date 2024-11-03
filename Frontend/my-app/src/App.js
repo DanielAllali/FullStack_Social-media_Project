@@ -12,6 +12,8 @@ import PostPreview from "./components/postPreview/PostPreview";
 import Settings from "./components/settings/Settings";
 import Sandbox from "./components/sandbox/Sandbox";
 import Search from "./components/search/Search";
+import Friends from "./components/friends/Friends";
+import AdminPage from "./components/adminPage/AdminPage";
 
 function App() {
     const theme = useSelector((state) => state.tiktak.theme);
@@ -68,6 +70,8 @@ function App() {
                             element={<Sandbox />}
                         />
                         <Route path="/search/:tab" element={<Search />} />
+                        <Route path="/friends" element={<Friends />} />
+                        <Route path="/admin-page" element={<AdminPage />} />
                     </Routes>
                 </BrowserRouter>
             </div>

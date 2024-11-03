@@ -4,8 +4,7 @@ const Loader = ({ size }) => {
     return (
         <span
             style={{
-                width: size + "px !important",
-                height: size + "px !important",
+                "--size": `${size}px`,
             }}
             id="loader"
         ></span>

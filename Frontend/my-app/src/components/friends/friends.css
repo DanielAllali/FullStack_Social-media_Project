@@ -1,0 +1,87 @@
+#friends {
+    width: 100vw;
+    padding-top: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#friends .friends {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#friends .friends ul {
+    width: 100%;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+#friends .friends ul li:first-child,
+#friends .friends ul li:last-child {
+    cursor: default;
+}
+#friends .friends ul li:first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#friends .friends ul li:first-child:hover,
+#friends .friends ul li:last-child:hover {
+    background-color: var(--weak);
+}
+#friends .friends ul li {
+    width: 100%;
+    background-color: var(--weak);
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+#friends .friends ul li:hover {
+    background-color: var(--strong-fade);
+}
+#friends .friends ul li > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    gap: 5px;
+}
+#friends .friends ul li > div img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+#friends .friends ul li > div div {
+    display: flex;
+    flex-direction: column;
+}
+#friends .friends ul li > div div h1 {
+    font-size: 1rem;
+}
+#friends .friends ul li > div div h2 {
+    font-size: 0.8rem;
+    color: var(--strong-fade);
+}
+#friends .friends ul li button {
+    background: none;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+#friends .friends ul li button:hover {
+    background-color: var(--highlight);
+}
+@media (max-width: 650px) {
+    #friends .friends {
+        width: 300px;
+    }
+}

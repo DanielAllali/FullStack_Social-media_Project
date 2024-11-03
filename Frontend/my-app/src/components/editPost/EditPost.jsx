@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import "./createPost.css";
+import "./editPost.css";
 import { useDispatch, useSelector } from "react-redux";
-import { verifyCreatePost } from "../../guard";
-import useApi, { METHOD } from "../../hooks/useApi";
 import toast from "react-hot-toast";
 import { setDisplayRefreshBtn } from "../TiktakSlice";
+import useApi, { METHOD } from "../../hooks/useApi.jsx";
+import { verifyCreatePost } from "../../guard.js";
 
-const CreatePost = ({ setCreatePostPopup, user }) => {
+const EditPost = ({ post, setDisplayEditPost }) => {
     const language = useSelector((state) => state.tiktak.language);
 
     const dispatch = useDispatch();
     const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
     const [fields, setFields] = useState({
-        title: "",
-        subtitle: "",
-        content: "",
-        imageURL: "",
+        title: post.title,
+        subtitle: post.subtitle,
+        content: post.content,
+        imageURL: post.image.src,
     });
     const [fieldErrors, setFieldErrors] = useState({
         title: false,
@@ -23,7 +23,7 @@ const CreatePost = ({ setCreatePostPopup, user }) => {
         content: false,
         imageURL: false,
     });
-    const [fieldsValid, setFieldsValid] = useState(false);
+    const [fieldsValid, setFieldsValid] = useState(true);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -52,22 +52,27 @@ const CreatePost = ({ setCreatePostPopup, user }) => {
             content: fields.content,
             image: {
                 src: fields.imageURL,
-                alt: `${user.username ? user.username : "user"}'s post image`,
+                alt: post.image.alt,
             },
         };
-        callApi("http://localhost:9999/posts", METHOD.POST, newPost, {
-            authorization: localStorage.getItem("jwt-token"),
-        });
+        callApi(
+            `http://localhost:9999/posts/${post._id}`,
+            METHOD.PUT,
+            newPost,
+            {
+                authorization: localStorage.getItem("jwt-token"),
+            }
+        );
     };
     useEffect(() => {
         if (apiResponse && !errors) {
             toast.success(
                 language === "HE"
-                    ? "פוסט נוצר בהצלחה!"
-                    : "Post created successfuly!"
+                    ? "פוסט נערך בהצלחה!"
+                    : "Post edited successfuly!"
             );
             dispatch(setDisplayRefreshBtn());
-            setCreatePostPopup(false);
+            setDisplayEditPost(false);
         } else if (errors) {
             toast.error(
                 errors.response
@@ -83,13 +88,13 @@ const CreatePost = ({ setCreatePostPopup, user }) => {
         }
     }, [apiResponse, errors]);
     return (
-        <div id="createPostWrapper">
-            <div className="createPostContent">
+        <div id="editPostWrapper">
+            <div className="editPostContent">
                 <div>
-                    <h1>{language === "HE" ? "צור פוסט" : "Create post"}</h1>
+                    <h1>{language === "HE" ? "ערוך פוסט" : "Edit post"}</h1>
                     <button
                         onClick={() => {
-                            setCreatePostPopup(false);
+                            setDisplayEditPost(false);
                         }}
                     >
                         <i className="bi bi-x-lg"></i>
@@ -103,6 +108,7 @@ const CreatePost = ({ setCreatePostPopup, user }) => {
                                 <td>
                                     <input
                                         onChange={handleChange}
+                                        value={fields.title}
                                         name="title"
                                         type="text"
                                         id="title"
@@ -126,6 +132,7 @@ const CreatePost = ({ setCreatePostPopup, user }) => {
                                 <td>
                                     <input
                                         onChange={handleChange}
+                                        value={fields.subtitle}
                                         name="subtitle"
                                         type="text"
                                         id="subtitle"
@@ -151,6 +158,7 @@ const CreatePost = ({ setCreatePostPopup, user }) => {
                                 <td>
                                     <textarea
                                         onChange={handleChange}
+                                        value={fields.content}
                                         name="content"
                                         id="content"
                                     ></textarea>
@@ -175,6 +183,7 @@ const CreatePost = ({ setCreatePostPopup, user }) => {
                                 <td>
                                     <input
                                         onChange={handleChange}
+                                        value={fields.imageURL}
                                         name="imageURL"
                                         type="text"
                                         id="imageURL"
@@ -223,4 +232,4 @@ const CreatePost = ({ setCreatePostPopup, user }) => {
     );
 };
 
-export default CreatePost;
+export default EditPost;

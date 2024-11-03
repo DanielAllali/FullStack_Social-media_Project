@@ -206,20 +206,47 @@ app.put(
 
 app.delete("/users/:id", the_registered_user_guard, async (req, res) => {
     const { id } = req.params;
-    const { password } = req.query;
+    const { password } = req?.query;
 
     const user = await User.findById(id);
+    const userDeleting = await getUser_jwt(req, res);
     if (!user) {
         return res.status(404).send("User not found.");
     }
-    if (!password) {
+    if (!userDeleting) {
+        return res.status(404).send("User not found.");
+    }
+    if (!password && !userDeleting.isAdmin) {
         return res.status(403).send("You need to provide password.");
     }
-    if (!(await bcrypt.compare(password, user.password))) {
+    if (
+        password &&
+        !(await bcrypt.compare(password, user.password)) &&
+        !user.isAdmin
+    ) {
         return res.status(401).send("Password incorrect.");
     }
 
     user.deleted = true;
+    try {
+        await user.save();
+        res.send(user);
+    } catch (err) {
+        res.status(500).send(err.message ? err.message : "Server error.");
+    }
+});
+app.put("/users/restore-user/:id", admin_guard, async (req, res) => {
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+    const userRestoring = await getUser_jwt(req, res);
+    if (!user) {
+        return res.status(404).send("User not found.");
+    }
+    if (!userRestoring) {
+        return res.status(404).send("User not found.");
+    }
+    user.deleted = false;
     try {
         await user.save();
         res.send(user);

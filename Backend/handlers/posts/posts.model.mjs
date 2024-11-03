@@ -29,16 +29,6 @@ const postSchema = new mongoose.Schema(
                 trim: true,
             },
         },
-        video: {
-            src: {
-                type: String,
-                trim: true,
-            },
-            alt: {
-                type: String,
-                trim: true,
-            },
-        },
         likes: {
             type: [mongoose.Schema.Types.ObjectId],
             default: [],

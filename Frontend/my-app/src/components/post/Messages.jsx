@@ -14,6 +14,8 @@ const Messages = ({
     setMessagesParent,
     user,
     addToSandbox,
+    setDisplayDeletePost,
+    setDisplayEditPost,
 }) => {
     const language = useSelector((state) => state.tiktak.language);
     const theme = useSelector((state) => state.tiktak.theme);
@@ -218,10 +220,15 @@ const Messages = ({
 
     return (
         <>
-            {!users && <h1>no users</h1>}
-
-            {!messages && <h1>no messages</h1>}
-            {!messagesSmall && <h1>no messagesSmall</h1>}
+            {!users || !messages || !messagesSmall ? (
+                <h1>
+                    {language === "HE"
+                        ? "משהו השתבש, תרענן את הדף"
+                        : "Something went wrong, refresh the page."}
+                </h1>
+            ) : (
+                <></>
+            )}
             {user && (
                 <>
                     <div className="likeComment">
@@ -262,6 +269,29 @@ const Messages = ({
                                 <i className="bi bi-bookmark-dash-fill"></i>
                             )}
                         </button>
+                        {user._id.toString() === post.user_id.toString() ||
+                        user.isAdmin ? (
+                            <>
+                                <button
+                                    onClick={() => {
+                                        setDisplayEditPost(true);
+                                    }}
+                                >
+                                    {language === "HE" ? "ערוך" : "Edit"}
+                                    <i className="bi bi-pencil-square"></i>
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setDisplayDeletePost(true);
+                                    }}
+                                >
+                                    {language === "HE" ? "מחק" : "Delete"}
+                                    <i className="bi bi-trash3"></i>
+                                </button>
+                            </>
+                        ) : (
+                            <></>
+                        )}
                     </div>
                     <hr />
                 </>

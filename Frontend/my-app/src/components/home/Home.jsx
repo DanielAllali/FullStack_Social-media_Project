@@ -131,11 +131,13 @@ const Home = () => {
                             <h1> {language === "HE" ? "פוסטים" : "Posts"}</h1>
                         </div>
                         <ul>
-                            {posts.map((p) => (
-                                <li key={p._id}>
-                                    <Post post={p} />
-                                </li>
-                            ))}
+                            {posts
+                                .filter((p) => !p.deleted)
+                                .map((p) => (
+                                    <li key={p._id}>
+                                        <Post post={p} />
+                                    </li>
+                                ))}
                             {posts.length < 1 && (
                                 <h1>
                                     {language === "HE"

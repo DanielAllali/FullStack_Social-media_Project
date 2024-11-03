@@ -55,7 +55,7 @@ const Header = () => {
                     .toLowerCase()
                     .includes(searchValue.toLowerCase())
             );
-            setFilteredPosts(results);
+            setFilteredPosts(results.filter((p) => !p.deleted));
         } else {
             setFilteredPosts([]);
         }
@@ -215,6 +215,7 @@ const Header = () => {
                     {user && (
                         <li>
                             <Link
+                                to="/friends"
                                 className={
                                     location.pathname === "/friends"
                                         ? "current"
@@ -241,6 +242,19 @@ const Header = () => {
                             <h4>{language === "HE" ? "חיפוש" : "Search"}</h4>
                         </Link>
                     </li>
+                    <li>
+                        <Link
+                            to="/admin-page"
+                            className={
+                                location.pathname === "/admin-page"
+                                    ? "current"
+                                    : ""
+                            }
+                        >
+                            <i className="bi bi-key"></i>
+                            <h4>{language === "HE" ? "אדמין" : "Admin"}</h4>
+                        </Link>
+                    </li>
                 </ul>
             </nav>
 
@@ -259,19 +273,21 @@ const Header = () => {
                     {filteredPosts.length > 0 && (
                         <ul className="search-results">
                             <h1>{language === "HE" ? "פוסטים" : "Posts"}</h1>
-                            {filteredPosts.map((p) => (
-                                <li key={p._id}>
-                                    <Link to={`/posts/${p._id}`}>
-                                        <p>{p.title}</p>
-                                        <div>
-                                            <img
-                                                src={p.image.src}
-                                                alt="image"
-                                            />
-                                        </div>
-                                    </Link>
-                                </li>
-                            ))}
+                            {filteredPosts
+                                .filter((p) => !p.deleted)
+                                .map((p) => (
+                                    <li key={p._id}>
+                                        <Link to={`/posts/${p._id}`}>
+                                            <p>{p.title}</p>
+                                            <div>
+                                                <img
+                                                    src={p.image.src}
+                                                    alt="image"
+                                                />
+                                            </div>
+                                        </Link>
+                                    </li>
+                                ))}
                         </ul>
                     )}
                     {filteredPosts.length < 1 && searchValue !== "" && (

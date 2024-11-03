@@ -29,7 +29,7 @@ app.get("/posts/:id", async (req, res) => {
     res.send(post);
 });
 app.post("/posts", registered_user_guard, async (req, res) => {
-    const { title, subtitle, content, image, video } = req.body;
+    const { title, subtitle, content, image } = req.body;
     const { error } = postValidationSchema.validate(req.body, {
         allowUnknown: true,
     });
@@ -47,7 +47,6 @@ app.post("/posts", registered_user_guard, async (req, res) => {
             subtitle,
             content,
             image,
-            video,
             user_id,
         });
 
@@ -58,7 +57,7 @@ app.post("/posts", registered_user_guard, async (req, res) => {
     }
 });
 app.put("/posts/:id", postCreator_admin_guard, async (req, res) => {
-    const { title, subtitle, content, image, video } = req.body;
+    const { title, subtitle, content, image } = req.body;
     const { error } = postValidationSchema.validate(req.body, {
         allowUnknown: true,
     });
@@ -74,7 +73,6 @@ app.put("/posts/:id", postCreator_admin_guard, async (req, res) => {
         post.subtitle = subtitle;
         post.content = content;
         post.image = image;
-        post.video = video;
 
         await post.save();
         res.send(post);

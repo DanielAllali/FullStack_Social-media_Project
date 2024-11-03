@@ -196,6 +196,7 @@ div.likeComment button i.bi-hand-thumbs-up-fill {
     justify-content: center;
     font-size: 2rem !important  ;
 }
+
 @media (max-width: 580px) {
     #messages > div.messagesWrapper > div {
         width: 400px !important;
@@ -205,6 +206,9 @@ div.likeComment button i.bi-hand-thumbs-up-fill {
     }
 }
 @media (max-width: 550px) {
+    .likeComment {
+        flex-wrap: wrap;
+    }
     .likeComment button {
         font-size: 0.8rem !important;
     }

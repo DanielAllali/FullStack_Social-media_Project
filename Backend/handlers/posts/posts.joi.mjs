@@ -8,10 +8,6 @@ const postValidationSchema = Joi.object({
         src: Joi.string().allow("").max(300),
         alt: Joi.string().max(50),
     }).required(),
-    video: Joi.object({
-        src: Joi.string().allow("").max(300),
-        alt: Joi.string().max(50),
-    }).required(),
 });
 
 export default postValidationSchema;

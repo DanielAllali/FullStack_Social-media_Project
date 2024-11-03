@@ -298,7 +298,8 @@ const UserProfile = () => {
                                     .filter(
                                         (p) =>
                                             p.user_id.toString() ===
-                                            userProfile._id.toString()
+                                                userProfile._id.toString() &&
+                                            !p.deleted
                                     )
                                     .map((p) => (
                                         <li key={p._id}>
@@ -324,10 +325,11 @@ const UserProfile = () => {
                         <div className="followers">
                             <ul>
                                 {users
-                                    .filter((user) =>
-                                        userProfile.followers.includes(
-                                            user._id.toString()
-                                        )
+                                    .filter(
+                                        (user) =>
+                                            userProfile.followers.includes(
+                                                user._id.toString()
+                                            ) && !user.deleted
                                     )
                                     .map((u) => (
                                         <li key={u._id}>
@@ -368,10 +370,11 @@ const UserProfile = () => {
                         <div className="followers">
                             <ul>
                                 {users
-                                    .filter((user) =>
-                                        user.followers.includes(
-                                            userProfile._id.toString()
-                                        )
+                                    .filter(
+                                        (user) =>
+                                            user.followers.includes(
+                                                userProfile._id.toString()
+                                            ) && !user.deleted
                                     )
                                     .map((u) => (
                                         <li key={u._id}>
@@ -416,10 +419,11 @@ const UserProfile = () => {
                         <div className="posts">
                             <ul>
                                 {posts
-                                    .filter((p) =>
-                                        userProfile.saved_posts.includes(
-                                            p._id.toString()
-                                        )
+                                    .filter(
+                                        (p) =>
+                                            userProfile.saved_posts.includes(
+                                                p._id.toString()
+                                            ) && !p.deleted
                                     )
                                     .map((p) => (
                                         <Post post={p} />
@@ -442,8 +446,10 @@ const UserProfile = () => {
                         <div className="posts">
                             <ul>
                                 {posts
-                                    .filter((p) =>
-                                        p.likes.includes(userProfile._id)
+                                    .filter(
+                                        (p) =>
+                                            p.likes.includes(userProfile._id) &&
+                                            !p.deleted
                                     )
                                     .map((p) => (
                                         <Post post={p} />

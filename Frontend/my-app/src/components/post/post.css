@@ -124,3 +124,61 @@
 #post div .postSocial div > button:hover {
     background-color: var(--bgc);
 }
+#deletePostWrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: var(--strong-fade) !important;
+}
+#deletePostWrapper > div {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#deletePostWrapper > div h1 {
+    font-size: 1rem;
+}
+#deletePostWrapper > div h2 {
+    font-size: 1rem;
+}
+#deletePostWrapper > div div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+#deletePostWrapper > div div button:last-child {
+    padding: 10px;
+    font-size: 1.2rem;
+    background-color: var(--highlight);
+    color: var(--weak);
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+#deletePostWrapper > div div button:last-child:hover {
+    background-color: var(--highlight_strong);
+}
+#deletePostWrapper > div div button:first-child {
+    padding: 10px;
+    font-size: 1.2rem;
+    background-color: darkred;
+    color: var(--weak);
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+#deletePostWrapper > div div button:first-child:hover {
+    background-color: red;
+}

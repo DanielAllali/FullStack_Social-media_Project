@@ -312,6 +312,7 @@ const Search = () => {
                             <>
                                 {!isSearching &&
                                     posts
+                                        .filter((p) => !p.deleted)
                                         .slice((page - 1) * 5, page * 5)
                                         .map((p) => (
                                             <li key={p._id}>
@@ -320,6 +321,7 @@ const Search = () => {
                                         ))}
                                 {isSearching &&
                                     searchedArr
+                                        .filter((p) => !p.deleted)
                                         .slice((page - 1) * 5, page * 5)
                                         .map((p) => (
                                             <li key={p._id}>
@@ -332,6 +334,7 @@ const Search = () => {
                             <>
                                 {!isSearching &&
                                     users
+                                        .filter((u) => !u.deleted)
                                         .slice((page - 1) * 5, page * 5)
                                         .map((u) => (
                                             <li
@@ -355,6 +358,7 @@ const Search = () => {
                                         ))}
                                 {isSearching &&
                                     searchedArr
+                                        .filter((u) => !u.deleted)
                                         .slice((page - 1) * 5, page * 5)
                                         .map((u) => (
                                             <li
@@ -382,6 +386,7 @@ const Search = () => {
                             <>
                                 {!isSearching &&
                                     friends
+                                        .filter((u) => !u.deleted)
                                         .slice((page - 1) * 5, page * 5)
                                         .map((u) => (
                                             <li
@@ -405,6 +410,7 @@ const Search = () => {
                                         ))}
                                 {isSearching &&
                                     searchedArr
+                                        .filter((u) => !u.deleted)
                                         .slice((page - 1) * 5, page * 5)
                                         .map((u) => (
                                             <li
