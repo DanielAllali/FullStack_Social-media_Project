@@ -8,16 +8,17 @@ import { setDisplayRefreshBtn } from "../TiktakSlice";
 
 const EditUser = ({ setIsEditUser, user }) => {
     const language = useSelector((state) => state.tiktak.language);
+    const userUpdating = useSelector((state) => state.tiktak.user);
     const [errors, setErrors, isLoading, apiResponse, callApi] = useApi();
     const [method, setMethod] = useState(null);
 
     const dispatch = useDispatch();
     const [fields, setFields] = useState({
-        firstName: user.name.firstName,
-        lastName: user.name.lastName,
-        username: user.username,
-        bio: user.bio,
-        imageURL: user.image.src || "",
+        firstName: user?.name.firstName,
+        lastName: user?.name.lastName,
+        username: user?.username,
+        bio: user?.bio,
+        imageURL: user?.image.src || "",
     });
     const [fieldErrors, setFieldErrors] = useState({
         firstName: null,
@@ -66,6 +67,7 @@ const EditUser = ({ setIsEditUser, user }) => {
         formData.append("bio", fields.bio);
 
         formData.append("image", file);
+        console.log(user);
 
         await callApi(
             `http://localhost:9999/users/${user._id}`,
@@ -80,7 +82,9 @@ const EditUser = ({ setIsEditUser, user }) => {
     };
     useEffect(() => {
         if (apiResponse && !errors && method === "EDIT USER") {
-            localStorage.setItem("jwt-token", apiResponse);
+            if (user._id.toString() === userUpdating._id.toString()) {
+                localStorage.setItem("jwt-token", apiResponse);
+            }
             toast.success(
                 language === "HE"
                     ? "משתמש התעדכן בהצלחה!"

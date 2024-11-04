@@ -1,7 +1,7 @@
 #editUserWrapper {
     width: 100vw;
     height: 100vh;
-    background-color: var(--weak-fade);
+    background-color: var(--strong-fade) !important;
     position: fixed;
     top: 0;
     left: 0;
@@ -12,6 +12,7 @@
     justify-content: start;
     overflow-y: scroll;
     padding: 20px;
+    padding-top: 100px;
 }
 #editUserWrapper > div.editUserContent {
     width: 500px;

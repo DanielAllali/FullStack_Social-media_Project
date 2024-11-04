@@ -176,7 +176,12 @@ const AdminPage = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <button>
+                                    <button
+                                        onClick={() => {
+                                            setPickedUser(u);
+                                            setIsEditUser(true);
+                                        }}
+                                    >
                                         {language === "HE" ? "ערוך" : "Edit"}
                                         <i className="bi bi-pencil-square"></i>
                                     </button>

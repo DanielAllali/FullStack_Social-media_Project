@@ -9,6 +9,7 @@ import Footer from "../footer/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../TiktakSlice";
 import { jwtDecode } from "jwt-decode";
+import ChangePassword from "../settings/tabs/ChangePassword";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -26,6 +27,8 @@ const Login = () => {
     const [validFields, setValidFields] = useState(false);
     const [apiErrors, setApiErrors, isLoading, apiResponse, callApi, url] =
         useApi();
+    const [changePassword, setChangePassword] = useState(false);
+
     const language = useSelector((state) => state.tiktak.language);
     const theme = useSelector((state) => state.tiktak.theme);
 
@@ -225,6 +228,14 @@ const Login = () => {
                             </button>
                         </a>
                     </h2>
+                    <button
+                        onClick={() => {
+                            setChangePassword(true);
+                        }}
+                        className="forgotPasswordBtn"
+                    >
+                        {language == "HE" ? "שכחת סיסמה" : "Forgot password"}
+                    </button>
                     <Link to="/">
                         <h5>
                             {language === "HE"
@@ -235,6 +246,18 @@ const Login = () => {
                 </div>
                 <div></div>
             </div>
+            {changePassword && (
+                <div id="changePasswordWrapper">
+                    <button
+                        onClick={() => {
+                            setChangePassword(false);
+                        }}
+                    >
+                        <i className="bi bi-x"></i>
+                    </button>
+                    <ChangePassword setIsDisplay={setChangePassword} />
+                </div>
+            )}
             <Footer displayArrow={false} />
         </div>
     );

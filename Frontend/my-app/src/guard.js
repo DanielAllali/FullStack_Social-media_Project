@@ -369,7 +369,6 @@ const verifyEditUser = {
         }
     },
 };
-
 export {
     verifyLogin,
     verifyRegister,

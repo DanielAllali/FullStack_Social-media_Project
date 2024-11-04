@@ -18,7 +18,9 @@ const the_registered_user_guard = (req, res, next) => {
             next();
             return;
         }
-        if (id !== decoded._id) {
+        console.log(decoded);
+
+        if (id !== decoded._id && !decoded.isAdmin) {
             return res
                 .status(401)
                 .send(

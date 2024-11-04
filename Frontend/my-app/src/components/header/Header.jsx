@@ -242,19 +242,21 @@ const Header = () => {
                             <h4>{language === "HE" ? "חיפוש" : "Search"}</h4>
                         </Link>
                     </li>
-                    <li>
-                        <Link
-                            to="/admin-page"
-                            className={
-                                location.pathname === "/admin-page"
-                                    ? "current"
-                                    : ""
-                            }
-                        >
-                            <i className="bi bi-key"></i>
-                            <h4>{language === "HE" ? "אדמין" : "Admin"}</h4>
-                        </Link>
-                    </li>
+                    {user && user.isAdmin && (
+                        <li>
+                            <Link
+                                to="/admin-page"
+                                className={
+                                    location.pathname === "/admin-page"
+                                        ? "current"
+                                        : ""
+                                }
+                            >
+                                <i className="bi bi-key"></i>
+                                <h4>{language === "HE" ? "אדמין" : "Admin"}</h4>
+                            </Link>
+                        </li>
+                    )}
                 </ul>
             </nav>
 

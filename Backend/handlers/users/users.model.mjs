@@ -79,6 +79,10 @@ const userSchema = new Schema(
             type: Boolean,
             default: false,
         },
+        temporaryCode: {
+            type: String,
+            default: "",
+        },
     },
     { timestamps: { createdAt: true, updatedAt: true } }
 );

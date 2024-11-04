@@ -23,6 +23,7 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import multer from "multer";
 import fs from "fs";
+import nodemailer from "nodemailer";
 import { log } from "console";
 
 dotenv.config();
@@ -386,4 +387,85 @@ app.get("/user/profile-picture", (req, res) => {
             res.status(500).send("Error loading image");
         }
     });
+});
+
+app.get("/user/change-password/:email", async (req, res) => {
+    try {
+        const { email } = req.params;
+        if (!email) {
+            return res.status(403).send("Need to provide email.");
+        }
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(403).send("No user with that email.");
+        }
+        let code = "";
+        for (let i = 0; i < 6; i++) {
+            code += Math.floor(Math.random() * 10);
+        }
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: "tiktakofficial76@gmail.com",
+                pass: "jena qjdl rrea iout" /* google app password */,
+            },
+        });
+
+        const mailOptions = {
+            from: "tiktakofficial76@gmail.com",
+            to: email,
+            subject: "Tiktak sends you verification code!",
+            text: `Hi ${user.name.firstName} ${user.name.lastName} your code is: ${code}`,
+        };
+
+        transporter.sendMail(mailOptions, async function (error, info) {
+            if (error) {
+                res.send(error);
+            } else {
+                user.temporaryCode = await bcrypt.hash(code, 10);
+                await user.save();
+                const token = jwt.sign(
+                    {
+                        code,
+                    },
+                    process.env.JWT_SECRET,
+                    { expiresIn: "1m" }
+                );
+                res.send(token);
+            }
+        });
+    } catch (err) {
+        res.send(err.message ? err.message : "Server error.");
+    }
+});
+app.put("/user/change-password/:email", async (req, res) => {
+    try {
+        const { password, code } = req.body;
+        const { email } = req.params;
+        if (!email) {
+            return res.status(403).send("Need to provide email.");
+        }
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(403).send("No user with that email.");
+        }
+        const regex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*_-]{8,20}$/;
+        if (!regex.test(password)) {
+            return res
+                .status(403)
+                .send(
+                    "Password must be 8-20 characters long, include at least one uppercase letter and one number."
+                );
+        }
+
+        if (!(await bcrypt.compare(code, user.temporaryCode))) {
+            return res.status(403).send("Code does not match");
+        }
+        user.temporaryCode = "";
+        user.password = await bcrypt.hash(password, 10);
+        await user.save();
+        res.send(user);
+    } catch (err) {
+        res.send(err.message ? err.message : "Server error.");
+    }
 });

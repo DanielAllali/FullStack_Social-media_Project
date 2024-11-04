@@ -11,6 +11,7 @@ import passwordIcon from "../../media/images/passwordIcon.png";
 import Footer from "../footer/Footer";
 import Theme from "./tabs/Theme";
 import DeleteUser from "./tabs/DeleteUser";
+import ChangePassword from "./tabs/ChangePassword";
 
 const Settings = () => {
     const language = useSelector((state) => state.tiktak.language);
@@ -143,6 +144,7 @@ const Settings = () => {
                     <i className="bi bi-arrow-right"></i>
                 </button>
             )}
+            {tab === "change-password" && <ChangePassword />}
         </div>
     );
 };
