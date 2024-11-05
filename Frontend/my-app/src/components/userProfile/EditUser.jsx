@@ -67,7 +67,6 @@ const EditUser = ({ setIsEditUser, user }) => {
         formData.append("bio", fields.bio);
 
         formData.append("image", file);
-        console.log(user);
 
         await callApi(
             `http://localhost:9999/users/${user._id}`,
@@ -259,8 +258,8 @@ const EditUser = ({ setIsEditUser, user }) => {
                                     >
                                         {!isLoading
                                             ? language === "HE"
-                                                ? "צור"
-                                                : "Create"
+                                                ? "ערוך"
+                                                : "Edit"
                                             : language === "HE"
                                             ? "רגע..."
                                             : "Wait..."}

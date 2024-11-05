@@ -4,6 +4,7 @@ import Header from "../header/Header";
 import { useSelector } from "react-redux";
 import useApi from "../../hooks/useApi";
 import { useNavigate } from "react-router-dom";
+import BigLoader from "../loader/BigLoader";
 const Friends = () => {
     const user = useSelector((state) => state.tiktak.user);
     const language = useSelector((state) => state.tiktak.language);
@@ -109,6 +110,7 @@ const Friends = () => {
                     ).length < 5 && <li></li>}
                 </ul>
             </div>
+            {isLoading && <BigLoader />}
         </div>
     );
 };

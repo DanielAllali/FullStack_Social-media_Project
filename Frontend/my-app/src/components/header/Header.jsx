@@ -167,6 +167,16 @@ const Header = () => {
                                         </h1>
                                     </Link>
                                 </li>
+                                <li>
+                                    <Link to="/about">
+                                        <i class="bi bi-info-circle-fill"></i>
+                                        <h1>
+                                            {language === "HE"
+                                                ? "אודות"
+                                                : "about"}
+                                        </h1>
+                                    </Link>
+                                </li>
                                 <li
                                     onClick={() => {
                                         dispatch(logout());

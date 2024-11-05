@@ -318,7 +318,10 @@ const verifyEditUser = {
         return false;
     },
     bio: (v) => {
-        if (v !== "" && v.length > 30) {
+        const bioLength = new Blob([v.replace(/\r?\n/g, "\n")]).size;
+        console.log(bioLength);
+
+        if (v !== "" && bioLength >= 30) {
             return {
                 he: "ביוגרפיה צריכה להיות בין 0-30 תווים.",
                 en: "Bio must be between 0-30 characters.",

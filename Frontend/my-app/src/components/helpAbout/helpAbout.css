@@ -1,0 +1,148 @@
+#help {
+    padding: 20px;
+    padding-top: 120px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.help-container {
+    max-width: 800px;
+    width: 100%;
+    background-color: var(--weak);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.help-container h1 {
+    font-size: 2em;
+    color: var(--strong);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.help-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.help-item {
+    padding: 15px 0;
+    border-bottom: 1px solid var(--bgc);
+}
+
+.help-item:last-child {
+    border-bottom: none;
+}
+
+.help-item strong {
+    font-size: 1.2em;
+    color: var(--highlight);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.help-item p {
+    font-size: 1em;
+    color: var(--strong-fade);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.help-item:hover strong {
+    color: var(--highlight_strong);
+    transition: color 0.3s;
+}
+
+@media (max-width: 768px) {
+    .help-container {
+        padding: 20px;
+    }
+
+    .help-item strong {
+        font-size: 1.1em;
+    }
+
+    .help-item p {
+        font-size: 0.95em;
+    }
+}
+#about {
+    padding: 20px;
+    padding-top: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.about-container {
+    max-width: 800px;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.about-container h1 {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.about-container p {
+    font-size: 1em;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.features-list {
+    list-style-type: none;
+    padding: 0;
+    font-size: 1em;
+}
+
+.features-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.features-list li:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    .about-container {
+        padding: 20px;
+    }
+
+    .about-container h1 {
+        font-size: 1.8em;
+    }
+
+    .about-container p,
+    .features-list li {
+        font-size: 0.95em;
+    }
+}
+
+@media (max-width: 480px) {
+    .help-container h1 {
+        font-size: 1.8em;
+    }
+
+    .help-item strong {
+        font-size: 1em;
+    }
+
+    .help-item p {
+        font-size: 0.9em;
+    }
+}

@@ -25,9 +25,7 @@ const ChangePassword = ({ setIsDisplay = null }) => {
     const [email, setEmail] = useState("");
 
     const inputRefs = useRef([]);
-    useEffect(() => {
-        console.log(method);
-    }, [method]);
+
     useEffect(() => {
         if (apiResponse && !errors && method === "GET CODE") {
             setCodeJwt(apiResponse);
@@ -35,7 +33,7 @@ const ChangePassword = ({ setIsDisplay = null }) => {
             setTab("second");
             setTimeLeft(60);
         }
-        if (timeLeft > 0) {
+        if (timeLeft > 0 && tab === "second") {
             const interval = setInterval(() => {
                 setTimeLeft((prev) => {
                     if (prev <= 1) {

@@ -27,10 +27,6 @@ const userEditValidationSchema = Joi.object({
         lastName: Joi.string().required(),
     }),
     bio: Joi.string().max(30).allow(""),
-    /* image: Joi.object({
-        src: Joi.string().required().pattern(urlRegex),
-        alt: Joi.string().max(30),
-    }).required(), */
 });
 
 export {

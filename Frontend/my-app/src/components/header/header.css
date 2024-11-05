@@ -108,6 +108,8 @@
     background: none;
     cursor: pointer;
     text-decoration: none;
+    position: relative;
+    z-index: 2;
 }
 #header nav ul li a.current * {
     color: var(--highlight);
@@ -183,8 +185,7 @@
 #header .userStaff > ul li:hover {
     background-color: var(--strong-fade) !important;
 }
-#header .userStaff > ul li a i {
-}
+
 #header .userStaff > ul li h1 {
     font-size: 1rem;
 }
@@ -302,5 +303,10 @@
     }
     #header .search input {
         display: none;
+    }
+    #header div.userStaff div.auth button {
+        padding: 7px;
+        border-radius: 5px;
+        font-size: 0.7rem;
     }
 }

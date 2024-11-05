@@ -45,10 +45,7 @@ const initialData = {
                 url: "https://example.com/image1.jpg",
                 alt: "Journey start",
             },
-            video: {
-                src: "https://example.com/video1.mp4",
-                alt: "Introductory video",
-            },
+
             likes: [],
             messages: [],
             createdAt: new Date(),
@@ -62,10 +59,7 @@ const initialData = {
                 url: "https://example.com/image2.jpg",
                 alt: "Facing challenges",
             },
-            video: {
-                src: "https://example.com/video2.mp4",
-                alt: "Challenge video",
-            },
+
             likes: [],
             messages: [],
             createdAt: new Date(),

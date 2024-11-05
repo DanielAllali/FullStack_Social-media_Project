@@ -14,6 +14,8 @@ import Sandbox from "./components/sandbox/Sandbox";
 import Search from "./components/search/Search";
 import Friends from "./components/friends/Friends";
 import AdminPage from "./components/adminPage/AdminPage";
+import Help from "./components/helpAbout/Help";
+import About from "./components/helpAbout/About";
 
 function App() {
     const theme = useSelector((state) => state.tiktak.theme);
@@ -35,7 +37,7 @@ function App() {
                     overflowX: "hidden",
                     "--bgc": theme.bgc,
                     "--weak": theme.weak,
-                    "--weak-fade": `${theme.weak}99`,
+                    "--weak-fade": `${theme.weak}4D`,
                     "--strong-fade": `${theme.strong}4D`,
                     "--strong": theme.strong,
                     "--highlight": theme.highlight_weak,
@@ -72,6 +74,8 @@ function App() {
                         <Route path="/search/:tab" element={<Search />} />
                         <Route path="/friends" element={<Friends />} />
                         <Route path="/admin-page" element={<AdminPage />} />
+                        <Route path="/help" element={<Help />} />
+                        <Route path="/about" element={<About />} />
                     </Routes>
                 </BrowserRouter>
             </div>

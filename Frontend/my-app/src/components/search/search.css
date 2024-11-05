@@ -78,7 +78,9 @@
 #search .searchSettings div button:hover i {
     color: var(--weak);
 }
-
+#search .searchSettings div form {
+    direction: ltr !important;
+}
 #search .searchSettings div form input {
     border-radius: 20px 0 0 20px;
     padding: 10px;
@@ -180,4 +182,17 @@
     justify-content: center;
     z-index: 2;
     background-color: var(--strong-fade);
+}
+@media (max-width: 750px) {
+    #search .searchContent {
+        width: 400px;
+    }
+    #search .searchSettings div h2 {
+        font-size: 1rem;
+    }
+}
+@media (max-width: 450px) {
+    #search .searchContent {
+        width: 300px;
+    }
 }

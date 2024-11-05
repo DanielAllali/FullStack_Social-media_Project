@@ -262,9 +262,6 @@ const Post = ({ post }) => {
                                 {p.image?.src && (
                                     <img src={p.image?.src} alt="Image" />
                                 )}
-                                {p.video?.src && !p.image?.src && (
-                                    <video src={p.video?.src}></video>
-                                )}
                             </div>
                         )}
                         <p>{p.content}</p>

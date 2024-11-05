@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../TiktakSlice";
 import toast from "react-hot-toast";
 import Post from "../post/Post";
+import BigLoader from "../loader/BigLoader";
 
 const Home = () => {
     const language = useSelector((state) => state.tiktak.language);
@@ -155,7 +156,7 @@ const Home = () => {
                     setCreatePostPopup={setCreatePostPopup}
                 />
             )}
-
+            {isLoading && <BigLoader />}
             <div className="footerInHome">
                 <Footer
                     displayLogo={false}

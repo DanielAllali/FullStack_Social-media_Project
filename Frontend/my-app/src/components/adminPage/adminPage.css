@@ -150,3 +150,23 @@
 #deleteWrapper div div button:first-child:hover {
     background-color: red;
 }
+@media (max-width: 550px) {
+    #deleteWrapper div {
+        width: 300px;
+    }
+    #adminPage > input {
+        width: 200px;
+    }
+    #adminPage ul {
+        width: 300px;
+    }
+    #adminPage ul li > div + div button {
+        font-size: 0.7rem;
+        padding: 5px;
+        border-radius: 7px;
+    }
+    #adminPage ul li > div + div {
+        flex-direction: column;
+        gap: 3px;
+    }
+}

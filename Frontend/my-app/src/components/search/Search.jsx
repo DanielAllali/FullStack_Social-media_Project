@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import useApi from "../../hooks/useApi";
 import Post from "../post/Post";
 import Loader from "../loader/Loader";
+import BigLoader from "../loader/BigLoader";
 
 const Search = () => {
     const navigate = useNavigate();
@@ -468,11 +469,7 @@ const Search = () => {
                     </ul>
                 </div>
             </div>
-            {isLoading && (
-                <div className="searchLoader">
-                    <Loader size={200} />
-                </div>
-            )}
+            {isLoading && <BigLoader />}
             <div className="footerInHome">
                 <Footer
                     displayLogo={false}
