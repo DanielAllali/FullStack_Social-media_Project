@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import "./helpAbout.css";
 import Header from "../header/Header";
+import Footer from "../footer/Footer";
 
 const About = () => {
     const language = useSelector((state) => state.tiktak.language);
@@ -40,6 +41,7 @@ const About = () => {
                     </li>
                 </ul>
             </div>
+            <Footer />
         </div>
     );
 };

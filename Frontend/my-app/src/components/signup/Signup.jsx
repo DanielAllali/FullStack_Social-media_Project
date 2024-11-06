@@ -416,7 +416,7 @@ const Signup = () => {
                     </h5>
                 </Link>
             </div>
-            <Footer displayArrow={true} />
+            <Footer displayArrow={false} />
         </div>
     );
 };

@@ -27,6 +27,8 @@ const Home = () => {
     const [users, setUsers] = useState(null);
     const [messages, setMessages] = useState(null);
     const [method, setMethod] = useState(null);
+    const [isGrid, setIsGrid] = useState(false);
+
     useEffect(() => {
         const token = localStorage.getItem("jwt-token");
         try {
@@ -84,7 +86,7 @@ const Home = () => {
         <div id="home">
             <Header />
             {signupPopup && <SignupPopup setIsDisplay={setSignupPopup} />}
-            <div className="content">
+            <div className={`content ${isGrid ? "grid" : ""}`}>
                 {user && (
                     <div className="createPost">
                         <div>
@@ -105,8 +107,10 @@ const Home = () => {
                         <hr />
                         <div>
                             <h1>
-                                {language === "HE" ? "סרטון" : "Video"}
-                                <i className="bi bi-play-circle"></i>
+                                {language === "HE"
+                                    ? "משהו חדש"
+                                    : "Something new"}
+                                <i class="bi bi-magic"></i>{" "}
                             </h1>
                             <h1>
                                 {language === "HE" ? "תמונה" : "Image"}
@@ -130,8 +134,24 @@ const Home = () => {
                     <div className="posts">
                         <div>
                             <h1> {language === "HE" ? "פוסטים" : "Posts"}</h1>
+                            <button
+                                onClick={() => {
+                                    setIsGrid(true);
+                                }}
+                                className={isGrid ? "active" : ""}
+                            >
+                                <i class="bi bi-grid-3x3"></i>
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setIsGrid(false);
+                                }}
+                                className={isGrid ? "" : "active"}
+                            >
+                                <i class="bi bi-app"></i>
+                            </button>
                         </div>
-                        <ul>
+                        <ul className={isGrid ? "grid" : ""}>
                             {posts
                                 .filter((p) => !p.deleted)
                                 .map((p) => (

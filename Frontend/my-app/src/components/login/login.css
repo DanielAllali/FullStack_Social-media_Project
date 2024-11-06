@@ -15,7 +15,6 @@
     flex-direction: row;
     align-items: start;
     justify-content: center;
-    padding: 20px;
 }
 #welcomeDiv > div > div {
     width: 400px;

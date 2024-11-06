@@ -84,6 +84,7 @@ const Footer = ({
                         </Link>
                     </ul>
                 )}
+
                 {displaySettings && (
                     <div>
                         {displayTheme && (
@@ -135,7 +136,21 @@ const Footer = ({
                                 )}
                             </select>
                         </div>
-                        <h2>&copy; Daniel Allali</h2>
+                        <div className="contact">
+                            {displayNav && (
+                                <>
+                                    <h2>
+                                        <span>+972-50-658-1406</span>
+                                        <i class="bi bi-telephone"></i>
+                                    </h2>
+                                    <h2>
+                                        <span>daniel.allali12@gmail.com</span>
+                                        <i class="bi bi-envelope"></i>
+                                    </h2>
+                                </>
+                            )}
+                            <h2>&copy; Daniel Allali</h2>
+                        </div>
                     </div>
                 )}
             </div>

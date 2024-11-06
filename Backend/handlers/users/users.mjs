@@ -24,7 +24,6 @@ import dotenv from "dotenv";
 import multer from "multer";
 import fs from "fs";
 import nodemailer from "nodemailer";
-import { log } from "console";
 
 dotenv.config();
 
@@ -406,13 +405,13 @@ app.get("/user/change-password/:email", async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: "tiktakofficial76@gmail.com",
-                pass: "jena qjdl rrea iout" /* google app password */,
+                user: process.env.APP_EMAIL,
+                pass: process.env.GOOGLE_APP_PASSWORD /* google app password */,
             },
         });
 
         const mailOptions = {
-            from: "tiktakofficial76@gmail.com",
+            from: process.env.APP_EMAIL,
             to: email,
             subject: "Tiktak sends you verification code!",
             text: `Hi ${user.name.firstName} ${user.name.lastName} your code is: ${code}`,

@@ -94,14 +94,7 @@ const Help = () => {
                     ))}
                 </ul>
             </div>
-            <div className="footerInHome">
-                <Footer
-                    displayLogo={false}
-                    displayNav={false}
-                    marginTop={false}
-                    width="400px"
-                />
-            </div>
+            <Footer />
         </div>
     );
 };
