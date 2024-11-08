@@ -35,12 +35,7 @@ const postSchema = new mongoose.Schema(
             ref: "User",
             required: true,
         },
-        messages: {
-            type: [mongoose.Schema.Types.ObjectId],
-            default: [],
-            ref: "Message",
-            required: true,
-        },
+
         user_id: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,

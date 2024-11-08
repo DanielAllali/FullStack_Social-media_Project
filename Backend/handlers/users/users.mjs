@@ -24,6 +24,7 @@ import dotenv from "dotenv";
 import multer from "multer";
 import fs from "fs";
 import nodemailer from "nodemailer";
+import { log } from "console";
 
 dotenv.config();
 
@@ -53,7 +54,13 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 app.post("/users", upload.single("image"), async (req, res) => {
     try {
-        const { error } = userRegisterValidationSchema.validate(req.body, {
+        const requestData = req.body.data
+            ? JSON.parse(req.body.data)
+            : req.body;
+
+        console.log(requestData);
+
+        const { error } = userRegisterValidationSchema.validate(requestData, {
             allowUnknown: true,
         });
         if (error) {
@@ -63,7 +70,7 @@ app.post("/users", upload.single("image"), async (req, res) => {
             return res.status(403).send(error.details[0].message);
         }
 
-        const { username, name, email, phone, password } = req.body;
+        const { username, name, email, phone, password } = requestData;
 
         if (await User.findOne({ email })) {
             return res.status(409).send("User with that email already exists.");
@@ -88,10 +95,9 @@ app.post("/users", upload.single("image"), async (req, res) => {
         if (req.file) {
             fs.unlinkSync(req.file.path);
         }
-        res.status(500).send(err.message ? err.message : "Server error.");
+        res.status(500).send(err.message || "Server error.");
     }
 });
-
 app.post("/users/login", async (req, res) => {
     const { email, password } = req.body;
     const { error } = userLoginValidationSchema.validate(req.body, {
@@ -131,54 +137,59 @@ app.put(
     the_registered_user_guard,
     upload.single("image"),
     async (req, res) => {
-        const { id } = req.params;
-        const { username, bio, name } = req.body;
-
-        if (req.file) {
-            const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
-            if (!validImageTypes.includes(req.file.mimetype)) {
-                fs.unlinkSync(req.file.path);
-                return res
-                    .status(400)
-                    .send("Only JPEG, PNG, and GIF files are allowed.");
-            }
-        }
-
-        if (
-            (await User.findOne({ username })) &&
-            (await User.findOne({ username }))?._id?.toString() !== id
-        ) {
-            return res.status(409).send("This username is taken.");
-        }
-
-        const user = await User.findById(id);
-        if (!user) {
-            return res.status(403).send("User not found.");
-        }
-
-        const validate = userEditValidationSchema.validate(req.body, {
-            allowUnknown: true,
-        });
-        if (validate.error) {
-            if (req.file) {
-                fs.unlinkSync(req.file.path);
-            }
-            return res.status(403).send(validate.error.details[0].message);
-        }
-
-        user.username = username;
-        user.bio = bio;
-        user.name = name;
-        user.image = {
-            src: `${
-                req.file
-                    ? "http://localhost:9999/images/" + req.file.filename
-                    : user.image.src
-            }`,
-            alt: user.image.alt,
-        };
         try {
+            const { id } = req.params;
+
+            const requestData = req.body.data
+                ? JSON.parse(req.body.data)
+                : req.body;
+            const { username, bio, name } = requestData;
+            if (req.file) {
+                const validImageTypes = [
+                    "image/jpeg",
+                    "image/png",
+                    "image/gif",
+                ];
+                if (!validImageTypes.includes(req.file.mimetype)) {
+                    fs.unlinkSync(req.file.path);
+                    return res
+                        .status(400)
+                        .send("Only JPEG, PNG, and GIF files are allowed.");
+                }
+            }
+
+            const existingUser = await User.findOne({ username });
+            if (existingUser && existingUser._id.toString() !== id) {
+                return res.status(409).send("This username is taken.");
+            }
+
+            const user = await User.findById(id);
+            if (!user) {
+                return res.status(403).send("User not found.");
+            }
+
+            const { error } = userEditValidationSchema.validate(requestData, {
+                allowUnknown: true,
+            });
+            if (error) {
+                if (req.file) {
+                    fs.unlinkSync(req.file.path);
+                }
+                return res.status(403).send(error.details[0].message);
+            }
+
+            user.username = username;
+            user.bio = bio;
+            user.name = name;
+            user.image = {
+                src: req.file
+                    ? `http://localhost:9999/images/${req.file.filename}`
+                    : user.image.src,
+                alt: user.image.alt,
+            };
+
             await user.save();
+
             const token = jwt.sign(
                 {
                     _id: user._id,
@@ -194,12 +205,13 @@ app.put(
                 process.env.JWT_SECRET,
                 { expiresIn: "30h" }
             );
+
             res.send(token);
         } catch (err) {
             if (req.file) {
                 fs.unlinkSync(req.file.path);
             }
-            res.status(500).send(err.message ? err.message : "Server error.");
+            res.status(500).send(err.message || "Server error.");
         }
     }
 );

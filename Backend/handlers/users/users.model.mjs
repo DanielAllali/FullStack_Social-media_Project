@@ -57,12 +57,6 @@ const userSchema = new Schema(
                 type: String,
             },
         },
-        posts: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Post",
-            },
-        ],
         saved_posts: [
             {
                 type: Schema.Types.ObjectId,
