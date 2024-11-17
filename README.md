@@ -73,13 +73,13 @@ This project is a fully functional social media application where users can sign
   npm install
 3. Set up environment variables in a .env file:
   NODE_ENV="development"
-  PORT
-  URL
-  MONGO_URI
-  MONGO_ATLAS_URI
-  GOOGLE_APP_PASSWORD
-  APP_EMAIL
-  JWT_SECRET
+   PORT = "9999"
+   URL = "http://localhost:9999"
+   MONGO_URI = "mongodb://localhost:27017/FullStack_Social-media_Project"
+   MONGO_ATLAS_URI=""
+   GOOGLE_APP_PASSWORD = "jena qjdl rrea iout"
+   APP_EMAIL = "tiktakofficial76@gmail.com"
+   JWT_SECRET = "V@GVGB@jhb@32hb232@#H#@h2h@#hb3@Jb@bEH2BQBH@bs#@!"
 4.Start the backend server:
   npm start
 5.Install dependencies for the frontend:
