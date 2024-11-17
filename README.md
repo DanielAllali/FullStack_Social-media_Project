@@ -52,7 +52,7 @@ This project is a fully functional social media application where users can sign
 - **JWT**: Secure authentication and authorization.
 - **dotenv**: For managing environment variables.
 - **bcrypt**: For storing sensetive data.
-- - **nodemailer**: To send verification codes.
+- **nodemailer**: To send verification codes.
 ---
 
 ## Installation
